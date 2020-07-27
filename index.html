@@ -1,0 +1,2918 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="学习记录">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Junmin&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Junmin&#39;s Blog">
+<meta property="og:description" content="学习记录">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Junmin&#39;s Blog">
+<meta name="twitter:description" content="学习记录">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Junmin's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Junmin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home menu-item-active">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/04/20191204132232/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/04/20191204132232/" class="post-title-link" itemprop="url">20191204132232</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-04 13:22:32 / Modified: 13:22:40" itemprop="dateCreated datePublished" datetime="2019-12-04T13:22:32+08:00">2019-12-04</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Object类有哪些方法，请列举你经常用到的</p>
+<p>toString:打印地址值，一般用于重新写方法打印具体值<br>equals：对比地址值，一般用于重写比较两个对象值是否相等<br>hashCode：计算对象的hash值，重写equals方法时必须重写hashCode方法以满足两个对象在equals为true时hash值也相同的条件，便于使用在hashmap等集合中<br>wait：释放锁对象，使当前线程等待，等待唤醒<br>notify/notifyAll 唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。<br>clone：快速构造一个与已有对象相同的副本，属于浅克隆，要实现深克隆需要引用对象也重写该方法或通过序列化的方式<br>并发包Concurrent下有哪些你经常使用的类</p>
+<p>ReentrantLock 可重入锁</p>
+<p>内部维护了一个AQS同步队列，AQS 队列内部维护的是一个FIFO 的双向链表，每个链表的节点是由线程封装Node，当线程争抢锁失败后会封装成 Node 加入到 ASQ 队列中去；当获取锁的线程释放锁以后，会从队列中唤醒一个阻塞的节点(线程)。<br>获取锁 调用Lock.lock 首先会通过CAS操作尝试替换state，替换成功说明抢占到锁，将当前线程设置为AQS的独占线程 抢占失败调用 acquire(1)走锁竞争逻辑 通过 tryAcquire 尝试获取独占锁，如果成功返回 true，失败返回 false，同时判断是否为拥有独占锁的线程，是则增加重入次数 如果 tryAcquire 失败将当前线程封装成一个Node节点，判断当前AQS队列链表中的 tail 节点是否为空，如果不为空，则通过 cas 操作把当前线程的node 添加到 AQS 队列，如果为空或者 cas 失败，调用 enq 自旋地将节点添加到 AQS 队列，如果tail为null，初始化一个空Node并将head和tail都指向它。 将Node添加到同步队列后会接着把 Node 作为参数传递给acquireQueued 方法，去竞争锁，首先获取当前节点的prv节点，入过prv==head节点，那么它有资格去争抢锁，调用tryAcquire抢占锁，抢占锁成功以后，把获得锁的节点设置为 head，并且移除原来的初始化head节点，如果获得锁失败，则根据 waitStatus 决定是否需要挂起线程，若为SIGNAL则阻塞，接下来会调用parkAndCheckInterrupt()阻塞当前线程并返回线程的中断标志，直到当前先被唤醒才从parkAndCheckInterrupt()中返回。最后，通过 cancelAcquire 取消获得锁的操作。<br>Condition</p>
+<p>Condition 是一个多线程协调通信的工具类，可以让某些线程一起等待某个条件（condition），只有满足条件时，线程才会被唤醒</p>
+<p>调用Condition的await()方法（或者以await开头的方法），会使当前线程进入等待队列并释放锁，同时线程状态变为等待状态。当从 await()方法返回时，当前线程一定获取了Condition 相关联的锁<br>线程 awaitThread 先通过 lock.lock()方法获取锁成功后调用了 condition.await 方法进入等待队列，而另一个线程 signalThread 通过 lock.lock()方法获取锁成功后调用了 condition.signal 或者 signalAll 方法，使得线程awaitThread 能够有机会移入到同步队列中，当其他线程释放 lock 后使得线程 awaitThread 能够有机会获取lock，从而使得线程 awaitThread 能够从 await 方法中退出执行后续操作。如果 awaitThread 获取 lock 失败会直接进入到同步队列。</p>
+<p>await()：当前线程调用await()方法，会使当前线程进入等待队列，同时线程状态变为等待状态，当从await()方法返回时，当前线程一定获取了Condition相关联的锁。<br>signal()：调用该方法将会唤醒在等待队列中等待时间最长的节点（首节点），在唤醒节点之前，会将节点移到同步队列中。<br>CountDownLatch</p>
+<p>countdownlatch 是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完毕再执行。从命名可以解读到 countdown 是倒数的意思，类似于我们倒计时的概念。</p>
+<p>countdownlatch 提供了两个方法，一个是 countDown，一个是 await， countdownlatch 初始化的时候需要传入一个整数，在这个整数倒数到 0 之前，调用了 await 方法的程序都必须要等待，然后通过 countDown 来倒数。</p>
+<p>ConcurrentHashMap（jdk1.8）</p>
+<p>数据结构：数组+单向链表 链表长度&gt;8转红黑树<br>初始化table：CAS的改变sizeCtl的值为-1，表示占位符，初始化成功后设置sizeCtl为加载因子<br>自旋尝试插入数据<br>tabAt：通过可见性的方法读取最新的值<br>casTabAt：原子更新，对key计算hash值后所在的数组位置为空则通过cas将数据插入当前位置<br>当前下标有元素，对当前下标的头节点加锁，不阻塞其他下标<br>addCount：计数，元素增加、扩容判断<br>尝试一次通过CAS操作设置元素个数，失败通过随机数将CounterCell数组中某个位置的值用CAS替换CounterCell的value值<br>扩容</p>
+<p>sizeCtl&lt;0说明已经有线程在进行扩容<br>标记正在扩容线程数：通过当前tab.length计算后得到一个扩容戳，左移16位，高16位代表扩容的标记，低16位代表扩容的线程数<br>transfer ：扩容（转移数据）：默认每个cpu执行16个大小的扩容，设置分工区间，每个线程处理完将标记的低16位-1<br>使用一个CounterCell数组将并发的请求分流到每个数组位置进行cas增加<br>Semaphore</p>
+<p>使用场景：限流</p>
+<p>CyclicBarrier</p>
+<p>当存在需要所有的子任务都完成时，才执行主任务，这个时候就可以选择使用 CyclicBarrier，可重复使用</p>
+<p>说说对Threadlocal的理解</p>
+<p>ThreadLocal 用一种存储变量与线程绑定的方式，在每个线程中用自己的 ThreadLocalMap 安全隔离变量 每个线程拥有自己唯一的 ThreadLocalMap ，所以 ThreadLocalMap 是天然线程安全的。、 每个线程持有自己的 ThreadLocalMap，ThreadLocalMap 初始容量为16，在调用ThreadLocal 的 set 方法时，将以 ThreadLocal 为 Key 存储在 本线程的 ThreadLocalMap 里面，ThreadLocalMap 的 Value 为Object 类型，实际类型由 ThreadLocal 定义。</p>
+<p>ThreadLocalMap</p>
+<p>ThreadLocalMap 是ThreadLocal 内部的一个Map实现，然而它并没有实现任何集合的接口规范，因为它仅供内部使用，数据结构采用 数组 + 开放地址法，Entry 继承 WeakReference，是基于 ThreadLocal 这种特殊场景实现的 Map。 WeakReference如字面意思，弱引用， 当一个对象仅仅被weak reference（弱引用）指向, 而没有任何其他strong reference（强引用）指向的时候, 如果这时GC运行, 那么这个对象就会被回收，不论当前的内存空间是否足够，这个对象都会被回收。</p>
+<p>HashMap</p>
+<p>大小必须是2的N次幂可以更好的服务于key的hash算法，数组的index更加分散</p>
+<p>key的hashcode 首先将key的hashcode值的高16位和低16位进行亦或运算<br>初始化 初始化一个默认大小为16的Node数组 将计算得到的hash值与Node数组容量-1进行与运算，得到一个数组的位置 初始化一个新的Node节点插入进该索引位置 如果当前位置有数据则加入到链表尾部，长度大于等于8则转为红黑树<br>扩容 将数组大小左移1位进行翻倍 重新计算hash值与新的数组大小-1进行与运算 如果是链表则拆分后判断数据扩容后存储在当前位置还是当前位置+扩容前大小的位置<br>记录put后的数组大小并判断是否要扩容<br>红黑树你了解多少，为什么要用红黑树，解决了哪些问题</p>
+<p>红黑树：红黑是是一个平衡二叉树<br>根节点和每个叶子节点是黑色<br>如果一个节点是红色的，name它的两个子节点都是黑色<br>从任一节点到其每个叶子的所有简单路径，都包含相同数目的黑色节点<br>如果加入节点破坏了规则的话则进行左旋或右旋或重新着色<br>链表元素大于8个时插入成本较高，红黑树插入和删除效率比avl树高，查询效率比链表高<br>类加载 双亲委派</p>
+<p>加载一个class的时候会先加载启动类加载器和扩展类加载器 ，防止jdk代码不被使用者篡改 可以破坏但是，在JVM中，判断一个对象是否是某个类型时，如果该对象的实际类型与待比较的类型的类加载器不同，那么会返回false。</p>
+<p>谈谈你对sql性能调优的理解和开发中的使用</p>
+<p>索引列的数据长度能少则少。<br>索引一定不是越多越好，越全越好，一定是建合适的。<br>匹配列前缀可用到索引 like 9999%（列的离散型高的情况下），like %9999%、like %9999用不到索引；<br>Where 条件中 not in 和 &lt;&gt;操作无法使用索引；<br>匹配范围值，order by 也可用到索引；<br>多用指定列查询，只返回自己想到的数据列，少用select * ；<br>联合索引中如果不是按照索引·最左列开始查找，无法使用索引；<br>联合索引中精确匹配最左前列并范围匹配另外一列可以用到索引；<br>联合索引中如果查询中有某个列的范围查询，则其右边的所有列都无法使用索引；<br>在创建索引时尽量使用不能为null的列<br>秒杀</p>
+<p>问题： 1：短时间高并发，负载压力大 2：读多写少 3：竞争资源有限，不能多卖、少卖</p>
+<p>倒计时开卖<br>限制用户购买的数量<br>尽量将请求过滤在上游<br>尽可能利用缓存存储商品和库存信息<br>分布式限流<br>异步化处理订单和库存，前端轮训成功或失败<br>下单扣库存，超时收回库存,使用乐观锁防止超卖<br>保持数据库和缓存的一致性<br>查询商品详情-&gt;点击购买-&gt;校验库存-&gt;扣除库存，创建订单-&gt;支付<br>后台操作添加库存信息至缓存<br>模块间通讯</p>
+<p>HTTP方式<br>RPC协议<br>负载均衡问题、超时问题、<br>Spring</p>
+<p>Bean的生命周期</p>
+<p>初始化：Bean被创建的时候回调InitializingBean 销毁：Bean被销毁的时候回调DisposableBean 可以通过init-Method和destroy-Method监控Bean的创建和销毁，@PostConstruct 和@PreDestroy 注解方式</p>
+<p>Spring Bean 作用域之间的区别？</p>
+<p>1.singleton：这种 bean 范围是默认的，这种范围确保不管接受到多少个请求，每个容器中只有一个bean 的实例，单例的模式由 bean factory 自身来维护。 2.prototype：原形范围与单例范围相反，为每一个 bean 请求提供一个实例。 3.request：在请求 bean 范围内会每一个来自客户端的网络请求创建一个实例，在请求完成以后，bean会失效并被垃圾回收器回收。 4.Session：与请求范围类似，确保每个 session 中有一个 bean 的实例，在 session 过期后，bean 会随之失效。 5.global-session：global-session 和 Portlet 应用相关。当你的应用部署在 Portlet 容器中工作时，它包含很多 portlet。如果你想要声明让所有的 portlet 共用全局的存储变量的话，那么这全局变量需要存储在 global-session 中。全局作用域与 Servlet 中的 session 作用域效果相同。</p>
+<p>Spring 框架中的单例 Beans 是线程安全的么？</p>
+<p>Spring 框架并没有对单例 bean 进行任何多线程的封装处理。关于单例 bean 的线程安全和并发问题需要开发者自行去搞定。但实际上，大部分的 Spring bean 并没有可变的状态(比如 Serview 类和 DAO类)，所以在某种程度上说 Spring 的单例 bean 是线程安全的。如果你的 bean 有多种状态的话（比如View Model 对象），就需要自行保证线程安全。 最浅显的解决办法就是将多态 bean 的作用域由“singleton”变更为“prototype”。</p>
+<p>Spring是怎样处理循环依赖问题的</p>
+<p>通过三级缓存来处理</p>
+<p>Redis哨兵机制</p>
+<p>哨兵的核心知识</p>
+<p>哨兵至少需要3个实例，来保证自己的健壮性。<br>哨兵+redis主从的部署架构，是不会保证数据零丢失的，只能保证redis集群的高可用性<br>对于哨兵+redis主从这种复杂的部署架构，尽量在测试环境和生产环境，都进行充分的测试和演练。<br>服务下线</p>
+<p>一个master节点宕机，需要大部分Sentinel节点标记才是客观下线<br>Sentinel 默认以每秒钟 1 次的频率向 Redis 服务节点发送 PING 命令。如果在 down-after-milliseconds 内都没有收到有效回复，Sentinel会将该服务器标记为下线（主观下线）。</p>
+<p>sentinel.conf</p>
+<p>sentinel down-after-milliseconds <master-name> <milliseconds> 这个时候 Sentinel 节点会继续询问其他的 Sentinel节点，确认这个节点是否下线，如果多数 Sentinel 节点都认为 master 下线，master 才真正确认被下线（客观下线），这个时候就需要重新选举master。</milliseconds></master-name></p>
+<p>故障转移</p>
+<p>如果 master 被标记为下线，就会开始故障转移流程。</p>
+<p>既然有这么多的 Sentinel 节点，由谁来做故障转移的事情呢？</p>
+<p>故障转移流程的第一步就是在 Sentinel 集群选择一个 Leader，由 Leader 完成故障转移流程。Sentinle 通过 Raft 算法，实现 Sentinel 选举。</p>
+<p>Ratf算法</p>
+<p>Raft 的核心思想：先到先得，少数服从多数。 1、master 客观下线触发选举，而不是过了 election timeout 时间开始选举。</p>
+<p>2、Leader 并不会把自己成为 Leader 的消息发给其他 Sentinel。其他 Sentinel 等待 Leader 从 slave 选出 master 后，检测到新的 master正常工作后，就会去掉客观下线的标识，从而不需要进入故障转移流程。</p>
+<p>故障转移</p>
+<p>问题：怎么让一个原来的 slave 节点成为主节点？</p>
+<p>1、选出 Sentinel Leader 之后，由 Sentinel Leader 向某个节点发送 slaveof no one命令，让它成为独立节点。</p>
+<p>2、然后向其他节点发送 slaveof x.x.x.xxxxx（本机服务），让它们成为这个节点的子节点，故障转移完成。问题：这么多从节点，选谁成为主节点？</p>
+<p>关于从节点选举，一共有四个因素影响选举的结果，分别是断开连接时长、优先级 排序、复制数量、进程 id。</p>
+<p>如果与哨兵连接断开的比较久，超过了某个阈值，就直接失去了选举权。如果拥有 选举权，那就看谁的优先级高，这个在配置文件里可以设置（replica-priority 100），数值越小优先级越高。</p>
+<p>如果优先级相同，就看谁从 master中复制的数据最多（复制偏移量最大），选最多 的那个，如果复制数量也相同，就选择进程 id 最小的那个。</p>
+<p>Sentinel功能总结</p>
+<p>监控：Sentinel 会不断检查主服务器和从服务器是否正常运行。<br>通知：如果某一个被监控的实例出现问题，Sentinel 可以通过 API 发出通知。<br>自动故障转移（failover）：如果主服务器发生故障，Sentinel可以启动故障转移过 程。把某台服务器升级为主服务器，并发出通知。<br>配置管理：客户端连接到 Sentinel，获取当前的 Redis 主服务器的地址。<br>哨兵机制的不足</p>
+<p>主从切换的过程中会丢失数据，因为只有一个 master。</p>
+<p>只能单点写，没有解决水平扩容的问题。</p>
+<p>如果数据量非常大，这个时候我们需要多个 master-slave 的group，把数据分布到 不同的 group 中。</p>
+<p>问题来了，数据怎么分片？分片之后，怎么实现路由？</p>
+<p>Redis Cluste</p>
+<p>Redis Cluster 是在 Redis 3.0的版本正式推出的，用来解决分布式的需求，同时也可以实现高可用。跟 Codis不一样，它是去中心化的，客户端可以连接到任意一个可用节点。</p>
+<p>数据分片有几个关键的问题需要解决</p>
+<p>1、数据怎么相对均匀地分片 2、客户端怎么访问到相应的节点和数据 3、重新分片的过程，怎么保证正常服务</p>
+<p>JMM</p>
+<p>JMM是语言级别的抽象内存模型<br>JMM 实际上就是提供了合理的禁用缓存以及禁止重排序的方法。所以它最核心的价值在于解决可见性和有序性。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/Redis1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/03/Redis1/" class="post-title-link" itemprop="url">Redis分布式</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-03 20:33:23 / Modified: 20:38:16" itemprop="dateCreated datePublished" datetime="2019-12-03T20:33:23+08:00">2019-12-03</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/Mysql索引/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/03/Mysql索引/" class="post-title-link" itemprop="url">Mysql索引</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-03 15:59:50 / Modified: 16:20:45" itemprop="dateCreated datePublished" datetime="2019-12-03T15:59:50+08:00">2019-12-03</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库-mysql/" itemprop="url" rel="index"><span itemprop="name">数据库 mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><h4 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h4><p><img src="/Mysql索引/20191203041651331.png" alt></p>
+<h4 id="平衡二叉查找树"><a href="#平衡二叉查找树" class="headerlink" title="平衡二叉查找树"></a>平衡二叉查找树</h4><p><img src="/Mysql索引/20191203041706174.png" alt></p>
+<h4 id="多路平衡查找树B-Tree"><a href="#多路平衡查找树B-Tree" class="headerlink" title="多路平衡查找树B-Tree"></a>多路平衡查找树B-Tree</h4><p><img src="/Mysql索引/20191203041743846.png" alt></p>
+<h4 id="Mysql的B-Tree"><a href="#Mysql的B-Tree" class="headerlink" title="Mysql的B+Tree"></a>Mysql的B+Tree</h4><p><img src="/Mysql索引/20191203041753272.png" alt></p>
+<h4 id="B-Tree和B-Tree的区别"><a href="#B-Tree和B-Tree的区别" class="headerlink" title="B-Tree和B+Tree的区别"></a>B-Tree和B+Tree的区别</h4><p>1 ，B+ 节点关键字搜索采用闭合区间<br>2 ，B+ 非叶节点不保存数据相关信息，只保存关键字和子节点的引用<br>3 ，B+ 关键字对应的数据保存在叶子节点中<br>4 ，B+ 叶子节点是顺序排列的，并且相邻节点具有顺序引用的关系</p>
+<h5 id="为什么使用B-Tree"><a href="#为什么使用B-Tree" class="headerlink" title="为什么使用B+Tree"></a>为什么使用B+Tree</h5><p>B+ 树是B- 树的变种（PLUS 版）多路绝对平衡查找树，他拥有B- 树的优势<br>B+ 树扫库、表能力更强<br>B+ 树的磁盘读写能力更 强<br>B+树 树 的排序能力更强<br>B+ 树的查询效率更加 稳定（仁者见仁、智者见智）</p>
+<h5 id="为什么不使用二叉树"><a href="#为什么不使用二叉树" class="headerlink" title="为什么不使用二叉树"></a>为什么不使用二叉树</h5><ul>
+<li>它太深了<br>数据处的（高）深度决定着他的IO 操作次数，IO 操作耗时大</li>
+<li>它太小了<br>每一个磁盘块 （节点/ 页） 保存的数据量太小 了没有很好的利用操作磁盘IO 的数据 交换 特性，也没有利用好磁盘IO 的预 读能力（空间局部性原理 ），从而带来频繁的IO。</li>
+</ul>
+<h3 id="Innodb与Myisam的区别"><a href="#Innodb与Myisam的区别" class="headerlink" title="Innodb与Myisam的区别"></a>Innodb与Myisam的区别</h3><p><img src="/Mysql索引/20191203041837918.png" alt></p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>索引由插件式引擎实现<br>索引是为了加速对表中数据行的检索而创建的一种数据结构<br><img src="/Mysql索引/20191203041855104.png" alt></p>
+<h3 id="Mysql-B-Tree索引体现形式"><a href="#Mysql-B-Tree索引体现形式" class="headerlink" title="Mysql B+Tree索引体现形式"></a>Mysql B+Tree索引体现形式</h3><h4 id="Innodb"><a href="#Innodb" class="headerlink" title="Innodb"></a>Innodb</h4><p><img src="/Mysql索引/20191203041921144.png" alt></p>
+<p><img src="/Mysql索引/20191203041934879.png" alt></p>
+<h4 id="Myisam"><a href="#Myisam" class="headerlink" title="Myisam"></a>Myisam</h4><p><img src="/Mysql索引/20191203041946821.png" alt></p>
+<p><img src="/Mysql索引/20191203041954647.png" alt></p>
+<h3 id="索引知识补充"><a href="#索引知识补充" class="headerlink" title="索引知识补充"></a>索引知识补充</h3><h4 id="列的离散性"><a href="#列的离散性" class="headerlink" title="列的离散性"></a>列的离散性</h4><p><img src="/Mysql索引/20191203042009126.png" alt></p>
+<ul>
+<li>列的离散性越低，被转为全表扫描的可能性越高<h4 id="最左匹配原则"><a href="#最左匹配原则" class="headerlink" title="最左匹配原则"></a>最左匹配原则</h4><img src="/Mysql索引/20191203042015880.png" alt></li>
+<li>根据创建表时指定的排序规则依次从左到右进行比对<h4 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h4><img src="/Mysql索引/20191203042022422.png" alt><h4 id="冗余索引"><a href="#冗余索引" class="headerlink" title="冗余索引"></a>冗余索引</h4><img src="/Mysql索引/20191203042033961.png" alt><h4 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h4><img src="/Mysql索引/20191203042043411.png" alt></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>索引列的数据长度能少则少。</li>
+<li>索引一定不是越多越好，越全越好，一定是建合适的。</li>
+<li>匹配列前缀可用到索引 like 9999%（列的离散型高的情况下），like %9999%、like %9999用不到索引；</li>
+<li>Where 条件中 not in 和 &lt;&gt;操作无法使用索引；</li>
+<li>匹配范围值，order by 也可用到索引；</li>
+<li>多用指定列查询，只返回自己想到的数据列，少用select * ；</li>
+<li>联合索引中如果不是按照索引·最左列开始查找，无法使用索引；</li>
+<li>联合索引中精确匹配最左前列并范围匹配另外一列可以用到索引；</li>
+<li>联合索引中如果查询中有某个列的范围查询，则其右边的所有列都无法使用索引；</li>
+<li>在创建索引时尽量使用不能为null的列</li>
+</ul>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><ul>
+<li>作为索引字段在定义长度时尽量越短越好<br>字段长度越少，底层数据的路数越多，效率越高</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/Redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/03/Redis/" class="post-title-link" itemprop="url">Redis</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-03 14:11:02 / Modified: 16:25:48" itemprop="dateCreated datePublished" datetime="2019-12-03T14:11:02+08:00">2019-12-03</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><ul>
+<li>存储类型<br>可以用来存储字符串、整数、浮点数</li>
+<li>操作命令<br>设置值<br><code>set key value</code><br>设置多个值（批量操作，原子性）<br><code>mset key1 1111 key2 222</code><br>设置值，如果 key 存在，则不成功<br><code>setnx key</code><br>基于此可实现分布式锁。用 del key 释放锁。<br>但如果释放锁的操作失败了，导致其他节点永远获取不到锁，怎么办？<br>加过期时间。单独用 expire 加过期，也失败了，无法保证原子性，怎么办？多参数<br><code>set key value [expiration EX seconds|PX milliseconds][NX|XX]</code><br>使用参数的方式<br><code>set lock1 1 EX 10 NX</code><br>（整数）值递增<br><code>incr count
+incrby count 100</code><br>（整数）值递减<br><code>decr count
+decrby count 100</code><br>浮点数增量<br><code>set f 2.6
+incrbyfloat f 7.3</code><br>获取多个值<br><code>mget key1 key2</code><br>获取值长度<br><code>strlen key1</code><br>字符串追加内容<br><code>append key1 xxxx</code><br>获取指定范围的字符<br><code>getrange key1 0 8</code><h4 id="存储（实现）原理"><a href="#存储（实现）原理" class="headerlink" title="存储（实现）原理"></a>存储（实现）原理</h4></li>
+<li>数据模型<br>set hello word 为例，因为 Redis 是 KV 的数据库，它是通过 hashtable 实现的（我们把这个叫做外层的哈希）。所以每个键值对都会有一个 dictEntry（源码位置：dict.h），里面指向了 key 和 value 的指针。next 指向下一个dictEntry。<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="keyword">void</span> *key; <span class="comment">/* key 关键字定义 */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        <span class="keyword">void</span> *val; <span class="keyword">uint64_t</span> u64; <span class="comment">/* value 定义 */</span></span><br><span class="line">        <span class="keyword">int64_t</span> s64; <span class="keyword">double</span> d;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span> <span class="comment">/* 指向下一个键值对节点*/</span></span><br><span class="line">&#125; dictEntry;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/03/zfbJq6n51cvy92X.png" alt><br>key 是字符串，但是 Redis 没有直接使用 C 的字符数组，而是存储在自定义的 SDS中。<br>value 既不是直接作为字符串存储，也不是直接存储在 SDS 中，而是存储在redisObject 中。实际上五种常用的数据类型的任何一种，都是通过 redisObject 来存储的。</p>
+<h4 id="redisObject"><a href="#redisObject" class="headerlink" title="redisObject"></a>redisObject</h4><p>redisObject 定义在 src/server.h 文件中。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="keyword">unsigned</span> type:<span class="number">4</span>; <span class="comment">/* 对象的类型，包括：OBJ_STRING、OBJ_LIST、OBJ_HASH、OBJ_SET、OBJ_ZSET */</span></span><br><span class="line">    <span class="keyword">unsigned</span> encoding:<span class="number">4</span>; <span class="comment">/* 具体的数据结构 */</span></span><br><span class="line">    <span class="keyword">unsigned</span> lru:LRU_BITS; <span class="comment">/* 24 位，对象最后一次被命令程序访问的时间，与内存回收有关 */</span></span><br><span class="line">    <span class="keyword">int</span> refcount; <span class="comment">/* 引用计数。当 refcount 为 0 的时候，表示该对象已经不被任何对象引用，则可以进行垃圾回收了*/</span></span><br><span class="line">    <span class="keyword">void</span> *ptr; <span class="comment">/* 指向对象实际的数据结构 */</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure></p>
+<p>可以使用 type 命令来查看对外的类型。<br><code>127.0.0.1:6379&gt; type qs
+string</code></p>
+<h4 id="内部编码"><a href="#内部编码" class="headerlink" title="内部编码"></a>内部编码</h4><p><img src="https://i.loli.net/2019/12/03/IXxTDl5orE6si7k.png" alt><br><code>127.0.0.1:6379&gt; set number 1
+OK
+127.0.0.1:6379&gt; set qs &quot;is a good teacher in gupao, have crossed mountains and sea &quot;
+OK
+127.0.0.1:6379&gt; set jack bighead
+OK
+127.0.0.1:6379&gt; object encoding number
+&quot;int&quot;
+127.0.0.1:6379&gt; object encoding jack
+&quot;embstr&quot;
+127.0.0.1:6379&gt; object encoding qs
+&quot;raw&quot;</code><br>字符串类型的内部编码有三种：<br>1、int，存储 8 个字节的长整型（long，2^63-1）。<br>2、embstr, 代表 embstr 格式的 SDS（Simple Dynamic String 简单动态字符串），存储小于 44 个字节的字符串。<br>3、raw，存储大于 44 个字节的字符串（3.2 版本之前是 39 字节）。</p>
+<h4 id="什么是SDS？"><a href="#什么是SDS？" class="headerlink" title="什么是SDS？"></a>什么是SDS？</h4><p>Redis 中字符串的实现。<br>在 3.2 以后的版本中，SDS 又有多种结构（sds.h）：sdshdr5、sdshdr8、sdshdr16、sdshdr32、sdshdr64，用于存储不同的长度的字符串，分别代表 2^5=32byte，2^8=256byte，2^16=65536byte=64KB，2^32byte=4GB。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* sds.h */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">attribute__</span> ((__<span class="title">packed__</span>)) <span class="title">sdshdr8</span> &#123;</span></span><br><span class="line">    <span class="keyword">uint8_t</span> len; <span class="comment">/* 当前字符数组的长度 */</span></span><br><span class="line">    <span class="keyword">uint8_t</span> alloc; <span class="comment">/*当前字符数组总共分配的内存大小 */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> flags; <span class="comment">/* 当前字符数组的属性、用来标识到底是 sdshdr8 还是 sdshdr16 等 */</span></span><br><span class="line">    <span class="keyword">char</span> buf[]; <span class="comment">/* 字符串真正的值 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h4 id="为什么-Redis-要用-SDS-实现字符串？"><a href="#为什么-Redis-要用-SDS-实现字符串？" class="headerlink" title="为什么 Redis 要用 SDS 实现字符串？"></a>为什么 Redis 要用 SDS 实现字符串？</h4><h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><h5 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h5><p>例如：热点数据缓存（例如报表，明星出轨），对象缓存，全页缓存。<br>可以提升热点数据的访问速度。</p>
+<h5 id="数据共享、分布式"><a href="#数据共享、分布式" class="headerlink" title="数据共享、分布式"></a>数据共享、分布式</h5><p>STRING 类型<br>因为 Redis 是分布式的独立服务，可以在多个应用之间共享<br>例如：分布式 Session<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">&lt;groupId&gt;org.springframework.session&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;spring-session-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<h5 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h5><p>STRING 类型 setnx 方法，只有不存在时才能添加成功，返回 true。<br>建议使用set key value 加参数形式</p>
+<h5 id="全局ID"><a href="#全局ID" class="headerlink" title="全局ID"></a>全局ID</h5><p>INT 类型，INCRBY，利用原子性<br>incrby userid 1000<br>（分库分表的场景，一次性拿一段）</p>
+<h5 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h5><p>INT 类型，INCR 方法<br>例如：文章的阅读量，微博点赞数，允许一定的延迟，先写入 Redis 再定时同步到数据库。</p>
+<h5 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h5><p>以访问者的 IP 和其他信息作为 key，访问一次增加一次计数，超过次数则返回 false。</p>
+<p><img src="/Redis/20191203042537799.png" alt></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/30/面试题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/30/面试题/" class="post-title-link" itemprop="url">面试题</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-30 12:05:34" itemprop="dateCreated datePublished" datetime="2019-11-30T12:05:34+08:00">2019-11-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-12-03 15:48:07" itemprop="dateModified" datetime="2019-12-03T15:48:07+08:00">2019-12-03</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>入职的时候是公司在武汉刚刚成立研发中心，目标是接替北京公司的开发任务，在职期间一直负责公司大数据客户服务平台项目持续敏捷迭代开发和文档的编写，同时每次迭代对上线过程进行支撑<br>今年的主要任务是开发对BDCSC项目进行支撑的健康度项目和可视化配置中心的部署及接入并在10月底完成</p>
+<h3 id="Object类有哪些方法，请列举你经常用到的"><a href="#Object类有哪些方法，请列举你经常用到的" class="headerlink" title="Object类有哪些方法，请列举你经常用到的"></a>Object类有哪些方法，请列举你经常用到的</h3><ul>
+<li>toString:打印地址值，一般用于重新写方法打印具体值</li>
+<li>equals：对比地址值，一般用于重写比较两个对象值是否相等</li>
+<li>hashCode：计算对象的hash值，重写equals方法时必须重写hashCode方法以满足两个对象在equals为true时hash值也相同的条件，便于使用在hashmap等集合中</li>
+<li>wait：释放锁对象，使当前线程等待，等待唤醒</li>
+<li>notify/notifyAll 唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。</li>
+<li>clone：快速构造一个与已有对象相同的副本，属于浅克隆，要实现深克隆需要引用对象也重写该方法或通过序列化的方式<h3 id="并发包Concurrent下有哪些你经常使用的类"><a href="#并发包Concurrent下有哪些你经常使用的类" class="headerlink" title="并发包Concurrent下有哪些你经常使用的类"></a>并发包Concurrent下有哪些你经常使用的类</h3><h4 id="ReentrantLock-可重入锁"><a href="#ReentrantLock-可重入锁" class="headerlink" title="ReentrantLock 可重入锁"></a>ReentrantLock 可重入锁</h4>  内部维护了一个AQS同步队列，AQS 队列内部维护的是一个FIFO 的双向链表，每个链表的节点是由线程封装Node，当线程争抢锁失败后会封装成 Node 加入到 ASQ 队列中去；当获取锁的线程释放锁以后，会从队列中唤醒一个阻塞的节点(线程)。</li>
+<li><p>获取锁<br>  调用Lock.lock 首先会通过CAS操作尝试替换state，替换成功说明抢占到锁，将当前线程设置为AQS的独占线程<br>  抢占失败调用 acquire(1)走锁竞争逻辑<br>  通过 tryAcquire 尝试获取独占锁，如果成功返回 true，失败返回 false，同时判断是否为拥有独占锁的线程，是则增加重入次数<br>  如果 tryAcquire 失败将当前线程封装成一个Node节点，判断当前AQS队列链表中的 tail 节点是否为空，如果不为空，则通过 cas 操作把当前线程的node 添加到 AQS 队列，如果为空或者 cas 失败，调用 enq 自旋地将节点添加到 AQS 队列，如果tail为null，初始化一个空Node并将head和tail都指向它。<br>  将Node添加到同步队列后会接着把 Node 作为参数传递给acquireQueued 方法，去竞争锁，首先获取当前节点的prv节点，入过prv==head节点，那么它有资格去争抢锁，调用tryAcquire抢占锁，抢占锁成功以后，把获得锁的节点设置为 head，并且移除原来的初始化head节点，如果获得锁失败，则根据 waitStatus 决定是否需要挂起线程，若为SIGNAL则阻塞，接下来会调用parkAndCheckInterrupt()阻塞当前线程并返回线程的中断标志，直到当前先被唤醒才从parkAndCheckInterrupt()中返回。最后，通过 cancelAcquire 取消获得锁的操作。</p>
+<h4 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h4><p>Condition 是一个多线程协调通信的工具类，可以让某些线程一起等待某个条件（condition），只有满足条件时，线程才会被唤醒</p>
+</li>
+<li><p>调用Condition的await()方法（或者以await开头的方法），会使当前线程进入等待队列并释放锁，同时线程状态变为等待状态。当从 await()方法返回时，当前线程一定获取了Condition 相关联的锁<br><img src="/面试题/20191130054315839.png" alt></p>
+<p>线程 awaitThread 先通过 lock.lock()方法获取锁成功后调用了 condition.await 方法进入等待队列，而另一个线程 signalThread 通过 lock.lock()方法获取锁成功后调用了 condition.signal 或者 signalAll 方法，使得线程awaitThread 能够有机会移入到同步队列中，当其他线程释放 lock 后使得线程 awaitThread 能够有机会获取lock，从而使得线程 awaitThread 能够从 await 方法中退出执行后续操作。如果 awaitThread 获取 lock 失败会直接进入到同步队列。</p>
+</li>
+<li><p>await()：当前线程调用await()方法，会使当前线程进入等待队列，同时线程状态变为等待状态，当从await()方法返回时，当前线程一定获取了Condition相关联的锁。</p>
+</li>
+<li>signal()：调用该方法将会唤醒在等待队列中等待时间最长的节点（首节点），在唤醒节点之前，会将节点移到同步队列中。</li>
+</ul>
+<h4 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h4><p>countdownlatch 是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完毕再执行。从命名可以解读到 countdown 是倒数的意思，类似于我们倒计时的概念。</p>
+<p>countdownlatch 提供了两个方法，一个是 countDown，一个是 await， countdownlatch 初始化的时候需要传入一个整数，在这个整数倒数到 0 之前，调用了 await 方法的程序都必须要等待，然后通过 countDown 来倒数。</p>
+<h4 id="ConcurrentHashMap（jdk1-8）"><a href="#ConcurrentHashMap（jdk1-8）" class="headerlink" title="ConcurrentHashMap（jdk1.8）"></a>ConcurrentHashMap（jdk1.8）</h4><ul>
+<li>数据结构：数组+单向链表 链表长度&gt;8转红黑树</li>
+<li>初始化table：CAS的改变sizeCtl的值为-1，表示占位符，初始化成功后设置sizeCtl为加载因子</li>
+<li>自旋尝试插入数据</li>
+<li>tabAt：通过可见性的方法读取最新的值</li>
+<li>casTabAt：原子更新，对key计算hash值后所在的数组位置为空则通过cas将数据插入当前位置</li>
+<li>当前下标有元素，对当前下标的头节点加锁，不阻塞其他下标</li>
+<li>addCount：计数，元素增加、扩容判断</li>
+<li>尝试一次通过CAS操作设置元素个数，失败通过随机数将CounterCell数组中某个位置的值用CAS替换CounterCell的value值<h5 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h5></li>
+<li>sizeCtl&lt;0说明已经有线程在进行扩容</li>
+<li>标记正在扩容线程数：通过当前tab.length计算后得到一个扩容戳，左移16位，高16位代表扩容的标记，低16位代表扩容的线程数</li>
+<li>transfer ：扩容（转移数据）：默认每个cpu执行16个大小的扩容，设置分工区间，每个线程处理完将标记的低16位-1</li>
+<li>使用一个CounterCell数组将并发的请求分流到每个数组位置进行cas增加<h4 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h4>使用场景：限流<h4 id="CyclicBarrier"><a href="#CyclicBarrier" class="headerlink" title="CyclicBarrier"></a>CyclicBarrier</h4>当存在需要所有的子任务都完成时，才执行主任务，这个时候就可以选择使用 CyclicBarrier，可重复使用</li>
+</ul>
+<h3 id="说说对Threadlocal的理解"><a href="#说说对Threadlocal的理解" class="headerlink" title="说说对Threadlocal的理解"></a>说说对Threadlocal的理解</h3><p>ThreadLocal 用一种存储变量与线程绑定的方式，在每个线程中用自己的 ThreadLocalMap 安全隔离变量<br>每个线程拥有自己唯一的 ThreadLocalMap ，所以 ThreadLocalMap 是天然线程安全的。、<br>每个线程持有自己的 ThreadLocalMap，ThreadLocalMap 初始容量为16，在调用ThreadLocal 的 set 方法时，将以 ThreadLocal 为 Key 存储在 本线程的 ThreadLocalMap 里面，ThreadLocalMap 的 Value 为Object 类型，实际类型由 ThreadLocal 定义。</p>
+<h4 id="ThreadLocalMap"><a href="#ThreadLocalMap" class="headerlink" title="ThreadLocalMap"></a>ThreadLocalMap</h4><p>ThreadLocalMap 是ThreadLocal 内部的一个Map实现，然而它并没有实现任何集合的接口规范，因为它仅供内部使用，数据结构采用 数组 + 开放地址法，Entry 继承 WeakReference，是基于 ThreadLocal 这种特殊场景实现的 Map。<br>WeakReference如字面意思，弱引用， 当一个对象仅仅被weak reference（弱引用）指向, 而没有任何其他strong reference（强引用）指向的时候, 如果这时GC运行, 那么这个对象就会被回收，不论当前的内存空间是否足够，这个对象都会被回收。</p>
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>大小必须是2的N次幂可以更好的服务于key的hash算法，数组的index更加分散</p>
+<ul>
+<li>key的hashcode<br>首先将key的hashcode值的高16位和低16位进行亦或运算</li>
+<li>初始化<br>初始化一个默认大小为16的Node数组<br>将计算得到的hash值与Node数组容量-1进行与运算，得到一个数组的位置<br>初始化一个新的Node节点插入进该索引位置<br>如果当前位置有数据则加入到链表尾部，长度大于等于8则转为红黑树</li>
+<li>扩容<br>将数组大小左移1位进行翻倍<br>重新计算hash值与新的数组大小-1进行与运算<br>如果是链表则拆分后判断数据扩容后存储在当前位置还是当前位置+扩容前大小的位置</li>
+<li>记录put后的数组大小并判断是否要扩容</li>
+</ul>
+<h3 id="红黑树你了解多少，为什么要用红黑树，解决了哪些问题"><a href="#红黑树你了解多少，为什么要用红黑树，解决了哪些问题" class="headerlink" title="红黑树你了解多少，为什么要用红黑树，解决了哪些问题"></a>红黑树你了解多少，为什么要用红黑树，解决了哪些问题</h3><ul>
+<li>红黑树：红黑是是一个平衡二叉树</li>
+<li>根节点和每个叶子节点是黑色</li>
+<li>如果一个节点是红色的，name它的两个子节点都是黑色</li>
+<li>从任一节点到其每个叶子的所有简单路径，都包含相同数目的黑色节点</li>
+<li>如果加入节点破坏了规则的话则进行左旋或右旋或重新着色</li>
+<li>链表元素大于8个时插入成本较高，红黑树插入和删除效率比avl树高，查询效率比链表高<h3 id="类加载-双亲委派"><a href="#类加载-双亲委派" class="headerlink" title="类加载 双亲委派"></a>类加载 双亲委派</h3>加载一个class的时候会先加载启动类加载器和扩展类加载器<br>，防止jdk代码不被使用者篡改<br>可以破坏但是，在JVM中，判断一个对象是否是某个类型时，如果该对象的实际类型与待比较的类型的类加载器不同，那么会返回false。<h3 id="谈谈你对sql性能调优的理解和开发中的使用"><a href="#谈谈你对sql性能调优的理解和开发中的使用" class="headerlink" title="谈谈你对sql性能调优的理解和开发中的使用"></a>谈谈你对sql性能调优的理解和开发中的使用</h3></li>
+<li>索引列的数据长度能少则少。</li>
+<li>索引一定不是越多越好，越全越好，一定是建合适的。</li>
+<li>匹配列前缀可用到索引 like 9999%（列的离散型高的情况下），like %9999%、like %9999用不到索引；</li>
+<li>Where 条件中 not in 和 &lt;&gt;操作无法使用索引；</li>
+<li>匹配范围值，order by 也可用到索引；</li>
+<li>多用指定列查询，只返回自己想到的数据列，少用select * ；</li>
+<li>联合索引中如果不是按照索引·最左列开始查找，无法使用索引；</li>
+<li>联合索引中精确匹配最左前列并范围匹配另外一列可以用到索引；</li>
+<li>联合索引中如果查询中有某个列的范围查询，则其右边的所有列都无法使用索引；</li>
+<li>在创建索引时尽量使用不能为null的列<h3 id="秒杀"><a href="#秒杀" class="headerlink" title="秒杀"></a>秒杀</h3>问题：<br>  1：短时间高并发，负载压力大<br>  2：读多写少<br>  3：竞争资源有限，不能多卖、少卖</li>
+<li>倒计时开卖</li>
+<li>限制用户购买的数量</li>
+<li>尽量将请求过滤在上游</li>
+<li>尽可能利用缓存存储商品和库存信息</li>
+<li>分布式限流</li>
+<li>异步化处理订单和库存，前端轮训成功或失败</li>
+<li>下单扣库存，超时收回库存,使用乐观锁防止超卖</li>
+<li>保持数据库和缓存的一致性</li>
+<li>查询商品详情-&gt;点击购买-&gt;校验库存-&gt;扣除库存，创建订单-&gt;支付</li>
+<li>后台操作添加库存信息至缓存</li>
+<li><h3 id="模块间通讯"><a href="#模块间通讯" class="headerlink" title="模块间通讯"></a>模块间通讯</h3></li>
+<li>HTTP方式</li>
+<li>RPC协议</li>
+<li>负载均衡问题、超时问题、<h3 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h3><h4 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h4>初始化：Bean被创建的时候回调InitializingBean<br>销毁：Bean被销毁的时候回调DisposableBean<br>可以通过init-Method和destroy-Method监控Bean的创建和销毁，@PostConstruct 和@PreDestroy 注解方式<h4 id="Spring-Bean-作用域之间的区别？"><a href="#Spring-Bean-作用域之间的区别？" class="headerlink" title="Spring Bean 作用域之间的区别？"></a>Spring Bean 作用域之间的区别？</h4>1.singleton：这种 bean 范围是默认的，这种范围确保不管接受到多少个请求，每个容器中只有一个bean 的实例，单例的模式由 bean factory 自身来维护。<br>2.prototype：原形范围与单例范围相反，为每一个 bean 请求提供一个实例。<br>3.request：在请求 bean 范围内会每一个来自客户端的网络请求创建一个实例，在请求完成以后，bean会失效并被垃圾回收器回收。<br>4.Session：与请求范围类似，确保每个 session 中有一个 bean 的实例，在 session 过期后，bean 会随之失效。<br>5.global-session：global-session 和 Portlet 应用相关。当你的应用部署在 Portlet 容器中工作时，它包含很多 portlet。如果你想要声明让所有的 portlet 共用全局的存储变量的话，那么这全局变量需要存储在 global-session 中。全局作用域与 Servlet 中的 session 作用域效果相同。<h4 id="Spring-框架中的单例-Beans-是线程安全的么？"><a href="#Spring-框架中的单例-Beans-是线程安全的么？" class="headerlink" title="Spring 框架中的单例 Beans 是线程安全的么？"></a>Spring 框架中的单例 Beans 是线程安全的么？</h4>Spring 框架并没有对单例 bean 进行任何多线程的封装处理。关于单例 bean 的线程安全和并发问题需要开发者自行去搞定。但实际上，大部分的 Spring bean 并没有可变的状态(比如 Serview 类和 DAO类)，所以在某种程度上说 Spring 的单例 bean 是线程安全的。如果你的 bean 有多种状态的话（比如View Model 对象），就需要自行保证线程安全。  最浅显的解决办法就是将多态 bean 的作用域由“singleton”变更为“prototype”。<h4 id="Spring是怎样处理循环依赖问题的"><a href="#Spring是怎样处理循环依赖问题的" class="headerlink" title="Spring是怎样处理循环依赖问题的"></a>Spring是怎样处理循环依赖问题的</h4>通过三级缓存来处理</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/23/分布式事务的解决方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/23/分布式事务的解决方案/" class="post-title-link" itemprop="url">分布式事务的解决方案</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-23 14:46:50" itemprop="dateCreated datePublished" datetime="2019-11-23T14:46:50+08:00">2019-11-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-11-24 10:37:06" itemprop="dateModified" datetime="2019-11-24T10:37:06+08:00">2019-11-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="事务的特性"><a href="#事务的特性" class="headerlink" title="事务的特性"></a>事务的特性</h2><ul>
+<li>原子性（atomicity）。一个事务是一个不可分割的工作单位，事务中包括的诸操作要么都做，要么都不做。</li>
+<li>一致性（consistency）。事务必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。</li>
+<li>隔离性（isolation）。一个事务的执行不能被其他事务干扰。即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。</li>
+<li>持久性（durability）。持久性也称永久性（permanence），指一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。<h3 id="数据一致性"><a href="#数据一致性" class="headerlink" title="数据一致性"></a>数据一致性</h3></li>
+</ul>
+<h4 id="X-open-DTP-分布式事务模型"><a href="#X-open-DTP-分布式事务模型" class="headerlink" title="X/open DTP 分布式事务模型"></a>X/open DTP 分布式事务模型</h4><p>X/Open 这个组织定义的一套分布式事务的标准，也就是定义了规范和 API 接口，由各个厂商进行具体的实现。<br>这个标准提出了使用二阶段提交(2PC – Two-Phase-Commit)来保证分布式事务的完整性。后来 J2EE 也遵循了 X/OpenDTP 规范，设计并实现了 java 里的分布式事务编程接口规范-JTA</p>
+<h4 id="X-OpenDTP"><a href="#X-OpenDTP" class="headerlink" title="X/OpenDTP"></a>X/OpenDTP</h4><p><img src="/分布式事务的解决方案/20191123031904756.png" alt><br>在 X/OpenDTP 事务模型中，定义了三个角色<br>AP: application, 应用程序，也就是业务层。哪些操作属于一个事务，就是 AP 定义的</p>
+<p>RM： Resource Manager，资源管理器。一般是数据库，也可以是其他资源管理器，比如消息队列，文件系统</p>
+<p>TM： Transaction Manager ，事务管理器、事务协调者，负责接收来自用户程序（AP）发起的 XA 事务指令，并调度和协调参与事务的所有 RM（数据库），确保事务正确完成</p>
+<p>在分布式系统中，每一个机器节点虽然都能够明确知道自己在进行事务操作过程中的结果是成功还是失败，但却无法直接获取到其他分布式节点的操作结果。因此当一个事务操作需要跨越多个分布式节点的时候，为了保持事务处理的 ACID 特性，就需要引入一个“协调者”（TM）来统一度所有分布式节点的执行逻辑，这些被调度的分布式节点被称为 AP。TM 负责调度 AP 的行为，并最终决定这些 AP 是否要把事务真正进行提交到（RM）</p>
+<ul>
+<li>1.参与分布式事务的应用程序(AP)先到 TM 上注册全局事务</li>
+<li>2.然后各个 AP 直接在相应的资源管理器(RM)上进行事务操作</li>
+<li>3.操作完成以后，各个 AP 反馈事务的处理结果给到 TM</li>
+<li>4.TM 收到所有 AP 的反馈以后，通过数据库提供的 XA 接口进行数据提交或者回</li>
+</ul>
+<h4 id="2pc提交（two-phaseCommit-）"><a href="#2pc提交（two-phaseCommit-）" class="headerlink" title="2pc提交（two -phaseCommit ）"></a>2pc提交（two -phaseCommit ）</h4><p>在 X/OpenDTP 模型中，一个分布式事务所涉及的 SQL 逻辑都执行完成，并到了（RM）要最后提交事务的关键时刻，为了避免分布式系统所固有的不可靠性导致提交事务意外失败，TM 果断决定实施两步走的方案，这个就称为二阶提交二阶段提交，是计算机网络尤其是在数据库领域内，为了使基于分布式系统架构下<br>的所有节点在进行事务处理过程中能够保持原子性和一致性而设计的一种算法。通常，二阶段提交协议也被认为是一种一致性协议，用来保证分布式系统数据的一致性。目前，绝大部分的关系型数据库都是采用二阶段提交协议来完成分布式事务处理的，利用该协议能够非常方便地完成所有分布式事务 AP 的协调，统一决定事务的提交或回滚，从而能够有效保证分布式数据一致性，因此 2pc 也被广泛运用在许多分布式系统中。</p>
+<h5 id="第一阶段"><a href="#第一阶段" class="headerlink" title="第一阶段"></a>第一阶段</h5><p> <img src="/分布式事务的解决方案/20191123032811372.png" alt></p>
+<ul>
+<li><ol>
+<li>事务询问<br>TM 向所有的 AP 发送事务内容，询问是否可以执行事务提交操作，并开始等待各AP 的响应</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>执行事务<br>各个 AP 节点执行事务操作，并将 Undo 和 Redo 信息记录到事务日志中，尽量把提交过程中所有消耗时间的操作和准备都提前完成确保后面 100%成功提交事务</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>各个 AP 向 TM 反馈事务询问的响应<br>如果各个 AP 成功执行了事务操作，那么就反馈给 AP yes 的响应，表示事务可以执行；如果 AP 没有成功执行事务，就反馈给 TM no 的响应，表示事务不可以执行</li>
+</ol>
+</li>
+</ul>
+<p>上面这个阶段有点类似 TM 组织各个 AP 对一次事务操作的投票表态过程，因此2pc 协议的第一个阶段称为“投票阶段”，即各 AP 投票表名是否需要继续执行接下去的事务提交操作。</p>
+<h5 id="第二阶段"><a href="#第二阶段" class="headerlink" title="第二阶段"></a>第二阶段</h5><p><img src="/分布式事务的解决方案/20191123033644482.png" alt></p>
+<ul>
+<li>事务提交<br>在这个阶段，TM 会根据各 AP 的反馈情况来决定最终是否可以进行事务提交操作，正常情况下包含两种可能假如 TM 从所有参与者获得的反馈都是 yes 响应，那么就会执行事务提交</li>
+<li><ol>
+<li>发送提交请求<br>TM 向所有 AP 节点发出 commit 请求</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>事务提交<br>AP 接收到 Commit 请求后，会正式执行事务提交操作，并在完成提交之后释放在整个事务执行期间占用的事务资源</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>反馈事务提交结果<br>AP 在完成事务提交之后，向 TM 发送 Ack 消息</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>完成事务<br>TM 接收到所有 AP 反馈的 ack 消息后，完成事务</li>
+</ol>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5></li>
+</ul>
+<pre><code>性能问题。从流程上我们可以看得出，其最大缺点就在于它的执行过程中间，节点都处于阻塞状态。各个操作数据库的节点此时都占用着数据库资源，只有当所有节点准备完毕，事务协调者才会通知进行全局提交，参与者进行本地事务提交后才会释放资源。这样的过程会比较漫长，对性能影响比较大。
+
+协调者单点故障问题。事务协调者是整个XA模型的核心，一旦事务协调者节点挂掉，会导致参与者收不到提交或回滚的通知，从而导致参与者节点始终处于事务无法完成的中间状态。
+
+丢失消息导致的数据不一致问题。在第二个阶段，如果发生局部网络问题，一部分事务参与者收到了提交消息，另一部分事务参与者没收到提交消息，那么就会导致节点间数据的不一致问题。
+</code></pre><h4 id="三阶段提交（3PC）"><a href="#三阶段提交（3PC）" class="headerlink" title="三阶段提交（3PC）"></a>三阶段提交（3PC）</h4><p>三阶段提交又称3PC，其在两阶段提交的基础上增加了CanCommit阶段，并引入了超时机制。一旦事务参与者迟迟没有收到协调者的Commit请求，就会自动进行本地commit，这样相对有效地解决了协调者单点故障的问题。</p>
+<h3 id="分布式事务一致性"><a href="#分布式事务一致性" class="headerlink" title="分布式事务一致性"></a>分布式事务一致性</h3><h4 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h4><p>消息队列辅助、人工干预</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/23/中文开源项目官方文档汇总/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/23/中文开源项目官方文档汇总/" class="post-title-link" itemprop="url">中文开源项及优秀博客文章</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-07-23 13:47:38" itemprop="dateCreated datePublished" datetime="2019-07-23T13:47:38+08:00">2019-07-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-24 09:05:02" itemprop="dateModified" datetime="2019-07-24T09:05:02+08:00">2019-07-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/开源文档/" itemprop="url" rel="index"><span itemprop="name">开源文档</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文只用作便于学习使用，如有侵权等请与我联系。</p>
+<h4 id="Apache-Dubbo"><a href="#Apache-Dubbo" class="headerlink" title="Apache Dubbo"></a>Apache Dubbo</h4><p>分布式服务治理框架<br>中文官方文档： <a href="http://dubbo.apache.org/zh-cn/" target="_blank" rel="noopener">http://dubbo.apache.org/zh-cn/</a><br>github：<a href="https://github.com/apache/dubbo" target="_blank" rel="noopener">https://github.com/apache/dubbo</a></p>
+<h4 id="Alibaba-Nacous"><a href="#Alibaba-Nacous" class="headerlink" title="Alibaba Nacous"></a>Alibaba Nacous</h4><p>一个更易于构建云原生应用的动态服务发现、配置管理和服务管理平台<br>中文官方文档： <a href="https://nacos.io/zh-cn/index.html" target="_blank" rel="noopener">https://nacos.io/zh-cn/index.html</a><br>github：<a href="https://github.com/alibaba/nacos" target="_blank" rel="noopener">https://github.com/alibaba/nacos</a></p>
+<h4 id="dubbo外部化配置"><a href="#dubbo外部化配置" class="headerlink" title="dubbo外部化配置"></a>dubbo外部化配置</h4><p>小马哥的博客：<a href="https://mercyblitz.github.io/2018/01/18/Dubbo-%E5%A4%96%E9%83%A8%E5%8C%96%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">https://mercyblitz.github.io/2018/01/18/Dubbo-%E5%A4%96%E9%83%A8%E5%8C%96%E9%85%8D%E7%BD%AE/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/并发编程之ReentrantLock可重入锁/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/22/并发编程之ReentrantLock可重入锁/" class="post-title-link" itemprop="url">并发编程之ReentrantLock可重入锁</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-05-22 15:21:35" itemprop="dateCreated datePublished" datetime="2019-05-22T15:21:35+08:00">2019-05-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-12 13:56:57" itemprop="dateModified" datetime="2019-07-12T13:56:57+08:00">2019-07-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>ReentrantLock是并发包<code>Java.util.concurrent</code>里的一个基于Lock接口实现的可重入锁。</p>
+<h1 id="J-U-C-简介"><a href="#J-U-C-简介" class="headerlink" title="J.U.C 简介"></a>J.U.C 简介</h1><p><code>Java.util.concurrent</code> 是在并发编程中比较常用的工具类，里面包含很多用来在并发场景中使用的组件。比如线程池、阻塞队列、计时器、同步器、并发集合等等。并发包的作者是大名鼎鼎的 Doug Lea。</p>
+<h1 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h1><p>在 Lock 接口出现之前，Java 中的应用程序对于多线程的并发安全处理只能基于synchronized 关键字来解决。但是 synchronized 在有些场景中会存在一些短板，也就是它并不适合于所有的并发场景。但是在 Java5 以后，Lock 的出现可以解决synchronized 在某些场景中的短板，它比 synchronized 更加灵活。</p>
+<h2 id="Lock接口提供的synchronized关键字不具备的主要特性"><a href="#Lock接口提供的synchronized关键字不具备的主要特性" class="headerlink" title="Lock接口提供的synchronized关键字不具备的主要特性"></a>Lock接口提供的synchronized关键字不具备的主要特性</h2><p><code>尝试非阻塞的获得锁</code>：当线程尝试获取锁，如果这一时刻锁没有被其他线程获取到，则成功获取并持有锁。<br><code>能被中断地获取锁</code>：与synchronized不同，获取到锁的线程能够响应中断，当获取到锁的线程被中断时，中断异常将会被抛出，同时锁会被释放。<br><code>超时获取锁</code>：在指定的截止时间之前获取锁，如果截止时间到了仍旧无法获取锁，则返回。</p>
+<h2 id="Lock的实现"><a href="#Lock的实现" class="headerlink" title="Lock的实现"></a>Lock的实现</h2><p>Lock 本质上是一个接口，它定义了释放锁和获得锁的抽象方法，定义成接口就意味着它定义了锁的一个标准规范，也同时意味着锁的不同实现。实现 Lock 接口的类有很多，以下为几个常见的锁实现ReentrantLock：表示重入锁，它是唯一一个实现了 Lock 接口的类。重入锁指的是线程在获得锁之后，再次获取该锁不需要阻塞，而是直接关联一次计数器增加重入次数</p>
+<h3 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h3><p><code>重入读写锁</code>，它实现了 ReadWriteLock 接口，在这个类中维护了两个锁，一个是 ReadLock，一个是 WriteLock，他们都分别实现了 Lock接口。读写锁是一种适合读多写少的场景下解决线程安全问题的工具，基本原则是： 读和读不互斥、读和写互斥、写和写互斥。也就是说涉及到影响数据变化的操作都会存在互斥。</p>
+<h3 id="StampedLock"><a href="#StampedLock" class="headerlink" title="StampedLock"></a>StampedLock</h3><p><code>stampedLock</code> 是 JDK8 引入的新的锁机制，可以简单认为是读写锁的一个改进版本，读写锁虽然通过分离读和写的功能使得读和读之间可以完全并发，但是读和写是有冲突的，如果大量的读线程存在，可能会引起写线程的饥饿。</p>
+<h3 id="stampedLock"><a href="#stampedLock" class="headerlink" title="stampedLock"></a>stampedLock</h3><p><code>stampedLock</code>是一种乐观的读策略，使得乐观锁完全不会阻塞写线程<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/22/并发编程之ReentrantLock可重入锁/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/07/Thr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/07/Thr/" class="post-title-link" itemprop="url">Threadlocal实现原理</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-05-07 21:07:18" itemprop="dateCreated datePublished" datetime="2019-05-07T21:07:18+08:00">2019-05-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-12-03 15:48:14" itemprop="dateModified" datetime="2019-12-03T15:48:14+08:00">2019-12-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/多线程/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Threadlocal实现原理"><a href="#Threadlocal实现原理" class="headerlink" title="Threadlocal实现原理"></a>Threadlocal实现原理</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ThreadLocal 用一种存储变量与线程绑定的方式，在每个线程中用自己的 ThreadLocalMap 安全隔离变量，为解决多线程程序的并发问题提供了一种新的思路，如为每个线程创建一个独立的数据库连接。因为是线程绑定的，所以在很多场景也被用来实现线程参数传递，如 Spring 的 RequestContextHolder。也因为每个线程拥有自己唯一的 ThreadLocalMap ，所以 <code>ThreadLocalMap 是天然线程安全的</code>。<br>来源：<a href="https://www.jianshu.com/p/56f64e3c1b6c" target="_blank" rel="noopener">简书</a></p>
+<h2 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocalMap(ThreadLocal&lt;?&gt; firstKey, Object firstValue) &#123;</span><br><span class="line">           table = <span class="keyword">new</span> Entry[INITIAL_CAPACITY];</span><br><span class="line">           <span class="keyword">int</span> i = firstKey.threadLocalHashCode &amp; (INITIAL_CAPACITY - <span class="number">1</span>);</span><br><span class="line">           table[i] = <span class="keyword">new</span> Entry(firstKey, firstValue);</span><br><span class="line">           size = <span class="number">1</span>;</span><br><span class="line">           setThreshold(INITIAL_CAPACITY);</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>每个线程持有自己的 ThreadLocalMap，ThreadLocalMap 初始容量为16，在调用ThreadLocal 的 set 方法时，将以 ThreadLocal 为 Key 存储在 本线程的 ThreadLocalMap 里面，ThreadLocalMap 的 Value 为Object 类型，实际类型由 ThreadLocal 定义。<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/07/Thr/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/16/代理模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/16/代理模式/" class="post-title-link" itemprop="url">代理模式</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-16 14:27:45" itemprop="dateCreated datePublished" datetime="2019-03-16T14:27:45+08:00">2019-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-16 10:38:43" itemprop="dateModified" datetime="2019-07-16T10:38:43+08:00">2019-07-16</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h1><h2 id="代理模式的应用场景"><a href="#代理模式的应用场景" class="headerlink" title="代理模式的应用场景"></a>代理模式的应用场景</h2><p>在生活中，我们经常见到这样的场景，如：租房中介、售票黄牛、婚介、经纪人、快递、事务代理、非侵入式日志监听等，这些都是代理模式的实际体现。<code>代理模式（ProxyPattern）</code>的定义也非常简单，是指为其他对象提供一种代理，以控制对这个对象的访问。代理对象在客服端和目标对象之间起到中介作用，代理模式属于结构型设计模式。使用代理模式主要有两个目的：一保护目标对象，二增强目标对象。下面我们来看一下代理模式的类结构图：<br><img src="https://i.loli.net/2019/03/16/5c8c9aba772a1.png" alt><br>Subject 是顶层接口，RealSubject 是真实对象（被代理对象），Proxy 是代理对象，代理对象持有被代理对象的引用，客户端调用代理对象方法，同时也调用被代理对象的方法，但是在代理对象前后增加一些处理。在代码中，我们想到代理，就会理解为是代码增强，其实就是在原本逻辑前后增加一些逻辑，而调用者无感知。代理模式属于结构型模式，有静态代理和动态代理。<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/16/代理模式/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/yanhua.jpg" alt="张珺珉">
+            
+              <p class="site-author-name" itemprop="name">张珺珉</p>
+              <p class="site-description motion-element" itemprop="description">学习记录</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/JunminZhang" title="GitHub &rarr; https://github.com/JunminZhang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/2662501657" title="Weibo &rarr; https://weibo.com/u/2662501657" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张珺珉</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
