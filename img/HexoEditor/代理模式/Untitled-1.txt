@@ -1,0 +1,13 @@
+git config --global user.name "zhangjunmin"
+git config --global user.email "780792080@qq.com"
+
+ssh-keygen -t rsa -C "780792080@qq.com"
+
+#！/bin/sh
+git --work-tree=/root/hexo --git-dir=/root/hexo/myBlog.git checkout -f
+
+chmod +x /root/hexo/myBlog.git/hooks/post-receive
+
+
+npm config set prefix "C:/apps/nodejs/npm_global" 
+npm config set cache "C:/apps/nodejs/npm_cache" 
