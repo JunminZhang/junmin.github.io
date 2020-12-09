@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JVM运行时内存划分</title>
+    <url>/2019/02/13/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/</url>
+    <content><![CDATA[<h1 id="运行时内存划分"><a href="#运行时内存划分" class="headerlink" title="运行时内存划分"></a>运行时内存划分</h1><p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fmk5v19cmvj30g20anq3y.jpg" alt></p>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器：指向当前线程正在执行的字节码指令的地址、行号<br>程序计数器是一块较小的内存空间，可以看作是当前线程所执行的字节码的行号显示器。在任何一个确定的时刻，一个处理器（对于多核处理器来说是一个内核）都只会执行一条线程中的指令。因此<code>为了线程切换后能恢复到正确的执行位置</code>，每条线程都需要有一个独立的程序计数器，各条线程之间计数器互不影响，独立存储，这类内存区域为<code>“线程私有”</code>的内存。</p>
+<h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><p>虚拟机栈也是线程私有的，生命周期与线程相同。虚拟机栈描述的是Java方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧用于存储<code>局部变量表、操作数栈、动态链接、方法出口</code>等信息。每一个方法从调用直至执行完成的过程，就对应着<code>一个栈帧在虚拟机栈中从入栈到出栈的过程</code>。</p>
+<ul>
+<li>如果出现方法递归调用出现死循环的话就会造成栈帧过多，最终会抛出 <code>StackOverflowError</code>。</li>
+<li>若线程执行过程中栈帧大小超出虚拟机栈限制，则会抛出 <code>StackOverflowError</code>。</li>
+<li>若虚拟机栈允许动态扩展，但在尝试扩展时内存不足，或者在为一个新线程初始化新的虚拟机栈时申请不到足够的内存，则会抛出 <code>OutOfMemoryError</code>。<a id="more"></a>
+<h3 id="栈帧"><a href="#栈帧" class="headerlink" title="栈帧"></a>栈帧</h3>每一个栈帧都包括了局部变量表<code>局部变量表、操作数栈、动态链接、方法出口</code>和一些额外的附加信息。在程序编译的时候栈帧中需要多大的局部变量表，多深的操作数栈都已经完全确定了。</li>
+</ul>
+<p><img src="https://i.loli.net/2019/02/21/5c6e0d2070d40.png" alt></p>
+<p>一个线程中的方法调用链可能会很长，很多方法都同时处于执行状态。对于执行引擎来说，在活动线程中<code>只有位于栈顶的栈帧才是有效的，称为当前栈帧</code>，与这个栈帧相关联的方法称为当前方法。执行引擎运行的所有字节码指令都只针对当前栈帧进行操作。<br>局部变量表存放了局部变量，包含了编译期可知的各种基本数据类型、引用类型（对象引用），基本类型存具体值，引用类型存引用地址，每个局部变量空间为32字节（long、double占两个局部变量空间），非static的实例方法的局部变量表中第0位索引默认是用于传递方法所属对象实例的引用，即this。=。<br>当方法中调用了其他方法时，例如A方法中调用了B方法，则调用A方法会压2个栈帧，如B方法中也调用了其他方法，以此类推。native方法压入本地方法栈 </p>
+<h3 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h3><p>局部变量表的Slot是可以被复用的，这种设计除了节省栈帧空间以外，还会有某些副作用，比如直接影响到系统的GC行为。</p>
+<p><img src="https://i.loli.net/2019/02/21/5c6e14fbacf2b.png" alt></p>
+<p>在上图代码中向内存填充了64M的数据然后通知虚拟机进行垃圾回收，在System.gc()运行后并没有回收这64M的内存。</p>
+<p><img src="https://i.loli.net/2019/02/21/5c6e1860d1ae1.png" alt></p>
+<p>将代码修改为上图，在加了大括号后bytes的作用域被限制在大括号内，从代码逻辑上讲在执行System.gc()的时候bytes已经不可能再被访问了，但在执行main方法后会发现这64M的内存还是没有被回收。</p>
+<p><img src="https://i.loli.net/2019/02/21/5c6e19117b58d.png" alt></p>
+<p>在代码改为如上图后，再次运行main方法可以发现这次内存被正确回收了。bytes能否被正确回收的根本原因是：局部变量表中的SLot是否还存在关于bytes的引用，第一次修改后（添加大括号），代码虽然已经离开了bytes的作用域，但在此之后没有任何对局部变量表的读写操作，bytes原本所占用的SLot还没有被其他变量所复用，所以作为GC Roots一部分的局部变量表仍然保持着对bytes的关联，这种关联没有被即使打断，在大部分情况下影响多很轻微，但如果遇到一个方法，其后面的代码有一些耗时很长的操作，而前面又定义了占用了大量内存、实际上已经不会再使用的变量，手动将其设置为null值（代替int i = 1）便不见得是一个绝对无意义的操作。<br>为对象赋null值并不是控制变量回收的最好方法，以恰当的变量作用域来控制变量回收时间才是最优雅的解决办法。另外，赋null值的操作在经过虚拟机JIT编译器优化后会被消除掉，经过JIT编译后，System.gc（）执行时就可以正确地回收掉内存，而无需赋null值。</p>
+<h3 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h3><p>操作数栈是一个先入后出的栈，同局部变量比奥一样操作数栈的最大深度也在编译的时候写入到Code属性的max_stacks数据项中。操作数栈的每一个元素可以是任意的Java数据类型，包括long和double。32为数据所占栈容量为1，64位数据类型所占栈容量为2。<br>当一个方法刚刚开始执行的时候，这个方法的操作数栈是空的，在方法的执行过程中，会有各种字节码指令往操作数栈中写入和提取内容，也就是出栈/入栈的操作。例如，在做算术运算的时候是通过操作数栈来进行的，又或者在调用其它方法的时候是通过操作数栈来进行参数传递的。<br>例如进行整数加法的字节码指令iadd前会将要相加的两个元素压入操作数栈最接近栈顶的两个元素，执行iadd这个指令时会将这两个int值出栈并相加，然后将相加的结果入栈。</p>
+<h3 id="动态链接"><a href="#动态链接" class="headerlink" title="动态链接"></a>动态链接</h3><p>每个栈帧都包含一个指向运行时常量池中该栈帧所属方法的引用，持有这个引用是为了支持方法调用过程中的动态链接。Class文件的常量池中存有大量的符号引用，字节码中的方法调用指令就以常量池中指向方法的符号引用作为参数。这些符号引用一部分会在类加载阶段或者第一次使用的时候就转化为直接引用（静态解析），另一部分将在每一次运行期间转化为直接引用，这部分称为动态链接。</p>
+<h3 id="方法返回地址"><a href="#方法返回地址" class="headerlink" title="方法返回地址"></a>方法返回地址</h3><h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方法栈为使用到的Native方法服务。与虚拟机栈一样，也会抛出StackOverflowError和OutOfMemoryError异常。</p>
+<h2 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h2><p>Java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例以及数组都要在堆上分配，但随着JIT编译期的发展与逃逸分析技术逐渐成熟，栈上分配、标量替换优化技术将会导致一些微妙的变化发生，所有的对象都分配在堆上也渐渐变得不是那么绝对了。<br>可利用参数<code>-Xms -Xmx</code>进行堆内存控制。<br>堆是内存分配的只要区域，从内存回收的角度看，由于现在收集器基本都采用<code>分代收集算法</code>，所以Java堆中还可以细分为<code>新生代</code>和<code>老年代</code>。</p>
+<p>JDK1.8后原来存储在方法区（永久代）中的<code>静态变量、常量池</code>等也存在堆中</p>
+<h2 id="方法区-JDK1-7"><a href="#方法区-JDK1-7" class="headerlink" title="方法区(JDK1.7)"></a>方法区(JDK1.7)</h2><p>方法区主要用于存放已经被虚拟机加载的类信息，如<code>常量，静态变量</code>。 这块区域也被称为永久代。</p>
+<p>可利用参数 <code>-XX:PermSize -XX:MaxPermSize</code> 控制初始化方法区和最大方法区大小。</p>
+<h2 id="元空间-JDK1-8"><a href="#元空间-JDK1-8" class="headerlink" title="元空间(JDK1.8)"></a>元空间(JDK1.8)</h2><p>在 JDK1.8 中已经移除了方法区永久代，并使用了元空间进行代替<code>（Metaspace）</code>。</p>
+<p>默认情况下元数据区域会根据使用情况动态调整，避免了在 1.7 中由于加载类过多从而出现 <code>java.lang.OutOfMemoryError: PermGen</code>。</p>
+<p>但也不能无线扩展，因此可以使用 <code>-XX:MaxMetaspaceSize</code>来控制最大内存。</p>
+<p>元空间<code>属于本地内存、存储类的元信息</code>。</p>
+<h2 id="Class文件常量池"><a href="#Class文件常量池" class="headerlink" title="Class文件常量池"></a>Class文件常量池</h2><p>运行时常量池是方法区的一部分。CLass文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是<code>常量池</code>，用于存放编译期生成的各种<code>字面量</code>和<code>符号引用</code>，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
+<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池相对于CLass文件常量池的另外一个重要特征是具备<code>动态性</code>，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入Class文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中。<br>Class 文件常量池只是一个静态存储结构，里面的引用都是符号引用。而运行时常量池可以在运行期间将<code>符号引用</code>解析为<code>直接引用</code>。<br>参考链接：<a href="https://www.zhihu.com/question/30300585/answer/51335493" target="_blank" rel="noopener">JVM里的符号引用如何存储？ - RednaxelaFX的回答 - 知乎</a></p>
+]]></content>
+      <categories>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mysql索引</title>
     <url>/2019/12/03/Mysql%E7%B4%A2%E5%BC%95/</url>
     <content><![CDATA[<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><h4 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h4><p><img src="http://qiniupic.xiaomintongxue.cn/img/20191203041651331.png" alt="20191203041651331"></p>
@@ -47,48 +89,6 @@
       </categories>
       <tags>
         <tag>数据库 mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JVM运行时内存划分</title>
-    <url>/2019/02/13/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/</url>
-    <content><![CDATA[<h1 id="运行时内存划分"><a href="#运行时内存划分" class="headerlink" title="运行时内存划分"></a>运行时内存划分</h1><p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fmk5v19cmvj30g20anq3y.jpg" alt></p>
-<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器：指向当前线程正在执行的字节码指令的地址、行号<br>程序计数器是一块较小的内存空间，可以看作是当前线程所执行的字节码的行号显示器。在任何一个确定的时刻，一个处理器（对于多核处理器来说是一个内核）都只会执行一条线程中的指令。因此<code>为了线程切换后能恢复到正确的执行位置</code>，每条线程都需要有一个独立的程序计数器，各条线程之间计数器互不影响，独立存储，这类内存区域为<code>“线程私有”</code>的内存。</p>
-<h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><p>虚拟机栈也是线程私有的，生命周期与线程相同。虚拟机栈描述的是Java方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧用于存储<code>局部变量表、操作数栈、动态链接、方法出口</code>等信息。每一个方法从调用直至执行完成的过程，就对应着<code>一个栈帧在虚拟机栈中从入栈到出栈的过程</code>。</p>
-<ul>
-<li>如果出现方法递归调用出现死循环的话就会造成栈帧过多，最终会抛出 <code>StackOverflowError</code>。</li>
-<li>若线程执行过程中栈帧大小超出虚拟机栈限制，则会抛出 <code>StackOverflowError</code>。</li>
-<li>若虚拟机栈允许动态扩展，但在尝试扩展时内存不足，或者在为一个新线程初始化新的虚拟机栈时申请不到足够的内存，则会抛出 <code>OutOfMemoryError</code>。<a id="more"></a>
-<h3 id="栈帧"><a href="#栈帧" class="headerlink" title="栈帧"></a>栈帧</h3>每一个栈帧都包括了局部变量表<code>局部变量表、操作数栈、动态链接、方法出口</code>和一些额外的附加信息。在程序编译的时候栈帧中需要多大的局部变量表，多深的操作数栈都已经完全确定了。</li>
-</ul>
-<p><img src="https://i.loli.net/2019/02/21/5c6e0d2070d40.png" alt></p>
-<p>一个线程中的方法调用链可能会很长，很多方法都同时处于执行状态。对于执行引擎来说，在活动线程中<code>只有位于栈顶的栈帧才是有效的，称为当前栈帧</code>，与这个栈帧相关联的方法称为当前方法。执行引擎运行的所有字节码指令都只针对当前栈帧进行操作。<br>局部变量表存放了局部变量，包含了编译期可知的各种基本数据类型、引用类型（对象引用），基本类型存具体值，引用类型存引用地址，每个局部变量空间为32字节（long、double占两个局部变量空间），非static的实例方法的局部变量表中第0位索引默认是用于传递方法所属对象实例的引用，即this。=。<br>当方法中调用了其他方法时，例如A方法中调用了B方法，则调用A方法会压2个栈帧，如B方法中也调用了其他方法，以此类推。native方法压入本地方法栈 </p>
-<h3 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h3><p>局部变量表的Slot是可以被复用的，这种设计除了节省栈帧空间以外，还会有某些副作用，比如直接影响到系统的GC行为。</p>
-<p><img src="https://i.loli.net/2019/02/21/5c6e14fbacf2b.png" alt></p>
-<p>在上图代码中向内存填充了64M的数据然后通知虚拟机进行垃圾回收，在System.gc()运行后并没有回收这64M的内存。</p>
-<p><img src="https://i.loli.net/2019/02/21/5c6e1860d1ae1.png" alt></p>
-<p>将代码修改为上图，在加了大括号后bytes的作用域被限制在大括号内，从代码逻辑上讲在执行System.gc()的时候bytes已经不可能再被访问了，但在执行main方法后会发现这64M的内存还是没有被回收。</p>
-<p><img src="https://i.loli.net/2019/02/21/5c6e19117b58d.png" alt></p>
-<p>在代码改为如上图后，再次运行main方法可以发现这次内存被正确回收了。bytes能否被正确回收的根本原因是：局部变量表中的SLot是否还存在关于bytes的引用，第一次修改后（添加大括号），代码虽然已经离开了bytes的作用域，但在此之后没有任何对局部变量表的读写操作，bytes原本所占用的SLot还没有被其他变量所复用，所以作为GC Roots一部分的局部变量表仍然保持着对bytes的关联，这种关联没有被即使打断，在大部分情况下影响多很轻微，但如果遇到一个方法，其后面的代码有一些耗时很长的操作，而前面又定义了占用了大量内存、实际上已经不会再使用的变量，手动将其设置为null值（代替int i = 1）便不见得是一个绝对无意义的操作。<br>为对象赋null值并不是控制变量回收的最好方法，以恰当的变量作用域来控制变量回收时间才是最优雅的解决办法。另外，赋null值的操作在经过虚拟机JIT编译器优化后会被消除掉，经过JIT编译后，System.gc（）执行时就可以正确地回收掉内存，而无需赋null值。</p>
-<h3 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h3><p>操作数栈是一个先入后出的栈，同局部变量比奥一样操作数栈的最大深度也在编译的时候写入到Code属性的max_stacks数据项中。操作数栈的每一个元素可以是任意的Java数据类型，包括long和double。32为数据所占栈容量为1，64位数据类型所占栈容量为2。<br>当一个方法刚刚开始执行的时候，这个方法的操作数栈是空的，在方法的执行过程中，会有各种字节码指令往操作数栈中写入和提取内容，也就是出栈/入栈的操作。例如，在做算术运算的时候是通过操作数栈来进行的，又或者在调用其它方法的时候是通过操作数栈来进行参数传递的。<br>例如进行整数加法的字节码指令iadd前会将要相加的两个元素压入操作数栈最接近栈顶的两个元素，执行iadd这个指令时会将这两个int值出栈并相加，然后将相加的结果入栈。</p>
-<h3 id="动态链接"><a href="#动态链接" class="headerlink" title="动态链接"></a>动态链接</h3><p>每个栈帧都包含一个指向运行时常量池中该栈帧所属方法的引用，持有这个引用是为了支持方法调用过程中的动态链接。Class文件的常量池中存有大量的符号引用，字节码中的方法调用指令就以常量池中指向方法的符号引用作为参数。这些符号引用一部分会在类加载阶段或者第一次使用的时候就转化为直接引用（静态解析），另一部分将在每一次运行期间转化为直接引用，这部分称为动态链接。</p>
-<h3 id="方法返回地址"><a href="#方法返回地址" class="headerlink" title="方法返回地址"></a>方法返回地址</h3><h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方法栈为使用到的Native方法服务。与虚拟机栈一样，也会抛出StackOverflowError和OutOfMemoryError异常。</p>
-<h2 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h2><p>Java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例以及数组都要在堆上分配，但随着JIT编译期的发展与逃逸分析技术逐渐成熟，栈上分配、标量替换优化技术将会导致一些微妙的变化发生，所有的对象都分配在堆上也渐渐变得不是那么绝对了。<br>可利用参数<code>-Xms -Xmx</code>进行堆内存控制。<br>堆是内存分配的只要区域，从内存回收的角度看，由于现在收集器基本都采用<code>分代收集算法</code>，所以Java堆中还可以细分为<code>新生代</code>和<code>老年代</code>。</p>
-<p>JDK1.8后原来存储在方法区（永久代）中的<code>静态变量、常量池</code>等也存在堆中</p>
-<h2 id="方法区-JDK1-7"><a href="#方法区-JDK1-7" class="headerlink" title="方法区(JDK1.7)"></a>方法区(JDK1.7)</h2><p>方法区主要用于存放已经被虚拟机加载的类信息，如<code>常量，静态变量</code>。 这块区域也被称为永久代。</p>
-<p>可利用参数 <code>-XX:PermSize -XX:MaxPermSize</code> 控制初始化方法区和最大方法区大小。</p>
-<h2 id="元空间-JDK1-8"><a href="#元空间-JDK1-8" class="headerlink" title="元空间(JDK1.8)"></a>元空间(JDK1.8)</h2><p>在 JDK1.8 中已经移除了方法区永久代，并使用了元空间进行代替<code>（Metaspace）</code>。</p>
-<p>默认情况下元数据区域会根据使用情况动态调整，避免了在 1.7 中由于加载类过多从而出现 <code>java.lang.OutOfMemoryError: PermGen</code>。</p>
-<p>但也不能无线扩展，因此可以使用 <code>-XX:MaxMetaspaceSize</code>来控制最大内存。</p>
-<p>元空间<code>属于本地内存、存储类的元信息</code>。</p>
-<h2 id="Class文件常量池"><a href="#Class文件常量池" class="headerlink" title="Class文件常量池"></a>Class文件常量池</h2><p>运行时常量池是方法区的一部分。CLass文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是<code>常量池</code>，用于存放编译期生成的各种<code>字面量</code>和<code>符号引用</code>，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
-<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池相对于CLass文件常量池的另外一个重要特征是具备<code>动态性</code>，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入Class文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中。<br>Class 文件常量池只是一个静态存储结构，里面的引用都是符号引用。而运行时常量池可以在运行期间将<code>符号引用</code>解析为<code>直接引用</code>。<br>参考链接：<a href="https://www.zhihu.com/question/30300585/answer/51335493" target="_blank" rel="noopener">JVM里的符号引用如何存储？ - RednaxelaFX的回答 - 知乎</a></p>
-]]></content>
-      <categories>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>JVM</tag>
       </tags>
   </entry>
   <entry>
@@ -161,6 +161,23 @@ OK
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2020/11/24/kafka/</url>
+    <content><![CDATA[<h1 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h1><p>高性能、高吞吐</p>
+<p>不是基于jms的实现</p>
+<p>内置分区、实现集群-区别于activeMQ</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="/Users/zhangjunmin/Library/Application Support/typora-user-images/image-20201013100607380.png" alt="image-20201013100607380"></p>
+<p>Topic:主题</p>
+<p>partion:数据分区</p>
+<p>group:消费端所属</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>acks</p>
+<p>0:消息发送给broker后，不需要确认（性能较高，但是会出现数据丢失）</p>
+<p>1:只需要得到kafka集群中leader节点的确认即可返回（leader/follower）</p>
+<p>all（-1）：需要集群中的所有节点确认（最安全但性能低，也有可能会出现数据丢失）</p>
+<p>batch.size</p>
 ]]></content>
   </entry>
   <entry>
@@ -261,62 +278,6 @@ OK
       </categories>
       <tags>
         <tag>动态代理,动态代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2020/11/24/kafka/</url>
-    <content><![CDATA[<h1 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h1><p>高性能、高吞吐</p>
-<p>不是基于jms的实现</p>
-<p>内置分区、实现集群-区别于activeMQ</p>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="/Users/zhangjunmin/Library/Application Support/typora-user-images/image-20201013100607380.png" alt="image-20201013100607380"></p>
-<p>Topic:主题</p>
-<p>partion:数据分区</p>
-<p>group:消费端所属</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>acks</p>
-<p>0:消息发送给broker后，不需要确认（性能较高，但是会出现数据丢失）</p>
-<p>1:只需要得到kafka集群中leader节点的确认即可返回（leader/follower）</p>
-<p>all（-1）：需要集群中的所有节点确认（最安全但性能低，也有可能会出现数据丢失）</p>
-<p>batch.size</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>工厂模式</title>
-    <url>/2019/03/06/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h2><p><code>简单工厂模式</code>（Simple Factory Pattern）是指由一个工厂对象决定创建出哪一种产品类的实例，但它不属于 GOF，23 种设计模式式（参考资料：<br><a href="http://en.wikipedia.org/wiki/Design_Patterns#Patterns_by_Type）。" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/Design_Patterns#Patterns_by_Type）。</a><br>简单工厂适用于工厂类负责创建的对象较少的场景，且客户端只需要传入工厂类的参数，对于如何创建对象的逻辑不需要关心。<br>简单工厂的缺点：工厂类的职责相对过重，不易于扩展过于复杂的产品结构。</p>
-<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>以课程为例。咕泡学院目前开设有 Java 架构、大数据、人<br>工智能等课程，已经形成了一个生态。我们可以定义一个课程标准 ICourse 接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ICourse</span> </span>&#123;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">录制视频 </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>创建一个 Java 课程的实现 JavaCourse 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaCourse</span> <span class="keyword">implements</span> <span class="title">ICourse</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">System.out.println(<span class="string">"录制 Java 课程"</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>看客户端调用代码，我们会这样写：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">ICourse course = <span class="keyword">new</span> JavaCourse();</span><br><span class="line">course.record();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>看上面的代码，父类 ICourse 指向子类 JavaCourse 的引用，应用层代码需要依赖JavaCourse，如果业务扩展，我继续增加 PythonCourse 甚至更多，那么我们客户端的依赖会变得越来越臃肿。因此，我们要想办法把这种依赖减弱，把创建细节隐藏。虽然目前的代码中，我们创建对象的过程并不复杂，但从代码设计角度来讲不易于扩展。现在，我们用简单工厂模式对代码进行优化。<br><a id="more"></a><br>先增加课程 PythonCourse 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonCourse</span> <span class="keyword">implements</span> <span class="title">ICourse</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"录制 Python 课程"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>创建 CourseFactory 工厂类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ICourse <span class="title">create</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">"java"</span>.equals(name))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> JavaCourse();</span><br><span class="line">         &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">"python"</span>.equals(name))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> PythonCourse();</span><br><span class="line">         &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>修改客户端调用代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleFactoryTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    CourseFactory factory = <span class="keyword">new</span> CourseFactory();</span><br><span class="line">    factory.create(<span class="string">"java"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>客户端调用是简单了，但如果我们业务继续扩展，要增加前端课程，那么工厂中的<br>create()就要根据产品链的丰富每次都要修改代码逻辑。不符合开闭原则。因此，我们<br>对简单工厂还可以继续优化，可以采用反射技术：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ICourse <span class="title">create</span><span class="params">(Class&lt;? extends ICourse&gt; clazz)</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != clazz) &#123;</span><br><span class="line">        <span class="keyword">return</span> clazz.newInstance();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>优化客户端代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">CourseFactory factory = <span class="keyword">new</span> CourseFactory();</span><br><span class="line">ICourse course = factory.create(JavaCourse<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">course.record();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>类图：<br><img src="https://i.loli.net/2019/03/07/5c80c65aabf5f.png" alt><br>经常使用的日志工具LoggerFactory中就使用的简单工厂模式<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Logger <span class="title">getLogger</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    ILoggerFactory iLoggerFactory = getILoggerFactory();</span><br><span class="line">    <span class="keyword">return</span> iLoggerFactory.getLogger(name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Logger <span class="title">getLogger</span><span class="params">(Class clazz)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getLogger(clazz.getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><a href="https://github.com/JunminZhang/pattern/blob/master/src/main/java/com/zjm/pattern/factory/simplefactory/SimpleFactoryTest.java" target="_blank" rel="noopener">代码示例</a></p>
-<h2 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h2><p><code>工厂方法模式</code>（Fatory Method Pattern）是指定义一个创建对象的接口，但让实现这个接口的类来决定实例化哪个类，工厂方法让类的实例化推迟到子类中进行。在工厂方法模式中用户只需要关心所需产品对应的工厂，无须关心创建细节，而且加入新的产品符合<code>开闭原则</code>。<br>工厂方法模式主要解决产品扩展的问题，在简单工厂中，随着<code>产品链</code>的丰富，如果每个课程的创建逻辑有区别的话，工厂的职责会变得越来越多，有点像万能工厂，并不便于维护。根据<code>单一职责</code>原则我们将职能继续拆分，专人干专事。Java 课程由 Java 工厂创建，Python 课程由 Python 工厂创建，对工厂本身也做一个抽象。来看代码，先<br>创建 ICourseFactory 接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ICourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function">ICourse <span class="title">create</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在分别创建子工厂，JavaCourseFactory 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaCourseFactory</span> <span class="keyword">implements</span> <span class="title">ICourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ICourse <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> JavaCourse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>PythonCourseFactory 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonCourseFactory</span> <span class="keyword">implements</span> <span class="title">ICourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ICourse <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PythonCourse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>看测试代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ICourseFactory factory = <span class="keyword">new</span> PythonCourseFactory();</span><br><span class="line">    ICourse course = factory.create();</span><br><span class="line">    course.record();</span><br><span class="line">    factory = <span class="keyword">new</span> JavaCourseFactory();</span><br><span class="line">    course = factory.create();</span><br><span class="line">    course.record();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>工厂方法适用于以下场景：<br>1、创建对象需要大量重复的代码。<br>2、客户端（应用层）不依赖于产品类实例如何被创建、实现等细节。<br>3、一个类通过其子类来指定创建哪个对象。<br>工厂方法也有缺点：<br>1、类的个数容易过多，增加复杂度。<br>2、增加了系统的抽象性和理解难度。<br><a href="https://github.com/JunminZhang/pattern/blob/master/src/main/java/com/zjm/pattern/factory/factorymethod/FactoryMethodTest.java" target="_blank" rel="noopener">代码示例</a></p>
-<h2 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h2><p><code>抽象工厂模式</code>（Abastract Factory Pattern）是指提供一个创建一系列相关或相互依赖对象的接口，无须指定他们具体的类。客户端（应用层）不依赖于产品类实例如何被创建、实现等细节，强调的是一系列相关的产品对象（属于同一产品族）一起使用创建对象需要大量重复的代码。需要提供一个产品类的库，所有的产品以同样的接口出现，从而使客户端不依赖于具体实现。<br>还是以课程为例，<br>每个课程不仅要提供课程的录播视频，而且还要提供老师的课堂笔记。<br>相当于现在的业务变更为同一个课程不单纯是一个课程信息，要同时包含录播视频、课堂笔记甚至还要提供源码才能构成一个完整的课程。在产品等级中增加两个产品<br>IVideo 录播视频和 INote 课堂笔记。<br>IVideo 接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IVideo</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">record</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>INote 接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">INote</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">edit</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后创建一个抽象工厂 CourseFactory 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 抽象工厂是用户的主入口</span></span><br><span class="line"><span class="comment">* 在 Spring 中应用得最为广泛的一种设计模式</span></span><br><span class="line"><span class="comment">* 易于扩展</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function">INote <span class="title">createNote</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">IVideo <span class="title">createVideo</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>接下来，创建 Java 产品族，Java 视频 JavaVideo 类:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaVideo</span> <span class="keyword">implements</span> <span class="title">IVideo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"录制 Java 视频"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>扩展产品等级 Java 课堂笔记 JavaNote 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaNote</span> <span class="keyword">implements</span> <span class="title">INote</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">edit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"编写 Java 笔记"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>创建 Java 产品族的具体工厂 JavaCourseFactory:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaCourseFactory</span> <span class="keyword">implements</span> <span class="title">CourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> INote <span class="title">createNote</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> JavaNote();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> IVideo <span class="title">createVideo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> JavaVideo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后创建 Python 产品，Python 视频 PythonVideo 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonVideo</span> <span class="keyword">implements</span> <span class="title">IVideo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"录制 Python 视频"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>扩展产品等级 Python 课堂笔记 PythonNote 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonNote</span> <span class="keyword">implements</span> <span class="title">INote</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">edit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"编写 Python 笔记"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>创建 Python 产品族的具体工厂 PythonCourseFactory:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonCourseFactory</span> <span class="keyword">implements</span> <span class="title">CourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> INote <span class="title">createNote</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PythonNote();</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> IVideo <span class="title">createVideo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PythonVideo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>来看客户端调用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">JavaCourseFactory factory = <span class="keyword">new</span> JavaCourseFactory();</span><br><span class="line">    factory.createNote().edit();</span><br><span class="line">    factory.createVideo().record();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><a href="https://github.com/JunminZhang/pattern/blob/master/src/main/java/com/zjm/pattern/factory/abstractfactory/AbstractFactoryTest.java" target="_blank" rel="noopener">代码示例</a><br>上面的代码完整地描述了两个产品族 Java 课程和 Python 课程，也描述了两个产品等级视频和手记。抽象工厂非常完美清晰地描述这样一层复杂的关系。但是，如果我们再继续扩展产品等级，将源码 Source 也加入到课程中，那么我们的代码从抽象工厂，到具体工厂要全部调整，很显然不符合开闭原则。因此抽象<br>工厂也是有缺点的：<br>1、规定了所有可能被创建的产品集合，产品族中扩展新的产品困难，需要修改抽象工厂的接口。<br>2、增加了系统的抽象性和理解难度。<br>但在实际应用中，我们千万不能犯强迫症甚至有洁癖。在实际需求中产品等级结构升级是非常正常的一件事情。我们可以根据实际情况，只要不是频繁升级，可以不遵循开闭原则。代码每半年升级一次或者每年升级一次又有何不可呢？</p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -426,101 +387,43 @@ OK
       </tags>
   </entry>
   <entry>
-    <title>多线程的实现原理</title>
-    <url>/2019/01/31/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<h2 id="JMM怎么解决原子性、可见性、有序性的问题？"><a href="#JMM怎么解决原子性、可见性、有序性的问题？" class="headerlink" title="JMM怎么解决原子性、可见性、有序性的问题？"></a>JMM怎么解决原子性、可见性、有序性的问题？</h2><p>在Java中提供了一系列和并发处理相关的关键字，比如<code>volatile</code>、<code>Synchronized</code>、<code>final</code>、<code>juc</code>等，这些就是Java内存<br>模型封装了底层的实现后提供给开发人员使用的关键字，在开发多线程代码的时候，我们可以直接使用<br><code>synchronized</code>等关键词来控制并发，使得我们不需要关心底层的编译器优化、缓存一致性的问题了，所以在Java内<br>存模型中，除了定义了一套规范，还提供了开放的指令在底层进行封装后，提供给开发人员使用。</p>
-<h3 id="原子性保障"><a href="#原子性保障" class="headerlink" title="原子性保障"></a>原子性保障</h3><p>在java中提供了两个高级的字节码指令monitorenter和monitorexit，在Java中对应的<code>Synchronized</code>来保证代码块<br>内的操作是原子的</p>
-<h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>Java中的<code>volatile</code>关键字提供了一个功能，那就是被其修饰的变量在被修改后可以立即同步到主内存，被其修饰的变<br>量在每次是用之前都从主内存刷新。因此，可以使用<code>volatile</code>来保证多线程操作时变量的可见性。<br>除了<code>volatile</code>，Java中的<code>synchronized</code>和<code>final</code>两个关键字也可以实现可见性<br><a id="more"></a></p>
-<h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>在Java中，可以使用<code>synchronized</code>和<code>volatile</code>来保证多线程之间操作的有序性。实现方式有所区别：<br><code>volatile</code>关键字会禁止指令重排。<code>synchronized</code>关键字保证同一时刻只允许一条线程操作。</p>
-<h2 id="volatile如何解决可见性和有序性问题"><a href="#volatile如何解决可见性和有序性问题" class="headerlink" title="volatile如何解决可见性和有序性问题"></a>volatile如何解决可见性和有序性问题</h2><h3 id="可见性-1"><a href="#可见性-1" class="headerlink" title="可见性"></a>可见性</h3><p>下载hsdis工具 ，<a href="https://sourceforge.net/projects/fcml/files/fcml-1.1.1/hsdis-1.1.1-win32-amd64.zip/download" target="_blank" rel="noopener">https://sourceforge.net/projects/fcml/files/fcml-1.1.1/hsdis-1.1.1-win32-amd64.zip/download</a><br>解压后存放到jre目录的server路径下<br><img src="https://i.loli.net/2019/01/31/5c52b9cc2abcb.png" alt><br>然后跑main函数，跑main函数之前，加入如下虚拟机参数：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-server</span><br><span class="line">-Xcomp</span><br><span class="line">-XX:+UnlockDiagnosticVMOptions</span><br><span class="line">-XX:+PrintAssembly</span><br><span class="line">-XX:CompileCommand=compileonly,*VolatileDemo.getInstance（替换成实际运行的代码）</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://i.loli.net/2019/01/31/5c52b9e1974ac.png" alt><br>运行main函数，在控制台可以看到<br><img src="https://i.loli.net/2019/01/31/5c52ba2858422.png" alt><br>volatile变量修饰的共享变量，<code>在进行写操作的时候会多出一个lock前缀的汇编指令</code>，<br>通过触发cpu的总线锁或者缓存锁，通过缓存一致性协议来解决可见性问题<br>对于声明了volatile的变量进行写操作，JVM就会向处理器发送一条Lock前缀的指令，把这个变量所在的缓存行的数<br>据写回到系统内存，根据MESI缓存一致性协议，来保证多CPU下的各个高速缓存中的数据的一致性。</p>
-<h3 id="有序性-1"><a href="#有序性-1" class="headerlink" title="有序性"></a>有序性</h3>]]></content>
+    <title>工厂模式</title>
+    <url>/2019/03/06/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h2><p><code>简单工厂模式</code>（Simple Factory Pattern）是指由一个工厂对象决定创建出哪一种产品类的实例，但它不属于 GOF，23 种设计模式式（参考资料：<br><a href="http://en.wikipedia.org/wiki/Design_Patterns#Patterns_by_Type）。" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/Design_Patterns#Patterns_by_Type）。</a><br>简单工厂适用于工厂类负责创建的对象较少的场景，且客户端只需要传入工厂类的参数，对于如何创建对象的逻辑不需要关心。<br>简单工厂的缺点：工厂类的职责相对过重，不易于扩展过于复杂的产品结构。</p>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>以课程为例。咕泡学院目前开设有 Java 架构、大数据、人<br>工智能等课程，已经形成了一个生态。我们可以定义一个课程标准 ICourse 接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ICourse</span> </span>&#123;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">录制视频 </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建一个 Java 课程的实现 JavaCourse 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaCourse</span> <span class="keyword">implements</span> <span class="title">ICourse</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">System.out.println(<span class="string">"录制 Java 课程"</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看客户端调用代码，我们会这样写：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">ICourse course = <span class="keyword">new</span> JavaCourse();</span><br><span class="line">course.record();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看上面的代码，父类 ICourse 指向子类 JavaCourse 的引用，应用层代码需要依赖JavaCourse，如果业务扩展，我继续增加 PythonCourse 甚至更多，那么我们客户端的依赖会变得越来越臃肿。因此，我们要想办法把这种依赖减弱，把创建细节隐藏。虽然目前的代码中，我们创建对象的过程并不复杂，但从代码设计角度来讲不易于扩展。现在，我们用简单工厂模式对代码进行优化。<br><a id="more"></a><br>先增加课程 PythonCourse 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonCourse</span> <span class="keyword">implements</span> <span class="title">ICourse</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"录制 Python 课程"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建 CourseFactory 工厂类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ICourse <span class="title">create</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">"java"</span>.equals(name))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> JavaCourse();</span><br><span class="line">         &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">"python"</span>.equals(name))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> PythonCourse();</span><br><span class="line">         &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改客户端调用代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleFactoryTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    CourseFactory factory = <span class="keyword">new</span> CourseFactory();</span><br><span class="line">    factory.create(<span class="string">"java"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>客户端调用是简单了，但如果我们业务继续扩展，要增加前端课程，那么工厂中的<br>create()就要根据产品链的丰富每次都要修改代码逻辑。不符合开闭原则。因此，我们<br>对简单工厂还可以继续优化，可以采用反射技术：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ICourse <span class="title">create</span><span class="params">(Class&lt;? extends ICourse&gt; clazz)</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != clazz) &#123;</span><br><span class="line">        <span class="keyword">return</span> clazz.newInstance();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>优化客户端代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">CourseFactory factory = <span class="keyword">new</span> CourseFactory();</span><br><span class="line">ICourse course = factory.create(JavaCourse<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">course.record();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>类图：<br><img src="https://i.loli.net/2019/03/07/5c80c65aabf5f.png" alt><br>经常使用的日志工具LoggerFactory中就使用的简单工厂模式<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Logger <span class="title">getLogger</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    ILoggerFactory iLoggerFactory = getILoggerFactory();</span><br><span class="line">    <span class="keyword">return</span> iLoggerFactory.getLogger(name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Logger <span class="title">getLogger</span><span class="params">(Class clazz)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getLogger(clazz.getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/JunminZhang/pattern/blob/master/src/main/java/com/zjm/pattern/factory/simplefactory/SimpleFactoryTest.java" target="_blank" rel="noopener">代码示例</a></p>
+<h2 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h2><p><code>工厂方法模式</code>（Fatory Method Pattern）是指定义一个创建对象的接口，但让实现这个接口的类来决定实例化哪个类，工厂方法让类的实例化推迟到子类中进行。在工厂方法模式中用户只需要关心所需产品对应的工厂，无须关心创建细节，而且加入新的产品符合<code>开闭原则</code>。<br>工厂方法模式主要解决产品扩展的问题，在简单工厂中，随着<code>产品链</code>的丰富，如果每个课程的创建逻辑有区别的话，工厂的职责会变得越来越多，有点像万能工厂，并不便于维护。根据<code>单一职责</code>原则我们将职能继续拆分，专人干专事。Java 课程由 Java 工厂创建，Python 课程由 Python 工厂创建，对工厂本身也做一个抽象。来看代码，先<br>创建 ICourseFactory 接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ICourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function">ICourse <span class="title">create</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在分别创建子工厂，JavaCourseFactory 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaCourseFactory</span> <span class="keyword">implements</span> <span class="title">ICourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ICourse <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> JavaCourse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>PythonCourseFactory 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonCourseFactory</span> <span class="keyword">implements</span> <span class="title">ICourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ICourse <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PythonCourse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看测试代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ICourseFactory factory = <span class="keyword">new</span> PythonCourseFactory();</span><br><span class="line">    ICourse course = factory.create();</span><br><span class="line">    course.record();</span><br><span class="line">    factory = <span class="keyword">new</span> JavaCourseFactory();</span><br><span class="line">    course = factory.create();</span><br><span class="line">    course.record();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>工厂方法适用于以下场景：<br>1、创建对象需要大量重复的代码。<br>2、客户端（应用层）不依赖于产品类实例如何被创建、实现等细节。<br>3、一个类通过其子类来指定创建哪个对象。<br>工厂方法也有缺点：<br>1、类的个数容易过多，增加复杂度。<br>2、增加了系统的抽象性和理解难度。<br><a href="https://github.com/JunminZhang/pattern/blob/master/src/main/java/com/zjm/pattern/factory/factorymethod/FactoryMethodTest.java" target="_blank" rel="noopener">代码示例</a></p>
+<h2 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h2><p><code>抽象工厂模式</code>（Abastract Factory Pattern）是指提供一个创建一系列相关或相互依赖对象的接口，无须指定他们具体的类。客户端（应用层）不依赖于产品类实例如何被创建、实现等细节，强调的是一系列相关的产品对象（属于同一产品族）一起使用创建对象需要大量重复的代码。需要提供一个产品类的库，所有的产品以同样的接口出现，从而使客户端不依赖于具体实现。<br>还是以课程为例，<br>每个课程不仅要提供课程的录播视频，而且还要提供老师的课堂笔记。<br>相当于现在的业务变更为同一个课程不单纯是一个课程信息，要同时包含录播视频、课堂笔记甚至还要提供源码才能构成一个完整的课程。在产品等级中增加两个产品<br>IVideo 录播视频和 INote 课堂笔记。<br>IVideo 接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IVideo</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">record</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>INote 接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">INote</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">edit</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后创建一个抽象工厂 CourseFactory 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 抽象工厂是用户的主入口</span></span><br><span class="line"><span class="comment">* 在 Spring 中应用得最为广泛的一种设计模式</span></span><br><span class="line"><span class="comment">* 易于扩展</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function">INote <span class="title">createNote</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">IVideo <span class="title">createVideo</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来，创建 Java 产品族，Java 视频 JavaVideo 类:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaVideo</span> <span class="keyword">implements</span> <span class="title">IVideo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"录制 Java 视频"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>扩展产品等级 Java 课堂笔记 JavaNote 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaNote</span> <span class="keyword">implements</span> <span class="title">INote</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">edit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"编写 Java 笔记"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建 Java 产品族的具体工厂 JavaCourseFactory:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaCourseFactory</span> <span class="keyword">implements</span> <span class="title">CourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> INote <span class="title">createNote</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> JavaNote();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> IVideo <span class="title">createVideo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> JavaVideo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后创建 Python 产品，Python 视频 PythonVideo 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonVideo</span> <span class="keyword">implements</span> <span class="title">IVideo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"录制 Python 视频"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>扩展产品等级 Python 课堂笔记 PythonNote 类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonNote</span> <span class="keyword">implements</span> <span class="title">INote</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">edit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"编写 Python 笔记"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建 Python 产品族的具体工厂 PythonCourseFactory:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PythonCourseFactory</span> <span class="keyword">implements</span> <span class="title">CourseFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> INote <span class="title">createNote</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PythonNote();</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> IVideo <span class="title">createVideo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PythonVideo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来看客户端调用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">JavaCourseFactory factory = <span class="keyword">new</span> JavaCourseFactory();</span><br><span class="line">    factory.createNote().edit();</span><br><span class="line">    factory.createVideo().record();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/JunminZhang/pattern/blob/master/src/main/java/com/zjm/pattern/factory/abstractfactory/AbstractFactoryTest.java" target="_blank" rel="noopener">代码示例</a><br>上面的代码完整地描述了两个产品族 Java 课程和 Python 课程，也描述了两个产品等级视频和手记。抽象工厂非常完美清晰地描述这样一层复杂的关系。但是，如果我们再继续扩展产品等级，将源码 Source 也加入到课程中，那么我们的代码从抽象工厂，到具体工厂要全部调整，很显然不符合开闭原则。因此抽象<br>工厂也是有缺点的：<br>1、规定了所有可能被创建的产品集合，产品族中扩展新的产品困难，需要修改抽象工厂的接口。<br>2、增加了系统的抽象性和理解难度。<br>但在实际应用中，我们千万不能犯强迫症甚至有洁癖。在实际需求中产品等级结构升级是非常正常的一件事情。我们可以根据实际情况，只要不是频繁升级，可以不遵循开闭原则。代码每半年升级一次或者每年升级一次又有何不可呢？</p>
+]]></content>
       <categories>
-        <category>并发编程</category>
+        <category>设计模式</category>
       </categories>
       <tags>
-        <tag>多线程</tag>
+        <tag>设计模式</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>面试题</title>
-    <url>/2019/11/30/%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
-    <content><![CDATA[<p>入职的时候是公司在武汉刚刚成立研发中心，目标是接替北京公司的开发任务，在职期间一直负责公司大数据客户服务平台项目持续敏捷迭代开发和文档的编写，同时每次迭代对上线过程进行支撑<br>今年的主要任务是开发对BDCSC项目进行支撑的健康度项目和可视化配置中心的部署及接入并在10月底完成</p>
-<h3 id="Object类有哪些方法，请列举你经常用到的"><a href="#Object类有哪些方法，请列举你经常用到的" class="headerlink" title="Object类有哪些方法，请列举你经常用到的"></a>Object类有哪些方法，请列举你经常用到的</h3><ul>
-<li>toString:打印地址值，一般用于重新写方法打印具体值</li>
-<li>equals：对比地址值，一般用于重写比较两个对象值是否相等</li>
-<li>hashCode：计算对象的hash值，重写equals方法时必须重写hashCode方法以满足两个对象在equals为true时hash值也相同的条件，便于使用在hashmap等集合中</li>
-<li>wait：释放锁对象，使当前线程等待，等待唤醒</li>
-<li>notify/notifyAll 唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。</li>
-<li>clone：快速构造一个与已有对象相同的副本，属于浅克隆，要实现深克隆需要引用对象也重写该方法或通过序列化的方式<h3 id="并发包Concurrent下有哪些你经常使用的类"><a href="#并发包Concurrent下有哪些你经常使用的类" class="headerlink" title="并发包Concurrent下有哪些你经常使用的类"></a>并发包Concurrent下有哪些你经常使用的类</h3><h4 id="ReentrantLock-可重入锁"><a href="#ReentrantLock-可重入锁" class="headerlink" title="ReentrantLock 可重入锁"></a>ReentrantLock 可重入锁</h4>  内部维护了一个AQS同步队列，AQS 队列内部维护的是一个FIFO 的双向链表，每个链表的节点是由线程封装Node，当线程争抢锁失败后会封装成 Node 加入到 ASQ 队列中去；当获取锁的线程释放锁以后，会从队列中唤醒一个阻塞的节点(线程)。</li>
-<li><p>获取锁<br>  调用Lock.lock 首先会通过CAS操作尝试替换state，替换成功说明抢占到锁，将当前线程设置为AQS的独占线程<br>  抢占失败调用 acquire(1)走锁竞争逻辑<br>  通过 tryAcquire 尝试获取独占锁，如果成功返回 true，失败返回 false，同时判断是否为拥有独占锁的线程，是则增加重入次数<br>  如果 tryAcquire 失败将当前线程封装成一个Node节点，判断当前AQS队列链表中的 tail 节点是否为空，如果不为空，则通过 cas 操作把当前线程的node 添加到 AQS 队列，如果为空或者 cas 失败，调用 enq 自旋地将节点添加到 AQS 队列，如果tail为null，初始化一个空Node并将head和tail都指向它。<br>  将Node添加到同步队列后会接着把 Node 作为参数传递给acquireQueued 方法，去竞争锁，首先获取当前节点的prv节点，入过prv==head节点，那么它有资格去争抢锁，调用tryAcquire抢占锁，抢占锁成功以后，把获得锁的节点设置为 head，并且移除原来的初始化head节点，如果获得锁失败，则根据 waitStatus 决定是否需要挂起线程，若为SIGNAL则阻塞，接下来会调用parkAndCheckInterrupt()阻塞当前线程并返回线程的中断标志，直到当前先被唤醒才从parkAndCheckInterrupt()中返回。最后，通过 cancelAcquire 取消获得锁的操作。</p>
-<h4 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h4><p>Condition 是一个多线程协调通信的工具类，可以让某些线程一起等待某个条件（condition），只有满足条件时，线程才会被唤醒</p>
-</li>
-<li><p>调用Condition的await()方法（或者以await开头的方法），会使当前线程进入等待队列并释放锁，同时线程状态变为等待状态。当从 await()方法返回时，当前线程一定获取了Condition 相关联的锁<br><img src="/面试题/20191130054315839.png" alt></p>
-<p>线程 awaitThread 先通过 lock.lock()方法获取锁成功后调用了 condition.await 方法进入等待队列，而另一个线程 signalThread 通过 lock.lock()方法获取锁成功后调用了 condition.signal 或者 signalAll 方法，使得线程awaitThread 能够有机会移入到同步队列中，当其他线程释放 lock 后使得线程 awaitThread 能够有机会获取lock，从而使得线程 awaitThread 能够从 await 方法中退出执行后续操作。如果 awaitThread 获取 lock 失败会直接进入到同步队列。</p>
-</li>
-<li><p>await()：当前线程调用await()方法，会使当前线程进入等待队列，同时线程状态变为等待状态，当从await()方法返回时，当前线程一定获取了Condition相关联的锁。</p>
-</li>
-<li>signal()：调用该方法将会唤醒在等待队列中等待时间最长的节点（首节点），在唤醒节点之前，会将节点移到同步队列中。</li>
-</ul>
-<h4 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h4><p>countdownlatch 是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完毕再执行。从命名可以解读到 countdown 是倒数的意思，类似于我们倒计时的概念。</p>
-<p>countdownlatch 提供了两个方法，一个是 countDown，一个是 await， countdownlatch 初始化的时候需要传入一个整数，在这个整数倒数到 0 之前，调用了 await 方法的程序都必须要等待，然后通过 countDown 来倒数。</p>
-<h4 id="ConcurrentHashMap（jdk1-8）"><a href="#ConcurrentHashMap（jdk1-8）" class="headerlink" title="ConcurrentHashMap（jdk1.8）"></a>ConcurrentHashMap（jdk1.8）</h4><ul>
-<li>数据结构：数组+单向链表 链表长度&gt;8转红黑树</li>
-<li>初始化table：CAS的改变sizeCtl的值为-1，表示占位符，初始化成功后设置sizeCtl为加载因子</li>
-<li>自旋尝试插入数据</li>
-<li>tabAt：通过可见性的方法读取最新的值</li>
-<li>casTabAt：原子更新，对key计算hash值后所在的数组位置为空则通过cas将数据插入当前位置</li>
-<li>当前下标有元素，对当前下标的头节点加锁，不阻塞其他下标</li>
-<li>addCount：计数，元素增加、扩容判断</li>
-<li>尝试一次通过CAS操作设置元素个数，失败通过随机数将CounterCell数组中某个位置的值用CAS替换CounterCell的value值<h5 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h5></li>
-<li>sizeCtl&lt;0说明已经有线程在进行扩容</li>
-<li>标记正在扩容线程数：通过当前tab.length计算后得到一个扩容戳，左移16位，高16位代表扩容的标记，低16位代表扩容的线程数</li>
-<li>transfer ：扩容（转移数据）：默认每个cpu执行16个大小的扩容，设置分工区间，每个线程处理完将标记的低16位-1</li>
-<li>使用一个CounterCell数组将并发的请求分流到每个数组位置进行cas增加<h4 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h4>使用场景：限流<h4 id="CyclicBarrier"><a href="#CyclicBarrier" class="headerlink" title="CyclicBarrier"></a>CyclicBarrier</h4>当存在需要所有的子任务都完成时，才执行主任务，这个时候就可以选择使用 CyclicBarrier，可重复使用</li>
-</ul>
-<h3 id="说说对Threadlocal的理解"><a href="#说说对Threadlocal的理解" class="headerlink" title="说说对Threadlocal的理解"></a>说说对Threadlocal的理解</h3><p>ThreadLocal 用一种存储变量与线程绑定的方式，在每个线程中用自己的 ThreadLocalMap 安全隔离变量<br>每个线程拥有自己唯一的 ThreadLocalMap ，所以 ThreadLocalMap 是天然线程安全的。、<br>每个线程持有自己的 ThreadLocalMap，ThreadLocalMap 初始容量为16，在调用ThreadLocal 的 set 方法时，将以 ThreadLocal 为 Key 存储在 本线程的 ThreadLocalMap 里面，ThreadLocalMap 的 Value 为Object 类型，实际类型由 ThreadLocal 定义。</p>
-<h4 id="ThreadLocalMap"><a href="#ThreadLocalMap" class="headerlink" title="ThreadLocalMap"></a>ThreadLocalMap</h4><p>ThreadLocalMap 是ThreadLocal 内部的一个Map实现，然而它并没有实现任何集合的接口规范，因为它仅供内部使用，数据结构采用 数组 + 开放地址法，Entry 继承 WeakReference，是基于 ThreadLocal 这种特殊场景实现的 Map。<br>WeakReference如字面意思，弱引用， 当一个对象仅仅被weak reference（弱引用）指向, 而没有任何其他strong reference（强引用）指向的时候, 如果这时GC运行, 那么这个对象就会被回收，不论当前的内存空间是否足够，这个对象都会被回收。</p>
-<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>大小必须是2的N次幂可以更好的服务于key的hash算法，数组的index更加分散</p>
-<ul>
-<li>key的hashcode<br>首先将key的hashcode值的高16位和低16位进行亦或运算</li>
-<li>初始化<br>初始化一个默认大小为16的Node数组<br>将计算得到的hash值与Node数组容量-1进行与运算，得到一个数组的位置<br>初始化一个新的Node节点插入进该索引位置<br>如果当前位置有数据则加入到链表尾部，长度大于等于8则转为红黑树</li>
-<li>扩容<br>将数组大小左移1位进行翻倍<br>重新计算hash值与新的数组大小-1进行与运算<br>如果是链表则拆分后判断数据扩容后存储在当前位置还是当前位置+扩容前大小的位置</li>
-<li>记录put后的数组大小并判断是否要扩容</li>
-</ul>
-<h3 id="红黑树你了解多少，为什么要用红黑树，解决了哪些问题"><a href="#红黑树你了解多少，为什么要用红黑树，解决了哪些问题" class="headerlink" title="红黑树你了解多少，为什么要用红黑树，解决了哪些问题"></a>红黑树你了解多少，为什么要用红黑树，解决了哪些问题</h3><ul>
-<li>红黑树：红黑是是一个平衡二叉树</li>
-<li>根节点和每个叶子节点是黑色</li>
-<li>如果一个节点是红色的，name它的两个子节点都是黑色</li>
-<li>从任一节点到其每个叶子的所有简单路径，都包含相同数目的黑色节点</li>
-<li>如果加入节点破坏了规则的话则进行左旋或右旋或重新着色</li>
-<li>链表元素大于8个时插入成本较高，红黑树插入和删除效率比avl树高，查询效率比链表高<h3 id="类加载-双亲委派"><a href="#类加载-双亲委派" class="headerlink" title="类加载 双亲委派"></a>类加载 双亲委派</h3>加载一个class的时候会先加载启动类加载器和扩展类加载器<br>，防止jdk代码不被使用者篡改<br>可以破坏但是，在JVM中，判断一个对象是否是某个类型时，如果该对象的实际类型与待比较的类型的类加载器不同，那么会返回false。<h3 id="谈谈你对sql性能调优的理解和开发中的使用"><a href="#谈谈你对sql性能调优的理解和开发中的使用" class="headerlink" title="谈谈你对sql性能调优的理解和开发中的使用"></a>谈谈你对sql性能调优的理解和开发中的使用</h3></li>
-<li>索引列的数据长度能少则少。</li>
-<li>索引一定不是越多越好，越全越好，一定是建合适的。</li>
-<li>匹配列前缀可用到索引 like 9999%（列的离散型高的情况下），like %9999%、like %9999用不到索引；</li>
-<li>Where 条件中 not in 和 &lt;&gt;操作无法使用索引；</li>
-<li>匹配范围值，order by 也可用到索引；</li>
-<li>多用指定列查询，只返回自己想到的数据列，少用select * ；</li>
-<li>联合索引中如果不是按照索引·最左列开始查找，无法使用索引；</li>
-<li>联合索引中精确匹配最左前列并范围匹配另外一列可以用到索引；</li>
-<li>联合索引中如果查询中有某个列的范围查询，则其右边的所有列都无法使用索引；</li>
-<li>在创建索引时尽量使用不能为null的列<h3 id="秒杀"><a href="#秒杀" class="headerlink" title="秒杀"></a>秒杀</h3>问题：<br>  1：短时间高并发，负载压力大<br>  2：读多写少<br>  3：竞争资源有限，不能多卖、少卖</li>
-<li>倒计时开卖</li>
-<li>限制用户购买的数量</li>
-<li>尽量将请求过滤在上游</li>
-<li>尽可能利用缓存存储商品和库存信息</li>
-<li>分布式限流</li>
-<li>异步化处理订单和库存，前端轮训成功或失败</li>
-<li>下单扣库存，超时收回库存,使用乐观锁防止超卖</li>
-<li>保持数据库和缓存的一致性</li>
-<li>查询商品详情-&gt;点击购买-&gt;校验库存-&gt;扣除库存，创建订单-&gt;支付</li>
-<li>后台操作添加库存信息至缓存</li>
-<li><h3 id="模块间通讯"><a href="#模块间通讯" class="headerlink" title="模块间通讯"></a>模块间通讯</h3></li>
-<li>HTTP方式</li>
-<li>RPC协议</li>
-<li>负载均衡问题、超时问题、<h3 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h3><h4 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h4>初始化：Bean被创建的时候回调InitializingBean<br>销毁：Bean被销毁的时候回调DisposableBean<br>可以通过init-Method和destroy-Method监控Bean的创建和销毁，@PostConstruct 和@PreDestroy 注解方式<h4 id="Spring-Bean-作用域之间的区别？"><a href="#Spring-Bean-作用域之间的区别？" class="headerlink" title="Spring Bean 作用域之间的区别？"></a>Spring Bean 作用域之间的区别？</h4>1.singleton：这种 bean 范围是默认的，这种范围确保不管接受到多少个请求，每个容器中只有一个bean 的实例，单例的模式由 bean factory 自身来维护。<br>2.prototype：原形范围与单例范围相反，为每一个 bean 请求提供一个实例。<br>3.request：在请求 bean 范围内会每一个来自客户端的网络请求创建一个实例，在请求完成以后，bean会失效并被垃圾回收器回收。<br>4.Session：与请求范围类似，确保每个 session 中有一个 bean 的实例，在 session 过期后，bean 会随之失效。<br>5.global-session：global-session 和 Portlet 应用相关。当你的应用部署在 Portlet 容器中工作时，它包含很多 portlet。如果你想要声明让所有的 portlet 共用全局的存储变量的话，那么这全局变量需要存储在 global-session 中。全局作用域与 Servlet 中的 session 作用域效果相同。<h4 id="Spring-框架中的单例-Beans-是线程安全的么？"><a href="#Spring-框架中的单例-Beans-是线程安全的么？" class="headerlink" title="Spring 框架中的单例 Beans 是线程安全的么？"></a>Spring 框架中的单例 Beans 是线程安全的么？</h4>Spring 框架并没有对单例 bean 进行任何多线程的封装处理。关于单例 bean 的线程安全和并发问题需要开发者自行去搞定。但实际上，大部分的 Spring bean 并没有可变的状态(比如 Serview 类和 DAO类)，所以在某种程度上说 Spring 的单例 bean 是线程安全的。如果你的 bean 有多种状态的话（比如View Model 对象），就需要自行保证线程安全。  最浅显的解决办法就是将多态 bean 的作用域由“singleton”变更为“prototype”。<h4 id="Spring是怎样处理循环依赖问题的"><a href="#Spring是怎样处理循环依赖问题的" class="headerlink" title="Spring是怎样处理循环依赖问题的"></a>Spring是怎样处理循环依赖问题的</h4>通过三级缓存来处理</li>
-</ul>
-]]></content>
   </entry>
   <entry>
     <title>并发编程之ReentrantLock可重入锁</title>
@@ -619,6 +522,103 @@ addWaiter()：将当前线程封装成独占状态Node、当前链表中的 tail
 enq()：通过自旋操作把当前节点加入到队列中
 acquireQueued():如果当前节点的prv为head，竞争锁、获得锁成功移除原head，设置当前为head、失败挂起
 </code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>多线程的实现原理</title>
+    <url>/2019/01/31/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h2 id="JMM怎么解决原子性、可见性、有序性的问题？"><a href="#JMM怎么解决原子性、可见性、有序性的问题？" class="headerlink" title="JMM怎么解决原子性、可见性、有序性的问题？"></a>JMM怎么解决原子性、可见性、有序性的问题？</h2><p>在Java中提供了一系列和并发处理相关的关键字，比如<code>volatile</code>、<code>Synchronized</code>、<code>final</code>、<code>juc</code>等，这些就是Java内存<br>模型封装了底层的实现后提供给开发人员使用的关键字，在开发多线程代码的时候，我们可以直接使用<br><code>synchronized</code>等关键词来控制并发，使得我们不需要关心底层的编译器优化、缓存一致性的问题了，所以在Java内<br>存模型中，除了定义了一套规范，还提供了开放的指令在底层进行封装后，提供给开发人员使用。</p>
+<h3 id="原子性保障"><a href="#原子性保障" class="headerlink" title="原子性保障"></a>原子性保障</h3><p>在java中提供了两个高级的字节码指令monitorenter和monitorexit，在Java中对应的<code>Synchronized</code>来保证代码块<br>内的操作是原子的</p>
+<h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>Java中的<code>volatile</code>关键字提供了一个功能，那就是被其修饰的变量在被修改后可以立即同步到主内存，被其修饰的变<br>量在每次是用之前都从主内存刷新。因此，可以使用<code>volatile</code>来保证多线程操作时变量的可见性。<br>除了<code>volatile</code>，Java中的<code>synchronized</code>和<code>final</code>两个关键字也可以实现可见性<br><a id="more"></a></p>
+<h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>在Java中，可以使用<code>synchronized</code>和<code>volatile</code>来保证多线程之间操作的有序性。实现方式有所区别：<br><code>volatile</code>关键字会禁止指令重排。<code>synchronized</code>关键字保证同一时刻只允许一条线程操作。</p>
+<h2 id="volatile如何解决可见性和有序性问题"><a href="#volatile如何解决可见性和有序性问题" class="headerlink" title="volatile如何解决可见性和有序性问题"></a>volatile如何解决可见性和有序性问题</h2><h3 id="可见性-1"><a href="#可见性-1" class="headerlink" title="可见性"></a>可见性</h3><p>下载hsdis工具 ，<a href="https://sourceforge.net/projects/fcml/files/fcml-1.1.1/hsdis-1.1.1-win32-amd64.zip/download" target="_blank" rel="noopener">https://sourceforge.net/projects/fcml/files/fcml-1.1.1/hsdis-1.1.1-win32-amd64.zip/download</a><br>解压后存放到jre目录的server路径下<br><img src="https://i.loli.net/2019/01/31/5c52b9cc2abcb.png" alt><br>然后跑main函数，跑main函数之前，加入如下虚拟机参数：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-server</span><br><span class="line">-Xcomp</span><br><span class="line">-XX:+UnlockDiagnosticVMOptions</span><br><span class="line">-XX:+PrintAssembly</span><br><span class="line">-XX:CompileCommand=compileonly,*VolatileDemo.getInstance（替换成实际运行的代码）</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/01/31/5c52b9e1974ac.png" alt><br>运行main函数，在控制台可以看到<br><img src="https://i.loli.net/2019/01/31/5c52ba2858422.png" alt><br>volatile变量修饰的共享变量，<code>在进行写操作的时候会多出一个lock前缀的汇编指令</code>，<br>通过触发cpu的总线锁或者缓存锁，通过缓存一致性协议来解决可见性问题<br>对于声明了volatile的变量进行写操作，JVM就会向处理器发送一条Lock前缀的指令，把这个变量所在的缓存行的数<br>据写回到系统内存，根据MESI缓存一致性协议，来保证多CPU下的各个高速缓存中的数据的一致性。</p>
+<h3 id="有序性-1"><a href="#有序性-1" class="headerlink" title="有序性"></a>有序性</h3>]]></content>
+      <categories>
+        <category>并发编程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题</title>
+    <url>/2019/11/30/%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
+    <content><![CDATA[<p>入职的时候是公司在武汉刚刚成立研发中心，目标是接替北京公司的开发任务，在职期间一直负责公司大数据客户服务平台项目持续敏捷迭代开发和文档的编写，同时每次迭代对上线过程进行支撑<br>今年的主要任务是开发对BDCSC项目进行支撑的健康度项目和可视化配置中心的部署及接入并在10月底完成</p>
+<h3 id="Object类有哪些方法，请列举你经常用到的"><a href="#Object类有哪些方法，请列举你经常用到的" class="headerlink" title="Object类有哪些方法，请列举你经常用到的"></a>Object类有哪些方法，请列举你经常用到的</h3><ul>
+<li>toString:打印地址值，一般用于重新写方法打印具体值</li>
+<li>equals：对比地址值，一般用于重写比较两个对象值是否相等</li>
+<li>hashCode：计算对象的hash值，重写equals方法时必须重写hashCode方法以满足两个对象在equals为true时hash值也相同的条件，便于使用在hashmap等集合中</li>
+<li>wait：释放锁对象，使当前线程等待，等待唤醒</li>
+<li>notify/notifyAll 唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。</li>
+<li>clone：快速构造一个与已有对象相同的副本，属于浅克隆，要实现深克隆需要引用对象也重写该方法或通过序列化的方式<h3 id="并发包Concurrent下有哪些你经常使用的类"><a href="#并发包Concurrent下有哪些你经常使用的类" class="headerlink" title="并发包Concurrent下有哪些你经常使用的类"></a>并发包Concurrent下有哪些你经常使用的类</h3><h4 id="ReentrantLock-可重入锁"><a href="#ReentrantLock-可重入锁" class="headerlink" title="ReentrantLock 可重入锁"></a>ReentrantLock 可重入锁</h4>  内部维护了一个AQS同步队列，AQS 队列内部维护的是一个FIFO 的双向链表，每个链表的节点是由线程封装Node，当线程争抢锁失败后会封装成 Node 加入到 ASQ 队列中去；当获取锁的线程释放锁以后，会从队列中唤醒一个阻塞的节点(线程)。</li>
+<li><p>获取锁<br>  调用Lock.lock 首先会通过CAS操作尝试替换state，替换成功说明抢占到锁，将当前线程设置为AQS的独占线程<br>  抢占失败调用 acquire(1)走锁竞争逻辑<br>  通过 tryAcquire 尝试获取独占锁，如果成功返回 true，失败返回 false，同时判断是否为拥有独占锁的线程，是则增加重入次数<br>  如果 tryAcquire 失败将当前线程封装成一个Node节点，判断当前AQS队列链表中的 tail 节点是否为空，如果不为空，则通过 cas 操作把当前线程的node 添加到 AQS 队列，如果为空或者 cas 失败，调用 enq 自旋地将节点添加到 AQS 队列，如果tail为null，初始化一个空Node并将head和tail都指向它。<br>  将Node添加到同步队列后会接着把 Node 作为参数传递给acquireQueued 方法，去竞争锁，首先获取当前节点的prv节点，入过prv==head节点，那么它有资格去争抢锁，调用tryAcquire抢占锁，抢占锁成功以后，把获得锁的节点设置为 head，并且移除原来的初始化head节点，如果获得锁失败，则根据 waitStatus 决定是否需要挂起线程，若为SIGNAL则阻塞，接下来会调用parkAndCheckInterrupt()阻塞当前线程并返回线程的中断标志，直到当前先被唤醒才从parkAndCheckInterrupt()中返回。最后，通过 cancelAcquire 取消获得锁的操作。</p>
+<h4 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h4><p>Condition 是一个多线程协调通信的工具类，可以让某些线程一起等待某个条件（condition），只有满足条件时，线程才会被唤醒</p>
+</li>
+<li><p>调用Condition的await()方法（或者以await开头的方法），会使当前线程进入等待队列并释放锁，同时线程状态变为等待状态。当从 await()方法返回时，当前线程一定获取了Condition 相关联的锁<br><img src="/面试题/20191130054315839.png" alt></p>
+<p>线程 awaitThread 先通过 lock.lock()方法获取锁成功后调用了 condition.await 方法进入等待队列，而另一个线程 signalThread 通过 lock.lock()方法获取锁成功后调用了 condition.signal 或者 signalAll 方法，使得线程awaitThread 能够有机会移入到同步队列中，当其他线程释放 lock 后使得线程 awaitThread 能够有机会获取lock，从而使得线程 awaitThread 能够从 await 方法中退出执行后续操作。如果 awaitThread 获取 lock 失败会直接进入到同步队列。</p>
+</li>
+<li><p>await()：当前线程调用await()方法，会使当前线程进入等待队列，同时线程状态变为等待状态，当从await()方法返回时，当前线程一定获取了Condition相关联的锁。</p>
+</li>
+<li>signal()：调用该方法将会唤醒在等待队列中等待时间最长的节点（首节点），在唤醒节点之前，会将节点移到同步队列中。</li>
+</ul>
+<h4 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h4><p>countdownlatch 是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完毕再执行。从命名可以解读到 countdown 是倒数的意思，类似于我们倒计时的概念。</p>
+<p>countdownlatch 提供了两个方法，一个是 countDown，一个是 await， countdownlatch 初始化的时候需要传入一个整数，在这个整数倒数到 0 之前，调用了 await 方法的程序都必须要等待，然后通过 countDown 来倒数。</p>
+<h4 id="ConcurrentHashMap（jdk1-8）"><a href="#ConcurrentHashMap（jdk1-8）" class="headerlink" title="ConcurrentHashMap（jdk1.8）"></a>ConcurrentHashMap（jdk1.8）</h4><ul>
+<li>数据结构：数组+单向链表 链表长度&gt;8转红黑树</li>
+<li>初始化table：CAS的改变sizeCtl的值为-1，表示占位符，初始化成功后设置sizeCtl为加载因子</li>
+<li>自旋尝试插入数据</li>
+<li>tabAt：通过可见性的方法读取最新的值</li>
+<li>casTabAt：原子更新，对key计算hash值后所在的数组位置为空则通过cas将数据插入当前位置</li>
+<li>当前下标有元素，对当前下标的头节点加锁，不阻塞其他下标</li>
+<li>addCount：计数，元素增加、扩容判断</li>
+<li>尝试一次通过CAS操作设置元素个数，失败通过随机数将CounterCell数组中某个位置的值用CAS替换CounterCell的value值<h5 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h5></li>
+<li>sizeCtl&lt;0说明已经有线程在进行扩容</li>
+<li>标记正在扩容线程数：通过当前tab.length计算后得到一个扩容戳，左移16位，高16位代表扩容的标记，低16位代表扩容的线程数</li>
+<li>transfer ：扩容（转移数据）：默认每个cpu执行16个大小的扩容，设置分工区间，每个线程处理完将标记的低16位-1</li>
+<li>使用一个CounterCell数组将并发的请求分流到每个数组位置进行cas增加<h4 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h4>使用场景：限流<h4 id="CyclicBarrier"><a href="#CyclicBarrier" class="headerlink" title="CyclicBarrier"></a>CyclicBarrier</h4>当存在需要所有的子任务都完成时，才执行主任务，这个时候就可以选择使用 CyclicBarrier，可重复使用</li>
+</ul>
+<h3 id="说说对Threadlocal的理解"><a href="#说说对Threadlocal的理解" class="headerlink" title="说说对Threadlocal的理解"></a>说说对Threadlocal的理解</h3><p>ThreadLocal 用一种存储变量与线程绑定的方式，在每个线程中用自己的 ThreadLocalMap 安全隔离变量<br>每个线程拥有自己唯一的 ThreadLocalMap ，所以 ThreadLocalMap 是天然线程安全的。、<br>每个线程持有自己的 ThreadLocalMap，ThreadLocalMap 初始容量为16，在调用ThreadLocal 的 set 方法时，将以 ThreadLocal 为 Key 存储在 本线程的 ThreadLocalMap 里面，ThreadLocalMap 的 Value 为Object 类型，实际类型由 ThreadLocal 定义。</p>
+<h4 id="ThreadLocalMap"><a href="#ThreadLocalMap" class="headerlink" title="ThreadLocalMap"></a>ThreadLocalMap</h4><p>ThreadLocalMap 是ThreadLocal 内部的一个Map实现，然而它并没有实现任何集合的接口规范，因为它仅供内部使用，数据结构采用 数组 + 开放地址法，Entry 继承 WeakReference，是基于 ThreadLocal 这种特殊场景实现的 Map。<br>WeakReference如字面意思，弱引用， 当一个对象仅仅被weak reference（弱引用）指向, 而没有任何其他strong reference（强引用）指向的时候, 如果这时GC运行, 那么这个对象就会被回收，不论当前的内存空间是否足够，这个对象都会被回收。</p>
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>大小必须是2的N次幂可以更好的服务于key的hash算法，数组的index更加分散</p>
+<ul>
+<li>key的hashcode<br>首先将key的hashcode值的高16位和低16位进行亦或运算</li>
+<li>初始化<br>初始化一个默认大小为16的Node数组<br>将计算得到的hash值与Node数组容量-1进行与运算，得到一个数组的位置<br>初始化一个新的Node节点插入进该索引位置<br>如果当前位置有数据则加入到链表尾部，长度大于等于8则转为红黑树</li>
+<li>扩容<br>将数组大小左移1位进行翻倍<br>重新计算hash值与新的数组大小-1进行与运算<br>如果是链表则拆分后判断数据扩容后存储在当前位置还是当前位置+扩容前大小的位置</li>
+<li>记录put后的数组大小并判断是否要扩容</li>
+</ul>
+<h3 id="红黑树你了解多少，为什么要用红黑树，解决了哪些问题"><a href="#红黑树你了解多少，为什么要用红黑树，解决了哪些问题" class="headerlink" title="红黑树你了解多少，为什么要用红黑树，解决了哪些问题"></a>红黑树你了解多少，为什么要用红黑树，解决了哪些问题</h3><ul>
+<li>红黑树：红黑是是一个平衡二叉树</li>
+<li>根节点和每个叶子节点是黑色</li>
+<li>如果一个节点是红色的，name它的两个子节点都是黑色</li>
+<li>从任一节点到其每个叶子的所有简单路径，都包含相同数目的黑色节点</li>
+<li>如果加入节点破坏了规则的话则进行左旋或右旋或重新着色</li>
+<li>链表元素大于8个时插入成本较高，红黑树插入和删除效率比avl树高，查询效率比链表高<h3 id="类加载-双亲委派"><a href="#类加载-双亲委派" class="headerlink" title="类加载 双亲委派"></a>类加载 双亲委派</h3>加载一个class的时候会先加载启动类加载器和扩展类加载器<br>，防止jdk代码不被使用者篡改<br>可以破坏但是，在JVM中，判断一个对象是否是某个类型时，如果该对象的实际类型与待比较的类型的类加载器不同，那么会返回false。<h3 id="谈谈你对sql性能调优的理解和开发中的使用"><a href="#谈谈你对sql性能调优的理解和开发中的使用" class="headerlink" title="谈谈你对sql性能调优的理解和开发中的使用"></a>谈谈你对sql性能调优的理解和开发中的使用</h3></li>
+<li>索引列的数据长度能少则少。</li>
+<li>索引一定不是越多越好，越全越好，一定是建合适的。</li>
+<li>匹配列前缀可用到索引 like 9999%（列的离散型高的情况下），like %9999%、like %9999用不到索引；</li>
+<li>Where 条件中 not in 和 &lt;&gt;操作无法使用索引；</li>
+<li>匹配范围值，order by 也可用到索引；</li>
+<li>多用指定列查询，只返回自己想到的数据列，少用select * ；</li>
+<li>联合索引中如果不是按照索引·最左列开始查找，无法使用索引；</li>
+<li>联合索引中精确匹配最左前列并范围匹配另外一列可以用到索引；</li>
+<li>联合索引中如果查询中有某个列的范围查询，则其右边的所有列都无法使用索引；</li>
+<li>在创建索引时尽量使用不能为null的列<h3 id="秒杀"><a href="#秒杀" class="headerlink" title="秒杀"></a>秒杀</h3>问题：<br>  1：短时间高并发，负载压力大<br>  2：读多写少<br>  3：竞争资源有限，不能多卖、少卖</li>
+<li>倒计时开卖</li>
+<li>限制用户购买的数量</li>
+<li>尽量将请求过滤在上游</li>
+<li>尽可能利用缓存存储商品和库存信息</li>
+<li>分布式限流</li>
+<li>异步化处理订单和库存，前端轮训成功或失败</li>
+<li>下单扣库存，超时收回库存,使用乐观锁防止超卖</li>
+<li>保持数据库和缓存的一致性</li>
+<li>查询商品详情-&gt;点击购买-&gt;校验库存-&gt;扣除库存，创建订单-&gt;支付</li>
+<li>后台操作添加库存信息至缓存</li>
+<li><h3 id="模块间通讯"><a href="#模块间通讯" class="headerlink" title="模块间通讯"></a>模块间通讯</h3></li>
+<li>HTTP方式</li>
+<li>RPC协议</li>
+<li>负载均衡问题、超时问题、<h3 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h3><h4 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h4>初始化：Bean被创建的时候回调InitializingBean<br>销毁：Bean被销毁的时候回调DisposableBean<br>可以通过init-Method和destroy-Method监控Bean的创建和销毁，@PostConstruct 和@PreDestroy 注解方式<h4 id="Spring-Bean-作用域之间的区别？"><a href="#Spring-Bean-作用域之间的区别？" class="headerlink" title="Spring Bean 作用域之间的区别？"></a>Spring Bean 作用域之间的区别？</h4>1.singleton：这种 bean 范围是默认的，这种范围确保不管接受到多少个请求，每个容器中只有一个bean 的实例，单例的模式由 bean factory 自身来维护。<br>2.prototype：原形范围与单例范围相反，为每一个 bean 请求提供一个实例。<br>3.request：在请求 bean 范围内会每一个来自客户端的网络请求创建一个实例，在请求完成以后，bean会失效并被垃圾回收器回收。<br>4.Session：与请求范围类似，确保每个 session 中有一个 bean 的实例，在 session 过期后，bean 会随之失效。<br>5.global-session：global-session 和 Portlet 应用相关。当你的应用部署在 Portlet 容器中工作时，它包含很多 portlet。如果你想要声明让所有的 portlet 共用全局的存储变量的话，那么这全局变量需要存储在 global-session 中。全局作用域与 Servlet 中的 session 作用域效果相同。<h4 id="Spring-框架中的单例-Beans-是线程安全的么？"><a href="#Spring-框架中的单例-Beans-是线程安全的么？" class="headerlink" title="Spring 框架中的单例 Beans 是线程安全的么？"></a>Spring 框架中的单例 Beans 是线程安全的么？</h4>Spring 框架并没有对单例 bean 进行任何多线程的封装处理。关于单例 bean 的线程安全和并发问题需要开发者自行去搞定。但实际上，大部分的 Spring bean 并没有可变的状态(比如 Serview 类和 DAO类)，所以在某种程度上说 Spring 的单例 bean 是线程安全的。如果你的 bean 有多种状态的话（比如View Model 对象），就需要自行保证线程安全。  最浅显的解决办法就是将多态 bean 的作用域由“singleton”变更为“prototype”。<h4 id="Spring是怎样处理循环依赖问题的"><a href="#Spring是怎样处理循环依赖问题的" class="headerlink" title="Spring是怎样处理循环依赖问题的"></a>Spring是怎样处理循环依赖问题的</h4>通过三级缓存来处理</li>
+</ul>
+]]></content>
   </entry>
   <entry>
     <title>设计模式中的工厂模式</title>
