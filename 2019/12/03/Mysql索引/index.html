@@ -96,15 +96,16 @@
 
 
 
-  <meta name="description" content="引擎二叉树 平衡二叉查找树 多路平衡查找树B-Tree Mysql的B+Tree B-Tree和B+Tree的区别1 ，B+ 节点关键字搜索采用闭合区间2 ，B+ 非叶节点不保存数据相关信息，只保存关键字和子节点的引用3 ，B+ 关键字对应的数据保存在叶子节点中4 ，B+ 叶子节点是顺序排列的，并且相邻节点具有顺序引用的关系 为什么使用B+TreeB+ 树是B- 树的变种（PLUS 版）多路绝对平">
+  <meta name="description" content="引擎二叉树  平衡二叉查找树 多路平衡查找树B-Tree Mysql的B+Tree">
 <meta name="keywords" content="数据库 mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mysql索引">
 <meta property="og:url" content="http://yoursite.com/2019/12/03/Mysql索引/index.html">
 <meta property="og:site_name" content="Junmin&#39;s Blog">
-<meta property="og:description" content="引擎二叉树 平衡二叉查找树 多路平衡查找树B-Tree Mysql的B+Tree B-Tree和B+Tree的区别1 ，B+ 节点关键字搜索采用闭合区间2 ，B+ 非叶节点不保存数据相关信息，只保存关键字和子节点的引用3 ，B+ 关键字对应的数据保存在叶子节点中4 ，B+ 叶子节点是顺序排列的，并且相邻节点具有顺序引用的关系 为什么使用B+TreeB+ 树是B- 树的变种（PLUS 版）多路绝对平">
+<meta property="og:description" content="引擎二叉树  平衡二叉查找树 多路平衡查找树B-Tree Mysql的B+Tree">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/Mysql索引/20191203041651331.png">
+<meta property="og:image" content="http://qiniupic.xiaomintongxue.cn/img/20191203041651331.png">
+<meta property="og:image" content="http://qiniupic.xiaomintongxue.cn/img/image-20201209165757503.png">
 <meta property="og:image" content="http://yoursite.com/Mysql索引/20191203041706174.png">
 <meta property="og:image" content="http://yoursite.com/Mysql索引/20191203041743846.png">
 <meta property="og:image" content="http://yoursite.com/Mysql索引/20191203041753272.png">
@@ -119,11 +120,11 @@
 <meta property="og:image" content="http://yoursite.com/Mysql索引/20191203042022422.png">
 <meta property="og:image" content="http://yoursite.com/Mysql索引/20191203042033961.png">
 <meta property="og:image" content="http://yoursite.com/Mysql索引/20191203042043411.png">
-<meta property="og:updated_time" content="2019-12-03T08:20:45.818Z">
+<meta property="og:updated_time" content="2020-12-09T08:58:20.972Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql索引">
-<meta name="twitter:description" content="引擎二叉树 平衡二叉查找树 多路平衡查找树B-Tree Mysql的B+Tree B-Tree和B+Tree的区别1 ，B+ 节点关键字搜索采用闭合区间2 ，B+ 非叶节点不保存数据相关信息，只保存关键字和子节点的引用3 ，B+ 关键字对应的数据保存在叶子节点中4 ，B+ 叶子节点是顺序排列的，并且相邻节点具有顺序引用的关系 为什么使用B+TreeB+ 树是B- 树的变种（PLUS 版）多路绝对平">
-<meta name="twitter:image" content="http://yoursite.com/Mysql索引/20191203041651331.png">
+<meta name="twitter:description" content="引擎二叉树  平衡二叉查找树 多路平衡查找树B-Tree Mysql的B+Tree">
+<meta name="twitter:image" content="http://qiniupic.xiaomintongxue.cn/img/20191203041651331.png">
 
 
 
@@ -428,12 +429,24 @@
                 
               
 
-              <time title="Created: 2019-12-03 15:59:50 / Modified: 16:20:45" itemprop="dateCreated datePublished" datetime="2019-12-03T15:59:50+08:00">2019-12-03</time>
+              <time title="Created: 2019-12-03 15:59:50" itemprop="dateCreated datePublished" datetime="2019-12-03T15:59:50+08:00">2019-12-03</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-12-09 16:58:20" itemprop="dateModified" datetime="2020-12-09T16:58:20+08:00">2020-12-09</time>
               
             
           </span>
@@ -493,10 +506,12 @@
       
 
       
-        <h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><h4 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h4><p><img src="/Mysql索引/20191203041651331.png" alt></p>
+        <h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><h4 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h4><p><img src="http://qiniupic.xiaomintongxue.cn/img/20191203041651331.png" alt="20191203041651331"></p>
+<p><img src="http://qiniupic.xiaomintongxue.cn/img/image-20201209165757503.png" alt="image-20201209165757503" style="zoom: 33%;"></p>
 <h4 id="平衡二叉查找树"><a href="#平衡二叉查找树" class="headerlink" title="平衡二叉查找树"></a>平衡二叉查找树</h4><p><img src="/Mysql索引/20191203041706174.png" alt></p>
 <h4 id="多路平衡查找树B-Tree"><a href="#多路平衡查找树B-Tree" class="headerlink" title="多路平衡查找树B-Tree"></a>多路平衡查找树B-Tree</h4><p><img src="/Mysql索引/20191203041743846.png" alt></p>
 <h4 id="Mysql的B-Tree"><a href="#Mysql的B-Tree" class="headerlink" title="Mysql的B+Tree"></a>Mysql的B+Tree</h4><p><img src="/Mysql索引/20191203041753272.png" alt></p>
+ <a id="more"></a>
 <h4 id="B-Tree和B-Tree的区别"><a href="#B-Tree和B-Tree的区别" class="headerlink" title="B-Tree和B+Tree的区别"></a>B-Tree和B+Tree的区别</h4><p>1 ，B+ 节点关键字搜索采用闭合区间<br>2 ，B+ 非叶节点不保存数据相关信息，只保存关键字和子节点的引用<br>3 ，B+ 关键字对应的数据保存在叶子节点中<br>4 ，B+ 叶子节点是顺序排列的，并且相邻节点具有顺序引用的关系</p>
 <h5 id="为什么使用B-Tree"><a href="#为什么使用B-Tree" class="headerlink" title="为什么使用B+Tree"></a>为什么使用B+Tree</h5><p>B+ 树是B- 树的变种（PLUS 版）多路绝对平衡查找树，他拥有B- 树的优势<br>B+ 树扫库、表能力更强<br>B+ 树的磁盘读写能力更 强<br>B+树 树 的排序能力更强<br>B+ 树的查询效率更加 稳定（仁者见仁、智者见智）</p>
 <h5 id="为什么不使用二叉树"><a href="#为什么不使用二叉树" class="headerlink" title="为什么不使用二叉树"></a>为什么不使用二叉树</h5><ul>
@@ -649,7 +664,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
