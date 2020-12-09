@@ -96,25 +96,25 @@
 
 
 
-  <meta name="description" content="工厂模式工厂模式 是我们最常用的实例化对象模式了，是用工厂方法代替new操作的一种模式。著名的Jive论坛 ,就大量使用了工厂模式，工厂模式在Java程序系统可以说是随处可见。因为工厂模式就相当于创建实例对象的new，我们经常要根据类Class生成实例对象，如A a=new A() 工厂模式也是用来创建实例对象的，所以以后new时就要多个心眼，是否可以考虑使用工厂模式，虽然这样做，可能多做一些工作">
-<meta name="keywords" content="设计模式">
+  <meta name="description" content="注解配置服务提供方注解方式暴露服务 @DubboService  12345678@DubboServicepublic class SayHelloServiceImpl implements SyaHelloService &amp;#123;    @Override    public String syaHello(String msg) &amp;#123;        return &quot;annota">
+<meta name="keywords" content="springboot Dubbo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式中的工厂模式">
-<meta property="og:url" content="http://yoursite.com/2019/01/30/DesignPattern/factory/index.html">
+<meta property="og:title" content="SpringBoot整合Dubbo">
+<meta property="og:url" content="http://yoursite.com/2020/11/24/SpringBoot整合Dubbo/index.html">
 <meta property="og:site_name" content="Junmin&#39;s Blog">
-<meta property="og:description" content="工厂模式工厂模式 是我们最常用的实例化对象模式了，是用工厂方法代替new操作的一种模式。著名的Jive论坛 ,就大量使用了工厂模式，工厂模式在Java程序系统可以说是随处可见。因为工厂模式就相当于创建实例对象的new，我们经常要根据类Class生成实例对象，如A a=new A() 工厂模式也是用来创建实例对象的，所以以后new时就要多个心眼，是否可以考虑使用工厂模式，虽然这样做，可能多做一些工作">
+<meta property="og:description" content="注解配置服务提供方注解方式暴露服务 @DubboService  12345678@DubboServicepublic class SayHelloServiceImpl implements SyaHelloService &amp;#123;    @Override    public String syaHello(String msg) &amp;#123;        return &quot;annota">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-01-30T14:15:04.075Z">
+<meta property="og:updated_time" content="2020-12-09T10:19:01.236Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式中的工厂模式">
-<meta name="twitter:description" content="工厂模式工厂模式 是我们最常用的实例化对象模式了，是用工厂方法代替new操作的一种模式。著名的Jive论坛 ,就大量使用了工厂模式，工厂模式在Java程序系统可以说是随处可见。因为工厂模式就相当于创建实例对象的new，我们经常要根据类Class生成实例对象，如A a=new A() 工厂模式也是用来创建实例对象的，所以以后new时就要多个心眼，是否可以考虑使用工厂模式，虽然这样做，可能多做一些工作">
+<meta name="twitter:title" content="SpringBoot整合Dubbo">
+<meta name="twitter:description" content="注解配置服务提供方注解方式暴露服务 @DubboService  12345678@DubboServicepublic class SayHelloServiceImpl implements SyaHelloService &amp;#123;    @Override    public String syaHello(String msg) &amp;#123;        return &quot;annota">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/01/30/DesignPattern/factory/">
+  <link rel="canonical" href="http://yoursite.com/2020/11/24/SpringBoot整合Dubbo/">
 
 
 
@@ -124,7 +124,7 @@
   };
 </script>
 
-  <title>设计模式中的工厂模式 | Junmin's Blog</title>
+  <title>SpringBoot整合Dubbo | Junmin's Blog</title>
   
 
 
@@ -369,7 +369,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/30/DesignPattern/factory/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/24/SpringBoot整合Dubbo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张珺珉">
@@ -386,7 +386,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">设计模式中的工厂模式
+          <h1 class="post-title" itemprop="name headline">SpringBoot整合Dubbo
 
               
             
@@ -412,12 +412,24 @@
                 
               
 
-              <time title="Created: 2019-01-30 12:21:00 / Modified: 22:15:04" itemprop="dateCreated datePublished" datetime="2019-01-30T12:21:00+08:00">2019-01-30</time>
+              <time title="Created: 2020-11-24 17:31:16" itemprop="dateCreated datePublished" datetime="2020-11-24T17:31:16+08:00">2020-11-24</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-12-09 18:19:01" itemprop="dateModified" datetime="2020-12-09T18:19:01+08:00">2020-12-09</time>
               
             
           </span>
@@ -434,7 +446,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/springboot-Dubbo/" itemprop="url" rel="index"><span itemprop="name">springboot Dubbo</span></a></span>
 
                 
                 
@@ -477,16 +489,72 @@
       
 
       
-        <h1 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h1><p><code>工厂模式</code> 是我们最常用的实例化对象模式了，是用工厂方法代替new操作的一种模式。著名的Jive论坛 ,就大量使用了工厂模式，工厂模式在Java程序系统可以说是随处可见。因为工厂模式就相当于创建实例对象的new，我们经常要根据类Class生成实例对象，如<code>A a=new A()</code> 工厂模式也是用来创建实例对象的，所以以后new时就要多个心眼，是否可以考虑使用工厂模式，虽然这样做，可能多做一些工作，但会给你系统带来更大的可扩展性和尽量少的修改量。</p>
-<h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h2><p>应用场景：又叫做<code>静态工厂方法（StaticFactory Method）模式</code>，但不属于 23 种设计模式之一。</p>
-<p>简单工厂模式的实质是由一个工厂类根据传入的参数，动态决定应该创建哪一个产品类。<br>Spring 中的 BeanFactory 就是简单工厂模式的体现，根据传入一个唯一的标识来获得 Bean 对象，但<br>是否是在传入参数后创建还是传入参数前创建这个要根据具体情况来定。<br><a id="more"></a></p>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>首先定了一个产品的标准</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Phone</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>定义3种产品,实现 <code>Phone</code>接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">implements</span> <span class="title">Phone</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"苹果"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Huawei</span> <span class="keyword">implements</span> <span class="title">Phone</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"华为"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XiaoMi</span> <span class="keyword">implements</span> <span class="title">Phone</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"小米"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>定义一个简单工厂<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Phone <span class="title">getPhone</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"苹果"</span>.equals(name)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Apple();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"华为"</span>.equals(name)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Huawei();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"华为"</span>.equals(name)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> XiaoMi();</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"不能生产您所需的产品"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>测试<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleFactoryTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//这个new的过程实际上一个比较复杂的过程</span></span><br><span class="line">        <span class="comment">//     Apple apple = new Apple();</span></span><br><span class="line">        <span class="comment">//    System.out.println(apple.getName());</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//小作坊式的生产模式</span></span><br><span class="line">        <span class="comment">//用户本身不再关心生产的过程，而只需要关心这个结果</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//华为、苹果、小米的配件是不一样的</span></span><br><span class="line">        SimpleFactory factory = <span class="keyword">new</span> SimpleFactory();</span><br><span class="line">        <span class="comment">//把用户的需求告诉工厂</span></span><br><span class="line">        <span class="comment">//创建产品的过程隐藏了，对于用户而且完全不清楚是怎么产生的</span></span><br><span class="line">        Phone phone = factory.getPhone(<span class="string">"苹果"</span>);</span><br><span class="line">        phone.getName();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="工厂列表模式"><a href="#工厂列表模式" class="headerlink" title="工厂列表模式"></a>工厂列表模式</h2><p>工厂列表模式</p>
-<h2 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h2>
+        <h2 id="注解配置"><a href="#注解配置" class="headerlink" title="注解配置"></a>注解配置</h2><h3 id="服务提供方"><a href="#服务提供方" class="headerlink" title="服务提供方"></a>服务提供方</h3><h4 id="注解方式暴露服务"><a href="#注解方式暴露服务" class="headerlink" title="注解方式暴露服务"></a>注解方式暴露服务</h4><ul>
+<li>@DubboService</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboService</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SayHelloServiceImpl</span> <span class="keyword">implements</span> <span class="title">SyaHelloService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">syaHello</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"annotation: hello, "</span> + msg;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="服务提供方配置"><a href="#服务提供方配置" class="headerlink" title="服务提供方配置"></a>服务提供方配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># dubbo-provider.properties</span><br><span class="line">dubbo.application.name=annotation-provider</span><br><span class="line">dubbo.registry.address=zookeeper://127.0.0.1:2181</span><br><span class="line">dubbo.protocol.name=dubbo</span><br><span class="line">dubbo.protocol.port=20880</span><br></pre></td></tr></table></figure>
+<h4 id="指定Spring扫描路径"><a href="#指定Spring扫描路径" class="headerlink" title="指定Spring扫描路径"></a>指定Spring扫描路径</h4><ul>
+<li>@DubboComponentScan</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@DubboComponentScan</span>(basePackageClasses = SpringBootDubboProviderApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">SpringBootDubboProviderApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringBootDubboProviderApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="服务消费方"><a href="#服务消费方" class="headerlink" title="服务消费方"></a>服务消费方</h3><h5 id="注解方式引用服务"><a href="#注解方式引用服务" class="headerlink" title="注解方式引用服务"></a>注解方式引用服务</h5><ul>
+<li>@DubboReference</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhangjunmin</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/say"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SayController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@DubboReference</span></span><br><span class="line">    <span class="keyword">private</span> SyaHelloService syaHelloService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/sayHello"</span>)</span><br><span class="line">    <span class="function">String <span class="title">sayHello</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> syaHelloService.syaHello(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="服务消费方配置"><a href="#服务消费方配置" class="headerlink" title="服务消费方配置"></a>服务消费方配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dubbo.application.name=annotation-consumer</span><br><span class="line">dubbo.registry.address=zookeeper://127.0.0.1:2181</span><br><span class="line">dubbo.consumer.timeout=3000</span><br></pre></td></tr></table></figure>
+<h4 id="指定Spring扫描路径-1"><a href="#指定Spring扫描路径-1" class="headerlink" title="指定Spring扫描路径"></a>指定Spring扫描路径</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhangjunmin</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@DubboComponentScan</span>(basePackageClasses = SpringBootDubboConsumerApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">SpringBootDubboConsumerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringBootDubboConsumerApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><h3 id="启动时检查"><a href="#启动时检查" class="headerlink" title="启动时检查"></a>启动时检查</h3><p>在启动时检查依赖的服务是否可用</p>
+<p>Dubbo 缺省会在启动时检查依赖的服务是否可用，不可用时会抛出异常，阻止 Spring 初始化完成，以便上线时，能及早发现问题，默认 <code>check=&quot;true&quot;</code>。</p>
+<p>可以通过 <code>check=&quot;false&quot;</code> 关闭检查，比如，测试时，有些服务不关心，或者出现了循环依赖，必须有一方先启动。</p>
+<p>另外，如果你的 Spring 容器是懒加载的，或者通过 API 编程延迟引用服务，请关闭 check，否则服务临时不可用时，会抛出异常，拿到 null 引用，如果 <code>check=&quot;false&quot;</code>，总是会返回引用，当服务恢复时，能自动连上。</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboReference</span>(check = <span class="keyword">false</span>)</span><br><span class="line"><span class="keyword">private</span> SyaHelloService syaHelloService;</span><br></pre></td></tr></table></figure>
+<h4 id="通过-dubbo-properties"><a href="#通过-dubbo-properties" class="headerlink" title="通过 dubbo.properties"></a>通过 dubbo.properties</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dubbo.reference.check=false</span><br><span class="line">dubbo.consumer.check=false</span><br><span class="line">dubbo.registry.check=false</span><br></pre></td></tr></table></figure>
+<h4 id="配置含义"><a href="#配置含义" class="headerlink" title="配置含义"></a>配置含义</h4><p><code>dubbo.reference.check=false</code>，强制改变所有 reference 的 check 值，就算配置中有声明，也会被覆盖。</p>
+<p><code>dubbo.consumer.check=false</code>，是设置 check 的缺省值，如果配置中有显式的声明，如：<code>&lt;dubbo:reference check=&quot;true&quot;/&gt;</code>，不会受影响。</p>
+<p><code>dubbo.registry.check=false</code>，前面两个都是指订阅成功，但提供者列表是否为空是否报错，如果注册订阅失败时，也允许启动，需使用此选项，将在后台定时重试。</p>
+<hr>
+<h3 id="集群容错"><a href="#集群容错" class="headerlink" title="集群容错"></a>集群容错</h3><p>集群调用失败时，Dubbo 提供的容错方案</p>
+<p>在集群调用失败时，Dubbo 提供了多种容错方案，缺省为 failover 重试。</p>
+<h4 id="集群容错模式"><a href="#集群容错模式" class="headerlink" title="集群容错模式"></a>集群容错模式</h4><ul>
+<li><h4 id="Failover-Cluster（该配置为缺省配置）"><a href="#Failover-Cluster（该配置为缺省配置）" class="headerlink" title="Failover Cluster（该配置为缺省配置）"></a>Failover Cluster（该配置为缺省配置）</h4><p>失败自动切换，当出现失败，重试其它服务器。通常用于读操作，但重试会带来更长延迟。可通过 <code>retries=&quot;2&quot;</code> 来设置重试次数(不含第一次)。</p>
+<h6 id="配置示例："><a href="#配置示例：" class="headerlink" title="配置示例："></a>配置示例：</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboReference</span>(check = <span class="keyword">false</span>,retries = <span class="number">3</span>)</span><br><span class="line"><span class="keyword">private</span> SyaHelloService syaHelloService;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="Failfast-Cluster"><a href="#Failfast-Cluster" class="headerlink" title="Failfast Cluster"></a>Failfast Cluster</h4><p>快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。</p>
+</li>
+<li><h4 id="Failsafe-Cluster"><a href="#Failsafe-Cluster" class="headerlink" title="Failsafe Cluster"></a>Failsafe Cluster</h4><p>失败安全，出现异常时，直接忽略。通常用于写入审计日志等操作。</p>
+</li>
+<li><h4 id="Failback-Cluster"><a href="#Failback-Cluster" class="headerlink" title="Failback Cluster"></a>Failback Cluster</h4></li>
+<li><p>失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操作。</p>
+</li>
+<li><h4 id="Forking-Cluster"><a href="#Forking-Cluster" class="headerlink" title="Forking Cluster"></a>Forking Cluster</h4><p>并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读操作，但需要浪费更多服务资源。可通过 <code>forks=&quot;2&quot;</code> 来设置最大并行数。</p>
+</li>
+<li><h4 id="Broadcast-Cluster"><a href="#Broadcast-Cluster" class="headerlink" title="Broadcast Cluster"></a>Broadcast Cluster</h4><p>广播调用所有提供者，逐个调用，任意一台报错则报错。通常用于通知所有提供者更新缓存或日志等本地资源信息。</p>
+</li>
+</ul>
+<h5 id="配置方法"><a href="#配置方法" class="headerlink" title="配置方法"></a>配置方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboReference</span>(check = <span class="keyword">false</span>,retries = <span class="number">3</span>,cluster = <span class="string">"failover"</span>)</span><br><span class="line"><span class="keyword">private</span> SyaHelloService syaHelloService;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><p>在集群负载均衡时，Dubbo 提供了多种均衡策略，缺省为 <code>random</code> 随机调用。</p>
+<h4 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h4><h4 id="Random-LoadBalance"><a href="#Random-LoadBalance" class="headerlink" title="Random LoadBalance"></a>Random LoadBalance</h4><ul>
+<li><strong>随机</strong>，按权重设置随机概率。</li>
+<li>在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。</li>
+</ul>
+<h4 id="RoundRobin-LoadBalance"><a href="#RoundRobin-LoadBalance" class="headerlink" title="RoundRobin LoadBalance"></a>RoundRobin LoadBalance</h4><ul>
+<li><strong>轮询</strong>，按公约后的权重设置轮询比率。</li>
+<li>存在慢的提供者累积请求的问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求都卡在调到第二台上。</li>
+</ul>
+<h4 id="LeastActive-LoadBalance"><a href="#LeastActive-LoadBalance" class="headerlink" title="LeastActive LoadBalance"></a>LeastActive LoadBalance</h4><ul>
+<li><strong>最少活跃调用数</strong>，相同活跃数的随机，活跃数指调用前后计数差。</li>
+<li>使慢的提供者收到更少请求，因为越慢的提供者的调用前后计数差会越大。</li>
+</ul>
+<h4 id="ConsistentHash-LoadBalance"><a href="#ConsistentHash-LoadBalance" class="headerlink" title="ConsistentHash LoadBalance"></a>ConsistentHash LoadBalance</h4><ul>
+<li><strong>一致性 Hash</strong>，相同参数的请求总是发到同一提供者。</li>
+<li>当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。</li>
+<li>算法参见：<a href="http://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/Consistent_hashing</a></li>
+<li>缺省只对第一个参数 Hash，如果要修改，请配置 <code>&lt;dubbo:parameter key=&quot;hash.arguments&quot; value=&quot;0,1&quot; /&gt;</code></li>
+<li>缺省用 160 份虚拟节点，如果要修改，请配置 <code>&lt;dubbo:parameter key=&quot;hash.nodes&quot; value=&quot;320&quot; /&gt;</code></li>
+</ul>
+<h5 id="配置方法-1"><a href="#配置方法-1" class="headerlink" title="配置方法"></a>配置方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboReference</span>(loadbalance = <span class="string">"roundrobin"</span>)</span><br><span class="line"><span class="keyword">private</span> SyaHelloService syaHelloService;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -509,7 +577,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+            <a href="/tags/springboot-Dubbo/" rel="tag"># springboot Dubbo</a>
           
         </div>
       
@@ -522,8 +590,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/29/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2020/07/29/两数之和/" rel="next" title="两数之和">
+                <i class="fa fa-chevron-left"></i> 两数之和
               </a>
             
           </div>
@@ -531,10 +599,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/31/并发编程的基本原理/" rel="prev" title="多线程的实现原理">
-                多线程的实现原理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -738,7 +802,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#工厂模式"><span class="nav-number">1.</span> <span class="nav-text">工厂模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单工厂模式"><span class="nav-number">1.1.</span> <span class="nav-text">简单工厂模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码实现"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">代码实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂列表模式"><span class="nav-number">1.2.</span> <span class="nav-text">工厂列表模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象工厂模式"><span class="nav-number">1.3.</span> <span class="nav-text">抽象工厂模式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#注解配置"><span class="nav-number">1.</span> <span class="nav-text">注解配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务提供方"><span class="nav-number">1.1.</span> <span class="nav-text">服务提供方</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注解方式暴露服务"><span class="nav-number">1.1.1.</span> <span class="nav-text">注解方式暴露服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务提供方配置"><span class="nav-number">1.1.2.</span> <span class="nav-text">服务提供方配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指定Spring扫描路径"><span class="nav-number">1.1.3.</span> <span class="nav-text">指定Spring扫描路径</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务消费方"><span class="nav-number">1.2.</span> <span class="nav-text">服务消费方</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注解方式引用服务"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">注解方式引用服务</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务消费方配置"><span class="nav-number">1.2.1.</span> <span class="nav-text">服务消费方配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指定Spring扫描路径-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">指定Spring扫描路径</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#用法"><span class="nav-number">2.</span> <span class="nav-text">用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动时检查"><span class="nav-number">2.1.</span> <span class="nav-text">启动时检查</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">2.1.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过-dubbo-properties"><span class="nav-number">2.1.2.</span> <span class="nav-text">通过 dubbo.properties</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置含义"><span class="nav-number">2.1.3.</span> <span class="nav-text">配置含义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集群容错"><span class="nav-number">2.2.</span> <span class="nav-text">集群容错</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#集群容错模式"><span class="nav-number">2.2.1.</span> <span class="nav-text">集群容错模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Failover-Cluster（该配置为缺省配置）"><span class="nav-number">2.2.2.</span> <span class="nav-text">Failover Cluster（该配置为缺省配置）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#配置示例："><span class="nav-number">2.2.2.0.1.</span> <span class="nav-text">配置示例：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Failfast-Cluster"><span class="nav-number">2.2.3.</span> <span class="nav-text">Failfast Cluster</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Failsafe-Cluster"><span class="nav-number">2.2.4.</span> <span class="nav-text">Failsafe Cluster</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Failback-Cluster"><span class="nav-number">2.2.5.</span> <span class="nav-text">Failback Cluster</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Forking-Cluster"><span class="nav-number">2.2.6.</span> <span class="nav-text">Forking Cluster</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Broadcast-Cluster"><span class="nav-number">2.2.7.</span> <span class="nav-text">Broadcast Cluster</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#配置方法"><span class="nav-number">2.2.7.1.</span> <span class="nav-text">配置方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#负载均衡"><span class="nav-number"></span> <span class="nav-text">负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#负载均衡策略"><span class="nav-number">0.0.1.</span> <span class="nav-text">负载均衡策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Random-LoadBalance"><span class="nav-number">0.0.2.</span> <span class="nav-text">Random LoadBalance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RoundRobin-LoadBalance"><span class="nav-number">0.0.3.</span> <span class="nav-text">RoundRobin LoadBalance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LeastActive-LoadBalance"><span class="nav-number">0.0.4.</span> <span class="nav-text">LeastActive LoadBalance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ConsistentHash-LoadBalance"><span class="nav-number">0.0.5.</span> <span class="nav-text">ConsistentHash LoadBalance</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#配置方法-1"><span class="nav-number">0.0.5.1.</span> <span class="nav-text">配置方法</span></a></li></ol></li></ol></li></div>
             
 
           </div>

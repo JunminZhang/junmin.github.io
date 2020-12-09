@@ -368,6 +368,244 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/24/SpringBoot整合Dubbo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/11/24/SpringBoot整合Dubbo/" class="post-title-link" itemprop="url">SpringBoot整合Dubbo</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-11-24 17:31:16" itemprop="dateCreated datePublished" datetime="2020-11-24T17:31:16+08:00">2020-11-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-12-09 18:19:01" itemprop="dateModified" datetime="2020-12-09T18:19:01+08:00">2020-12-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/springboot-Dubbo/" itemprop="url" rel="index"><span itemprop="name">springboot Dubbo</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="注解配置"><a href="#注解配置" class="headerlink" title="注解配置"></a>注解配置</h2><h3 id="服务提供方"><a href="#服务提供方" class="headerlink" title="服务提供方"></a>服务提供方</h3><h4 id="注解方式暴露服务"><a href="#注解方式暴露服务" class="headerlink" title="注解方式暴露服务"></a>注解方式暴露服务</h4><ul>
+<li>@DubboService</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboService</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SayHelloServiceImpl</span> <span class="keyword">implements</span> <span class="title">SyaHelloService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">syaHello</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"annotation: hello, "</span> + msg;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="服务提供方配置"><a href="#服务提供方配置" class="headerlink" title="服务提供方配置"></a>服务提供方配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># dubbo-provider.properties</span><br><span class="line">dubbo.application.name=annotation-provider</span><br><span class="line">dubbo.registry.address=zookeeper://127.0.0.1:2181</span><br><span class="line">dubbo.protocol.name=dubbo</span><br><span class="line">dubbo.protocol.port=20880</span><br></pre></td></tr></table></figure>
+<h4 id="指定Spring扫描路径"><a href="#指定Spring扫描路径" class="headerlink" title="指定Spring扫描路径"></a>指定Spring扫描路径</h4><ul>
+<li>@DubboComponentScan</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@DubboComponentScan</span>(basePackageClasses = SpringBootDubboProviderApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">SpringBootDubboProviderApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringBootDubboProviderApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="服务消费方"><a href="#服务消费方" class="headerlink" title="服务消费方"></a>服务消费方</h3><h5 id="注解方式引用服务"><a href="#注解方式引用服务" class="headerlink" title="注解方式引用服务"></a>注解方式引用服务</h5><ul>
+<li>@DubboReference</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhangjunmin</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/say"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SayController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@DubboReference</span></span><br><span class="line">    <span class="keyword">private</span> SyaHelloService syaHelloService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/sayHello"</span>)</span><br><span class="line">    <span class="function">String <span class="title">sayHello</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> syaHelloService.syaHello(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="服务消费方配置"><a href="#服务消费方配置" class="headerlink" title="服务消费方配置"></a>服务消费方配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dubbo.application.name=annotation-consumer</span><br><span class="line">dubbo.registry.address=zookeeper://127.0.0.1:2181</span><br><span class="line">dubbo.consumer.timeout=3000</span><br></pre></td></tr></table></figure>
+<h4 id="指定Spring扫描路径-1"><a href="#指定Spring扫描路径-1" class="headerlink" title="指定Spring扫描路径"></a>指定Spring扫描路径</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhangjunmin</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@DubboComponentScan</span>(basePackageClasses = SpringBootDubboConsumerApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">SpringBootDubboConsumerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringBootDubboConsumerApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><h3 id="启动时检查"><a href="#启动时检查" class="headerlink" title="启动时检查"></a>启动时检查</h3><p>在启动时检查依赖的服务是否可用</p>
+<p>Dubbo 缺省会在启动时检查依赖的服务是否可用，不可用时会抛出异常，阻止 Spring 初始化完成，以便上线时，能及早发现问题，默认 <code>check=&quot;true&quot;</code>。</p>
+<p>可以通过 <code>check=&quot;false&quot;</code> 关闭检查，比如，测试时，有些服务不关心，或者出现了循环依赖，必须有一方先启动。</p>
+<p>另外，如果你的 Spring 容器是懒加载的，或者通过 API 编程延迟引用服务，请关闭 check，否则服务临时不可用时，会抛出异常，拿到 null 引用，如果 <code>check=&quot;false&quot;</code>，总是会返回引用，当服务恢复时，能自动连上。</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboReference</span>(check = <span class="keyword">false</span>)</span><br><span class="line"><span class="keyword">private</span> SyaHelloService syaHelloService;</span><br></pre></td></tr></table></figure>
+<h4 id="通过-dubbo-properties"><a href="#通过-dubbo-properties" class="headerlink" title="通过 dubbo.properties"></a>通过 dubbo.properties</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dubbo.reference.check=false</span><br><span class="line">dubbo.consumer.check=false</span><br><span class="line">dubbo.registry.check=false</span><br></pre></td></tr></table></figure>
+<h4 id="配置含义"><a href="#配置含义" class="headerlink" title="配置含义"></a>配置含义</h4><p><code>dubbo.reference.check=false</code>，强制改变所有 reference 的 check 值，就算配置中有声明，也会被覆盖。</p>
+<p><code>dubbo.consumer.check=false</code>，是设置 check 的缺省值，如果配置中有显式的声明，如：<code>&lt;dubbo:reference check=&quot;true&quot;/&gt;</code>，不会受影响。</p>
+<p><code>dubbo.registry.check=false</code>，前面两个都是指订阅成功，但提供者列表是否为空是否报错，如果注册订阅失败时，也允许启动，需使用此选项，将在后台定时重试。</p>
+<hr>
+<h3 id="集群容错"><a href="#集群容错" class="headerlink" title="集群容错"></a>集群容错</h3><p>集群调用失败时，Dubbo 提供的容错方案</p>
+<p>在集群调用失败时，Dubbo 提供了多种容错方案，缺省为 failover 重试。</p>
+<h4 id="集群容错模式"><a href="#集群容错模式" class="headerlink" title="集群容错模式"></a>集群容错模式</h4><ul>
+<li><h4 id="Failover-Cluster（该配置为缺省配置）"><a href="#Failover-Cluster（该配置为缺省配置）" class="headerlink" title="Failover Cluster（该配置为缺省配置）"></a>Failover Cluster（该配置为缺省配置）</h4><p>失败自动切换，当出现失败，重试其它服务器。通常用于读操作，但重试会带来更长延迟。可通过 <code>retries=&quot;2&quot;</code> 来设置重试次数(不含第一次)。</p>
+<h6 id="配置示例："><a href="#配置示例：" class="headerlink" title="配置示例："></a>配置示例：</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboReference</span>(check = <span class="keyword">false</span>,retries = <span class="number">3</span>)</span><br><span class="line"><span class="keyword">private</span> SyaHelloService syaHelloService;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="Failfast-Cluster"><a href="#Failfast-Cluster" class="headerlink" title="Failfast Cluster"></a>Failfast Cluster</h4><p>快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。</p>
+</li>
+<li><h4 id="Failsafe-Cluster"><a href="#Failsafe-Cluster" class="headerlink" title="Failsafe Cluster"></a>Failsafe Cluster</h4><p>失败安全，出现异常时，直接忽略。通常用于写入审计日志等操作。</p>
+</li>
+<li><h4 id="Failback-Cluster"><a href="#Failback-Cluster" class="headerlink" title="Failback Cluster"></a>Failback Cluster</h4></li>
+<li><p>失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操作。</p>
+</li>
+<li><h4 id="Forking-Cluster"><a href="#Forking-Cluster" class="headerlink" title="Forking Cluster"></a>Forking Cluster</h4><p>并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读操作，但需要浪费更多服务资源。可通过 <code>forks=&quot;2&quot;</code> 来设置最大并行数。</p>
+</li>
+<li><h4 id="Broadcast-Cluster"><a href="#Broadcast-Cluster" class="headerlink" title="Broadcast Cluster"></a>Broadcast Cluster</h4><p>广播调用所有提供者，逐个调用，任意一台报错则报错。通常用于通知所有提供者更新缓存或日志等本地资源信息。</p>
+</li>
+</ul>
+<h5 id="配置方法"><a href="#配置方法" class="headerlink" title="配置方法"></a>配置方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboReference</span>(check = <span class="keyword">false</span>,retries = <span class="number">3</span>,cluster = <span class="string">"failover"</span>)</span><br><span class="line"><span class="keyword">private</span> SyaHelloService syaHelloService;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><p>在集群负载均衡时，Dubbo 提供了多种均衡策略，缺省为 <code>random</code> 随机调用。</p>
+<h4 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h4><h4 id="Random-LoadBalance"><a href="#Random-LoadBalance" class="headerlink" title="Random LoadBalance"></a>Random LoadBalance</h4><ul>
+<li><strong>随机</strong>，按权重设置随机概率。</li>
+<li>在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。</li>
+</ul>
+<h4 id="RoundRobin-LoadBalance"><a href="#RoundRobin-LoadBalance" class="headerlink" title="RoundRobin LoadBalance"></a>RoundRobin LoadBalance</h4><ul>
+<li><strong>轮询</strong>，按公约后的权重设置轮询比率。</li>
+<li>存在慢的提供者累积请求的问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求都卡在调到第二台上。</li>
+</ul>
+<h4 id="LeastActive-LoadBalance"><a href="#LeastActive-LoadBalance" class="headerlink" title="LeastActive LoadBalance"></a>LeastActive LoadBalance</h4><ul>
+<li><strong>最少活跃调用数</strong>，相同活跃数的随机，活跃数指调用前后计数差。</li>
+<li>使慢的提供者收到更少请求，因为越慢的提供者的调用前后计数差会越大。</li>
+</ul>
+<h4 id="ConsistentHash-LoadBalance"><a href="#ConsistentHash-LoadBalance" class="headerlink" title="ConsistentHash LoadBalance"></a>ConsistentHash LoadBalance</h4><ul>
+<li><strong>一致性 Hash</strong>，相同参数的请求总是发到同一提供者。</li>
+<li>当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。</li>
+<li>算法参见：<a href="http://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/Consistent_hashing</a></li>
+<li>缺省只对第一个参数 Hash，如果要修改，请配置 <code>&lt;dubbo:parameter key=&quot;hash.arguments&quot; value=&quot;0,1&quot; /&gt;</code></li>
+<li>缺省用 160 份虚拟节点，如果要修改，请配置 <code>&lt;dubbo:parameter key=&quot;hash.nodes&quot; value=&quot;320&quot; /&gt;</code></li>
+</ul>
+<h5 id="配置方法-1"><a href="#配置方法-1" class="headerlink" title="配置方法"></a>配置方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DubboReference</span>(loadbalance = <span class="string">"roundrobin"</span>)</span><br><span class="line"><span class="keyword">private</span> SyaHelloService syaHelloService;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/29/两数之和/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2072,186 +2310,6 @@ OK
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/16/代理模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张珺珉">
-      <meta itemprop="description" content="学习记录">
-      <meta itemprop="image" content="/images/yanhua.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Junmin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/16/代理模式/" class="post-title-link" itemprop="url">代理模式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-03-16 14:27:45" itemprop="dateCreated datePublished" datetime="2019-03-16T14:27:45+08:00">2019-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-07-16 10:38:43" itemprop="dateModified" datetime="2019-07-16T10:38:43+08:00">2019-07-16</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-         
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h1><h2 id="代理模式的应用场景"><a href="#代理模式的应用场景" class="headerlink" title="代理模式的应用场景"></a>代理模式的应用场景</h2><p>在生活中，我们经常见到这样的场景，如：租房中介、售票黄牛、婚介、经纪人、快递、事务代理、非侵入式日志监听等，这些都是代理模式的实际体现。<code>代理模式（ProxyPattern）</code>的定义也非常简单，是指为其他对象提供一种代理，以控制对这个对象的访问。代理对象在客服端和目标对象之间起到中介作用，代理模式属于结构型设计模式。使用代理模式主要有两个目的：一保护目标对象，二增强目标对象。下面我们来看一下代理模式的类结构图：<br><img src="https://i.loli.net/2019/03/16/5c8c9aba772a1.png" alt><br>Subject 是顶层接口，RealSubject 是真实对象（被代理对象），Proxy 是代理对象，代理对象持有被代理对象的引用，客户端调用代理对象方法，同时也调用被代理对象的方法，但是在代理对象前后增加一些处理。在代码中，我们想到代理，就会理解为是代码增强，其实就是在原本逻辑前后增加一些逻辑，而调用者无感知。代理模式属于结构型模式，有静态代理和动态代理。<br>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/03/16/代理模式/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </p></div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2301,7 +2359,7 @@ OK
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2334,7 +2392,9 @@ OK
                     
                       
                     
-                    <span class="site-state-item-count">10</span>
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -2367,7 +2427,9 @@ OK
                     
                       
                     
-                    <span class="site-state-item-count">10</span>
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
