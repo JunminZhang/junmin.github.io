@@ -368,157 +368,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/24/kafka/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张珺珉">
-      <meta itemprop="description" content="学习记录">
-      <meta itemprop="image" content="/images/yanhua.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Junmin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/11/24/kafka/" class="post-title-link" itemprop="url">Untitled</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2020-11-24 16:56:41" itemprop="dateCreated datePublished" datetime="2020-11-24T16:56:41+08:00">2020-11-24</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-         
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h1><p>高性能、高吞吐</p>
-<p>不是基于jms的实现</p>
-<p>内置分区、实现集群-区别于activeMQ</p>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="/Users/zhangjunmin/Library/Application Support/typora-user-images/image-20201013100607380.png" alt="image-20201013100607380"></p>
-<p>Topic:主题</p>
-<p>partion:数据分区</p>
-<p>group:消费端所属</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>acks</p>
-<p>0:消息发送给broker后，不需要确认（性能较高，但是会出现数据丢失）</p>
-<p>1:只需要得到kafka集群中leader节点的确认即可返回（leader/follower）</p>
-<p>all（-1）：需要集群中的所有节点确认（最安全但性能低，也有可能会出现数据丢失）</p>
-<p>batch.size</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/29/两数之和/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -710,7 +559,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/12/03/Mysql索引/" class="post-title-link" itemprop="url">Untitled</a>
+                <a href="/2019/12/03/Mysql索引/" class="post-title-link" itemprop="url">Mysql索引</a>
               
             
           </h1>
@@ -752,11 +601,29 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-09 17:59:57" itemprop="dateModified" datetime="2020-12-09T17:59:57+08:00">2020-12-09</time>
+                <time title="Modified: 2020-12-09 18:11:58" itemprop="dateModified" datetime="2020-12-09T18:11:58+08:00">2020-12-09</time>
               
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库-mysql/" itemprop="url" rel="index"><span itemprop="name">数据库 mysql</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -788,9 +655,7 @@
 
       
         
-          <hr>
-<p>  title: Mysql索引<br>  date: 2019-12-03 15:59:50<br>  tags: 数据库 mysql</p>
-<h2 id="categories-数据库-mysql"><a href="#categories-数据库-mysql" class="headerlink" title="  categories: 数据库 mysql"></a>  categories: 数据库 mysql</h2><h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><h4 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h4><p>  <img src="http://qiniupic.xiaomintongxue.cn/img/20191203041651331.png" alt></p>
+          <h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><h4 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h4><p>  <img src="http://qiniupic.xiaomintongxue.cn/img/20191203041651331.png" alt></p>
 <h4 id="平衡二叉查找树"><a href="#平衡二叉查找树" class="headerlink" title="平衡二叉查找树"></a>平衡二叉查找树</h4><h4 id><a href="#" class="headerlink" title></a><img src="http://qiniupic.xiaomintongxue.cn/img/20201209051413880.png" alt></h4><h4 id="多路平衡查找树B-Tree"><a href="#多路平衡查找树B-Tree" class="headerlink" title="多路平衡查找树B-Tree"></a>多路平衡查找树B-Tree</h4><p>  <img src="http://qiniupic.xiaomintongxue.cn/img/20201209053647676.png" alt></p>
 <p>  <img src="http://qiniupic.xiaomintongxue.cn/img/20191203041743846.png" alt></p>
 <h4 id="Mysql的B-Tree"><a href="#Mysql的B-Tree" class="headerlink" title="Mysql的B+Tree"></a>Mysql的B+Tree</h4><p>  <img src="http://qiniupic.xiaomintongxue.cn/img/20191203041753272.png" alt></p>
@@ -803,6 +668,191 @@
             </div>
           
           <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/03/kafka/" class="post-title-link" itemprop="url">kafka</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-03 15:59:50" itemprop="dateCreated datePublished" datetime="2019-12-03T15:59:50+08:00">2019-12-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-12-09 18:09:32" itemprop="dateModified" datetime="2020-12-09T18:09:32+08:00">2020-12-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MQ-消息队列/" itemprop="url" rel="index"><span itemprop="name">MQ 消息队列</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>高性能、高吞吐</p>
+<p>不是基于jms的实现</p>
+<p>内置分区、实现集群-区别于activeMQ</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="http://qiniupic.xiaomintongxue.cn/img/image-20201013100607380.png" alt="image-20201013100607380"></p>
+<p>Topic:主题</p>
+<p>partion:数据分区</p>
+<p>group:消费端所属</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>acks</p>
+<p>0:消息发送给broker后，不需要确认（性能较高，但是会出现数据丢失）</p>
+<p>1:只需要得到kafka集群中leader节点的确认即可返回（leader/follower）</p>
+<p>all（-1）：需要集群中的所有节点确认（最安全但性能低，也有可能会出现数据丢失）</p>
+<p>batch.size</p>
+
+          
         
       
     </div>
@@ -2280,7 +2330,11 @@ OK
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -2309,7 +2363,11 @@ OK
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
