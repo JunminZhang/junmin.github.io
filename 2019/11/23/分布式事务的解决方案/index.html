@@ -103,14 +103,14 @@
 <meta property="og:site_name" content="Junmin&#39;s Blog">
 <meta property="og:description" content="事务的特性 原子性（atomicity）。一个事务是一个不可分割的工作单位，事务中包括的诸操作要么都做，要么都不做。 一致性（consistency）。事务必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。 隔离性（isolation）。一个事务的执行不能被其他事务干扰。即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。 持">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/分布式事务的解决方案/20191123031904756.png">
-<meta property="og:image" content="http://yoursite.com/分布式事务的解决方案/20191123032811372.png">
-<meta property="og:image" content="http://yoursite.com/分布式事务的解决方案/20191123033644482.png">
-<meta property="og:updated_time" content="2020-07-28T05:41:32.728Z">
+<meta property="og:image" content="http://yoursite.com/2019/11/23/img/HexoEditor/分布式事务的解决方案/20191123031904756.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/23/img/HexoEditor/分布式事务的解决方案/20191123032811372.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/23/img/HexoEditor/分布式事务的解决方案/20191123033644482.png">
+<meta property="og:updated_time" content="2020-12-10T03:13:39.743Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式事务的解决方案">
 <meta name="twitter:description" content="事务的特性 原子性（atomicity）。一个事务是一个不可分割的工作单位，事务中包括的诸操作要么都做，要么都不做。 一致性（consistency）。事务必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。 隔离性（isolation）。一个事务的执行不能被其他事务干扰。即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。 持">
-<meta name="twitter:image" content="http://yoursite.com/分布式事务的解决方案/20191123031904756.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/23/img/HexoEditor/分布式事务的解决方案/20191123031904756.png">
 
 
 
@@ -397,6 +397,7 @@
         
 
         <div class="post-meta">
+        
           <span class="post-time">
 
             
@@ -432,7 +433,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-07-28 13:41:32" itemprop="dateModified" datetime="2020-07-28T13:41:32+08:00">2020-07-28</time>
+                <time title="Modified: 2020-12-10 11:13:39" itemprop="dateModified" datetime="2020-12-10T11:13:39+08:00">2020-12-10</time>
               
             
           </span>
@@ -499,7 +500,7 @@
 <li>持久性（durability）。持久性也称永久性（permanence），指一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。<h3 id="数据一致性"><a href="#数据一致性" class="headerlink" title="数据一致性"></a>数据一致性</h3></li>
 </ul>
 <h4 id="X-open-DTP-分布式事务模型"><a href="#X-open-DTP-分布式事务模型" class="headerlink" title="X/open DTP 分布式事务模型"></a>X/open DTP 分布式事务模型</h4><p>X/Open 这个组织定义的一套分布式事务的标准，也就是定义了规范和 API 接口，由各个厂商进行具体的实现。<br>这个标准提出了使用二阶段提交(2PC – Two-Phase-Commit)来保证分布式事务的完整性。后来 J2EE 也遵循了 X/OpenDTP 规范，设计并实现了 java 里的分布式事务编程接口规范-JTA</p>
-<h4 id="X-OpenDTP"><a href="#X-OpenDTP" class="headerlink" title="X/OpenDTP"></a>X/OpenDTP</h4><p><img src="/分布式事务的解决方案/20191123031904756.png" alt><br>在 X/OpenDTP 事务模型中，定义了三个角色<br>AP: application, 应用程序，也就是业务层。哪些操作属于一个事务，就是 AP 定义的</p>
+<h4 id="X-OpenDTP"><a href="#X-OpenDTP" class="headerlink" title="X/OpenDTP"></a>X/OpenDTP</h4><p><img src="../img/HexoEditor/分布式事务的解决方案/20191123031904756.png" alt><br>在 X/OpenDTP 事务模型中，定义了三个角色<br>AP: application, 应用程序，也就是业务层。哪些操作属于一个事务，就是 AP 定义的</p>
 <p>RM： Resource Manager，资源管理器。一般是数据库，也可以是其他资源管理器，比如消息队列，文件系统</p>
 <p>TM： Transaction Manager ，事务管理器、事务协调者，负责接收来自用户程序（AP）发起的 XA 事务指令，并调度和协调参与事务的所有 RM（数据库），确保事务正确完成</p>
 <p>在分布式系统中，每一个机器节点虽然都能够明确知道自己在进行事务操作过程中的结果是成功还是失败，但却无法直接获取到其他分布式节点的操作结果。因此当一个事务操作需要跨越多个分布式节点的时候，为了保持事务处理的 ACID 特性，就需要引入一个“协调者”（TM）来统一度所有分布式节点的执行逻辑，这些被调度的分布式节点被称为 AP。TM 负责调度 AP 的行为，并最终决定这些 AP 是否要把事务真正进行提交到（RM）</p>
@@ -510,7 +511,7 @@
 <li>4.TM 收到所有 AP 的反馈以后，通过数据库提供的 XA 接口进行数据提交或者回</li>
 </ul>
 <h4 id="2pc提交（two-phaseCommit-）"><a href="#2pc提交（two-phaseCommit-）" class="headerlink" title="2pc提交（two -phaseCommit ）"></a>2pc提交（two -phaseCommit ）</h4><p>在 X/OpenDTP 模型中，一个分布式事务所涉及的 SQL 逻辑都执行完成，并到了（RM）要最后提交事务的关键时刻，为了避免分布式系统所固有的不可靠性导致提交事务意外失败，TM 果断决定实施两步走的方案，这个就称为二阶提交二阶段提交，是计算机网络尤其是在数据库领域内，为了使基于分布式系统架构下<br>的所有节点在进行事务处理过程中能够保持原子性和一致性而设计的一种算法。通常，二阶段提交协议也被认为是一种一致性协议，用来保证分布式系统数据的一致性。目前，绝大部分的关系型数据库都是采用二阶段提交协议来完成分布式事务处理的，利用该协议能够非常方便地完成所有分布式事务 AP 的协调，统一决定事务的提交或回滚，从而能够有效保证分布式数据一致性，因此 2pc 也被广泛运用在许多分布式系统中。</p>
-<h5 id="第一阶段"><a href="#第一阶段" class="headerlink" title="第一阶段"></a>第一阶段</h5><p> <img src="/分布式事务的解决方案/20191123032811372.png" alt></p>
+<h5 id="第一阶段"><a href="#第一阶段" class="headerlink" title="第一阶段"></a>第一阶段</h5><p> <img src="../img/HexoEditor/分布式事务的解决方案/20191123032811372.png" alt></p>
 <ul>
 <li><ol>
 <li>事务询问<br>TM 向所有的 AP 发送事务内容，询问是否可以执行事务提交操作，并开始等待各AP 的响应</li>
@@ -526,7 +527,7 @@
 </li>
 </ul>
 <p>上面这个阶段有点类似 TM 组织各个 AP 对一次事务操作的投票表态过程，因此2pc 协议的第一个阶段称为“投票阶段”，即各 AP 投票表名是否需要继续执行接下去的事务提交操作。</p>
-<h5 id="第二阶段"><a href="#第二阶段" class="headerlink" title="第二阶段"></a>第二阶段</h5><p><img src="/分布式事务的解决方案/20191123033644482.png" alt></p>
+<h5 id="第二阶段"><a href="#第二阶段" class="headerlink" title="第二阶段"></a>第二阶段</h5><p><img src="../img/HexoEditor/分布式事务的解决方案/20191123033644482.png" alt></p>
 <ul>
 <li>事务提交<br>在这个阶段，TM 会根据各 AP 的反馈情况来决定最终是否可以进行事务提交操作，正常情况下包含两种可能假如 TM 从所有参与者获得的反馈都是 yes 响应，那么就会执行事务提交</li>
 <li><ol>
@@ -702,7 +703,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -737,7 +740,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

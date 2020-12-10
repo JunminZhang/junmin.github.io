@@ -105,8 +105,8 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://i.loli.net/2019/12/03/zfbJq6n51cvy92X.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/03/IXxTDl5orE6si7k.png">
-<meta property="og:image" content="http://yoursite.com/Redis/20191203042537799.png">
-<meta property="og:updated_time" content="2020-07-28T03:18:25.152Z">
+<meta property="og:image" content="https://qiniupic.xiaomintongxue.cn//img/20191203042537799.png">
+<meta property="og:updated_time" content="2020-12-10T03:10:59.095Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis">
 <meta name="twitter:description" content="Redis数据结构String 存储类型可以用来存储字符串、整数、浮点数 操作命令设置值set key value设置多个值（批量操作，原子性）mset key1 1111 key2 222设置值，如果 key 存在，则不成功setnx key基于此可实现分布式锁。用 del key 释放锁。但如果释放锁的操作失败了，导致其他节点永远获取不到锁，怎么办？加过期时间。单独用 expire 加过期，也">
@@ -397,6 +397,7 @@
         
 
         <div class="post-meta">
+        
           <span class="post-time">
 
             
@@ -432,7 +433,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-07-28 11:18:25" itemprop="dateModified" datetime="2020-07-28T11:18:25+08:00">2020-07-28</time>
+                <time title="Modified: 2020-12-10 11:10:59" itemprop="dateModified" datetime="2020-12-10T11:10:59+08:00">2020-12-10</time>
               
             
           </span>
@@ -506,7 +507,7 @@ OK
 <h5 id="全局ID"><a href="#全局ID" class="headerlink" title="全局ID"></a>全局ID</h5><p>INT 类型，INCRBY，利用原子性<br>incrby userid 1000<br>（分库分表的场景，一次性拿一段）</p>
 <h5 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h5><p>INT 类型，INCR 方法<br>例如：文章的阅读量，微博点赞数，允许一定的延迟，先写入 Redis 再定时同步到数据库。</p>
 <h5 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h5><p>以访问者的 IP 和其他信息作为 key，访问一次增加一次计数，超过次数则返回 false。</p>
-<p><img src="/Redis/20191203042537799.png" alt></p>
+<p><img src="https://qiniupic.xiaomintongxue.cn//img/20191203042537799.png" alt="20191203042537799"></p>
 
       
     </div>
@@ -656,7 +657,9 @@ OK
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -691,7 +694,9 @@ OK
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

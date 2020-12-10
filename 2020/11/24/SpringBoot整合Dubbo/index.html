@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Junmin&#39;s Blog">
 <meta property="og:description" content="注解配置服务提供方注解方式暴露服务 @DubboService  12345678@DubboServicepublic class SayHelloServiceImpl implements SyaHelloService &amp;#123;    @Override    public String syaHello(String msg) &amp;#123;        return &quot;annota">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-12-09T10:19:01.236Z">
+<meta property="og:updated_time" content="2020-12-10T03:06:55.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot整合Dubbo">
 <meta name="twitter:description" content="注解配置服务提供方注解方式暴露服务 @DubboService  12345678@DubboServicepublic class SayHelloServiceImpl implements SyaHelloService &amp;#123;    @Override    public String syaHello(String msg) &amp;#123;        return &quot;annota">
@@ -394,6 +394,7 @@
         
 
         <div class="post-meta">
+        
           <span class="post-time">
 
             
@@ -429,7 +430,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-09 18:19:01" itemprop="dateModified" datetime="2020-12-09T18:19:01+08:00">2020-12-09</time>
+                <time title="Modified: 2020-12-10 11:06:55" itemprop="dateModified" datetime="2020-12-10T11:06:55+08:00">2020-12-10</time>
               
             
           </span>
@@ -504,6 +505,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhangjunmin</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/say"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SayController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@DubboReference</span></span><br><span class="line">    <span class="keyword">private</span> SyaHelloService syaHelloService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/sayHello"</span>)</span><br><span class="line">    <span class="function">String <span class="title">sayHello</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> syaHelloService.syaHello(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="服务消费方配置"><a href="#服务消费方配置" class="headerlink" title="服务消费方配置"></a>服务消费方配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dubbo.application.name=annotation-consumer</span><br><span class="line">dubbo.registry.address=zookeeper://127.0.0.1:2181</span><br><span class="line">dubbo.consumer.timeout=3000</span><br></pre></td></tr></table></figure>
 <h4 id="指定Spring扫描路径-1"><a href="#指定Spring扫描路径-1" class="headerlink" title="指定Spring扫描路径"></a>指定Spring扫描路径</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhangjunmin</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@DubboComponentScan</span>(basePackageClasses = SpringBootDubboConsumerApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">SpringBootDubboConsumerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringBootDubboConsumerApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+   <a id="more"></a>
 <h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><h3 id="启动时检查"><a href="#启动时检查" class="headerlink" title="启动时检查"></a>启动时检查</h3><p>在启动时检查依赖的服务是否可用</p>
 <p>Dubbo 缺省会在启动时检查依赖的服务是否可用，不可用时会抛出异常，阻止 Spring 初始化完成，以便上线时，能及早发现问题，默认 <code>check=&quot;true&quot;</code>。</p>
 <p>可以通过 <code>check=&quot;false&quot;</code> 关闭检查，比如，测试时，有些服务不关心，或者出现了循环依赖，必须有一方先启动。</p>
@@ -705,7 +707,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -740,7 +744,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
