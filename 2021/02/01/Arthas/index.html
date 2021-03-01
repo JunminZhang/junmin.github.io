@@ -97,15 +97,16 @@
 
 
   <meta name="description" content="ArthasArthas 是Alibaba开源的Java诊断工具。 当你遇到以下类似问题而束手无策时，Arthas可以帮助你解决：  这个类从哪个 jar 包加载的？为什么会报各种类相关的 Exception？ 我改的代码为什么没有执行到？难道是我没 commit？分支搞错了？ 遇到问题无法在线上 debug，难道只能通过加日志再重新发布吗？ 线上遇到某个用户的数据处理有问题，但线上同样无法 de">
+<meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Junmin&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/2021/01/11/Arthas/index.html">
+<meta property="og:title" content="Apache RocketMQ 使用文档">
+<meta property="og:url" content="http://yoursite.com/2021/02/01/Arthas/index.html">
 <meta property="og:site_name" content="Junmin&#39;s Blog">
 <meta property="og:description" content="ArthasArthas 是Alibaba开源的Java诊断工具。 当你遇到以下类似问题而束手无策时，Arthas可以帮助你解决：  这个类从哪个 jar 包加载的？为什么会报各种类相关的 Exception？ 我改的代码为什么没有执行到？难道是我没 commit？分支搞错了？ 遇到问题无法在线上 debug，难道只能通过加日志再重新发布吗？ 线上遇到某个用户的数据处理有问题，但线上同样无法 de">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2021-01-18T10:09:45.906Z">
+<meta property="og:updated_time" content="2021-03-01T10:23:08.851Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Junmin&#39;s Blog">
+<meta name="twitter:title" content="Apache RocketMQ 使用文档">
 <meta name="twitter:description" content="ArthasArthas 是Alibaba开源的Java诊断工具。 当你遇到以下类似问题而束手无策时，Arthas可以帮助你解决：  这个类从哪个 jar 包加载的？为什么会报各种类相关的 Exception？ 我改的代码为什么没有执行到？难道是我没 commit？分支搞错了？ 遇到问题无法在线上 debug，难道只能通过加日志再重新发布吗？ 线上遇到某个用户的数据处理有问题，但线上同样无法 de">
 
 
@@ -113,7 +114,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2021/01/11/Arthas/">
+  <link rel="canonical" href="http://yoursite.com/2021/02/01/Arthas/">
 
 
 
@@ -123,7 +124,7 @@
   };
 </script>
 
-  <title> | Junmin's Blog</title>
+  <title>Apache RocketMQ 使用文档 | Junmin's Blog</title>
   
 
 
@@ -368,7 +369,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/11/Arthas/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/01/Arthas/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张珺珉">
@@ -385,7 +386,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">Apache RocketMQ 使用文档
 
               
             
@@ -412,7 +413,7 @@
                 
               
 
-              <time title="Created: 2021-01-11 13:52:18" itemprop="dateCreated datePublished" datetime="2021-01-11T13:52:18+08:00">2021-01-11</time>
+              <time title="Created: 2021-02-01 17:47:48" itemprop="dateCreated datePublished" datetime="2021-02-01T17:47:48+08:00">2021-02-01</time>
             
 
             
@@ -429,11 +430,29 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2021-01-18 18:09:45" itemprop="dateModified" datetime="2021-01-18T18:09:45+08:00">2021-01-18</time>
+                <time title="Modified: 2021-03-01 18:23:08" itemprop="dateModified" datetime="2021-03-01T18:23:08+08:00">2021-03-01</time>
               
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/消息队列/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -493,6 +512,7 @@
 <li>如果下载速度比较慢，可以使用aliyun的镜像：<code>java -jar arthas-boot.jar --repo-mirror</code></li>
 <li><code>java -jar arthas-boot.jar -h</code> 打印更多参数信息。</li>
 </ul>
+<a id="more"></a>
 <p>选择应用java进程：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">java -jar arthas-boot.jar</span><br><span class="line">[INFO] arthas-boot version: 3.4.5</span><br><span class="line">[INFO] Found existing java process, please choose one and input the serial number of the process, eg : 1. Then hit ENTER.</span><br><span class="line">* [1]: 45184</span><br><span class="line">  [2]: 81813 org.apache.zookeeper.server.quorum.QuorumPeerMain</span><br><span class="line">  [3]: 49636 arthas-demo.jar</span><br><span class="line">  [4]: 53014 org.apache.catalina.startup.Bootstrap</span><br><span class="line">  [5]: 76380</span><br><span class="line">  [6]: 29199 org.jetbrains.jps.cmdline.Launcher</span><br></pre></td></tr></table></figure>
 <p>Demo进程是第3个，则输入3，再输入<code>回车/enter</code>。Arthas会attach到目标进程上，并输出日志：</p>
@@ -631,6 +651,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RocketMQ/" rel="tag"># RocketMQ</a>
+          
+        </div>
       
 
       
