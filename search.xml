@@ -88,9 +88,1103 @@
       </tags>
   </entry>
   <entry>
+    <title>Apache RocketMQ 使用文档</title>
+    <url>/2021/03/01/Apache%20RocketMQ%20%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h1 id="Apache-RocketMQ-使用文档"><a href="#Apache-RocketMQ-使用文档" class="headerlink" title="Apache RocketMQ 使用文档"></a>Apache RocketMQ 使用文档</h1><h2 id="DefaultMQProducer"><a href="#DefaultMQProducer" class="headerlink" title="DefaultMQProducer"></a>DefaultMQProducer</h2><hr>
+<h3 id="类简介"><a href="#类简介" class="headerlink" title="类简介"></a>类简介</h3><p><code>public class DefaultMQProducer 
+extends ClientConfig 
+implements MQProducer</code></p>
+<blockquote>
+<p><code>DefaultMQProducer</code>类是应用用来投递消息的入口，开箱即用，可通过无参构造方法快速创建一个生产者。主要负责消息的发送，支持同步/异步/oneway的发送方式，这些发送方式均支持批量发送。可以通过该类提供的getter/setter方法，调整发送者的参数。<code>DefaultMQProducer</code>提供了多个send方法，每个send方法略有不同，在使用前务必详细了解其意图。下面给出一个生产者示例代码，<a href="https://github.com/apache/rocketmq/blob/master/example/src/main/java/org/apache/rocketmq/example/" target="_blank" rel="noopener">点击查看更多示例代码</a>。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> MQClientException </span>&#123;</span><br><span class="line">        <span class="comment">// 创建指定分组名的生产者</span></span><br><span class="line">        DefaultMQProducer producer = <span class="keyword">new</span> DefaultMQProducer(<span class="string">"ProducerGroupName"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动生产者</span></span><br><span class="line">        producer.start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">128</span>; i++)</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">            	<span class="comment">// 构建消息</span></span><br><span class="line">                Message msg = <span class="keyword">new</span> Message(<span class="string">"TopicTest"</span>,</span><br><span class="line">                        <span class="string">"TagA"</span>,</span><br><span class="line">                        <span class="string">"OrderID188"</span>,</span><br><span class="line">                        <span class="string">"Hello world"</span>.getBytes(RemotingHelper.DEFAULT_CHARSET));</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 同步发送</span></span><br><span class="line">                SendResult sendResult = producer.send(msg);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 打印发送结果</span></span><br><span class="line">                System.out.printf(<span class="string">"%s%n"</span>, sendResult);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        producer.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：该类是线程安全的。在配置并启动完成后可在多个线程间安全共享。</p>
+<a id="more"></a>
+<h3 id="字段摘要"><a href="#字段摘要" class="headerlink" title="字段摘要"></a>字段摘要</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>字段名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DefaultMQProducerImpl</td>
+<td>defaultMQProducerImpl</td>
+<td>生产者的内部默认实现</td>
+</tr>
+<tr>
+<td>String</td>
+<td>producerGroup</td>
+<td>生产者分组</td>
+</tr>
+<tr>
+<td>String</td>
+<td>createTopicKey</td>
+<td>在发送消息时，自动创建服务器不存在的topic</td>
+</tr>
+<tr>
+<td>int</td>
+<td>defaultTopicQueueNums</td>
+<td>创建topic时默认的队列数量</td>
+</tr>
+<tr>
+<td>int</td>
+<td>sendMsgTimeout</td>
+<td>发送消息的超时时间</td>
+</tr>
+<tr>
+<td>int</td>
+<td>compressMsgBodyOverHowmuch</td>
+<td>压缩消息体的阈值</td>
+</tr>
+<tr>
+<td>int</td>
+<td>retryTimesWhenSendFailed</td>
+<td>同步模式下内部尝试发送消息的最大次数</td>
+</tr>
+<tr>
+<td>int</td>
+<td>retryTimesWhenSendAsyncFailed</td>
+<td>异步模式下内部尝试发送消息的最大次数</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>retryAnotherBrokerWhenNotStoreOK</td>
+<td>是否在内部发送失败时重试另一个broker</td>
+</tr>
+<tr>
+<td>int</td>
+<td>maxMessageSize</td>
+<td>消息的最大长度</td>
+</tr>
+<tr>
+<td>TraceDispatcher</td>
+<td>traceDispatcher</td>
+<td>消息追踪器。使用rcpHook来追踪消息</td>
+</tr>
+</tbody>
+</table>
+<h3 id="构造方法摘要"><a href="#构造方法摘要" class="headerlink" title="构造方法摘要"></a>构造方法摘要</h3><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>方法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DefaultMQProducer()</td>
+<td>由默认参数值创建一个生产者</td>
+</tr>
+<tr>
+<td>DefaultMQProducer(final String producerGroup)</td>
+<td>使用指定的分组名创建一个生产者</td>
+</tr>
+<tr>
+<td>DefaultMQProducer(final String producerGroup, boolean enableMsgTrace)</td>
+<td>使用指定的分组名创建一个生产者，并设置是否开启消息追踪</td>
+</tr>
+<tr>
+<td>DefaultMQProducer(final String producerGroup, boolean enableMsgTrace, final String customizedTraceTopic)</td>
+<td>使用指定的分组名创建一个生产者，并设置是否开启消息追踪及追踪topic的名称</td>
+</tr>
+<tr>
+<td>DefaultMQProducer(RPCHook rpcHook)</td>
+<td>使用指定的hook创建一个生产者</td>
+</tr>
+<tr>
+<td>DefaultMQProducer(final String producerGroup, RPCHook rpcHook)</td>
+<td>使用指定的分组名及自定义hook创建一个生产者</td>
+</tr>
+<tr>
+<td>DefaultMQProducer(final String producerGroup, RPCHook rpcHook, boolean enableMsgTrace,final String customizedTraceTopic)</td>
+<td>使用指定的分组名及自定义hook创建一个生产者，并设置是否开启消息追踪及追踪topic的名称</td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用方法摘要"><a href="#使用方法摘要" class="headerlink" title="使用方法摘要"></a>使用方法摘要</h3><table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>方法名称</th>
+<th>方法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td>createTopic(String key, String newTopic, int queueNum)</td>
+<td>在broker上创建指定的topic</td>
+</tr>
+<tr>
+<td>void</td>
+<td>createTopic(String key, String newTopic, int queueNum, int topicSysFlag)</td>
+<td>在broker上创建指定的topic</td>
+</tr>
+<tr>
+<td>long</td>
+<td>earliestMsgStoreTime(MessageQueue mq)</td>
+<td>查询最早的消息存储时间</td>
+</tr>
+<tr>
+<td>List<messagequeue></messagequeue></td>
+<td>fetchPublishMessageQueues(String topic)</td>
+<td>获取topic的消息队列</td>
+</tr>
+<tr>
+<td>long</td>
+<td>maxOffset(MessageQueue mq)</td>
+<td>查询给定消息队列的最大offset</td>
+</tr>
+<tr>
+<td>long</td>
+<td>minOffset(MessageQueue mq)</td>
+<td>查询给定消息队列的最小offset</td>
+</tr>
+<tr>
+<td>QueryResult</td>
+<td>queryMessage(String topic, String key, int maxNum, long begin, long end)</td>
+<td>按关键字查询消息</td>
+</tr>
+<tr>
+<td>long</td>
+<td>searchOffset(MessageQueue mq, long timestamp)</td>
+<td>查找指定时间的消息队列的物理offset</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Collection<message> msgs)</message></td>
+<td>同步批量发送消息</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Collection<message> msgs, long timeout)</message></td>
+<td>同步批量发送消息</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Collection<message> msgs, MessageQueue messageQueue)</message></td>
+<td>向指定的消息队列同步批量发送消息</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Collection<message> msgs, MessageQueue messageQueue, long timeout)</message></td>
+<td>向指定的消息队列同步批量发送消息，并指定超时时间</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Message msg)</td>
+<td>同步单条发送消息</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Message msg, long timeout)</td>
+<td>同步发送单条消息，并指定超时时间</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Message msg, MessageQueue mq)</td>
+<td>向指定的消息队列同步发送单条消息</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Message msg, MessageQueue mq, long timeout)</td>
+<td>向指定的消息队列同步单条发送消息，并指定超时时间</td>
+</tr>
+<tr>
+<td>void</td>
+<td>send(Message msg, MessageQueue mq, SendCallback sendCallback)</td>
+<td>向指定的消息队列异步单条发送消息，并指定回调方法</td>
+</tr>
+<tr>
+<td>void</td>
+<td>send(Message msg, MessageQueue mq, SendCallback sendCallback, long timeout)</td>
+<td>向指定的消息队列异步单条发送消息，并指定回调方法和超时时间</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Message msg, MessageQueueSelector selector, Object arg)</td>
+<td>向消息队列同步单条发送消息，并指定发送队列选择器</td>
+</tr>
+<tr>
+<td>SendResult</td>
+<td>send(Message msg, MessageQueueSelector selector, Object arg, long timeout)</td>
+<td>向消息队列同步单条发送消息，并指定发送队列选择器与超时时间</td>
+</tr>
+<tr>
+<td>void</td>
+<td>send(Message msg, MessageQueueSelector selector, Object arg, SendCallback sendCallback)</td>
+<td>向指定的消息队列异步单条发送消息</td>
+</tr>
+<tr>
+<td>void</td>
+<td>send(Message msg, MessageQueueSelector selector, Object arg, SendCallback sendCallback, long timeout)</td>
+<td>向指定的消息队列异步单条发送消息，并指定超时时间</td>
+</tr>
+<tr>
+<td>void</td>
+<td>send(Message msg, SendCallback sendCallback)</td>
+<td>异步发送消息</td>
+</tr>
+<tr>
+<td>void</td>
+<td>send(Message msg, SendCallback sendCallback, long timeout)</td>
+<td>异步发送消息，并指定回调方法和超时时间</td>
+</tr>
+<tr>
+<td>TransactionSendResult</td>
+<td>sendMessageInTransaction(Message msg, LocalTransactionExecuter tranExecuter, final Object arg)</td>
+<td>发送事务消息，并指定本地执行事务实例</td>
+</tr>
+<tr>
+<td>TransactionSendResult</td>
+<td>sendMessageInTransaction(Message msg, Object arg)</td>
+<td>发送事务消息</td>
+</tr>
+<tr>
+<td>void</td>
+<td>sendOneway(Message msg)</td>
+<td>单向发送消息，不等待broker响应</td>
+</tr>
+<tr>
+<td>void</td>
+<td>sendOneway(Message msg, MessageQueue mq)</td>
+<td>单向发送消息到指定队列，不等待broker响应</td>
+</tr>
+<tr>
+<td>void</td>
+<td>sendOneway(Message msg, MessageQueueSelector selector, Object arg)</td>
+<td>单向发送消息到队列选择器的选中的队列，不等待broker响应</td>
+</tr>
+<tr>
+<td>void</td>
+<td>shutdown()</td>
+<td>关闭当前生产者实例并释放相关资源</td>
+</tr>
+<tr>
+<td>void</td>
+<td>start()</td>
+<td>启动生产者</td>
+</tr>
+<tr>
+<td>MessageExt</td>
+<td>viewMessage(String offsetMsgId)</td>
+<td>根据给定的msgId查询消息</td>
+</tr>
+<tr>
+<td>MessageExt</td>
+<td>public MessageExt viewMessage(String topic, String msgId)</td>
+<td>根据给定的msgId查询消息，并指定topic</td>
+</tr>
+</tbody>
+</table>
+<h3 id="字段详细信息"><a href="#字段详细信息" class="headerlink" title="字段详细信息"></a>字段详细信息</h3><ul>
+<li><p><a href="http://rocketmq.apache.org/docs/core-concept/" target="_blank" rel="noopener">producerGroup</a></p>
+<p>  <code>private String producerGroup</code></p>
+<p>  生产者的分组名称。相同的分组名称表明生产者实例在概念上归属于同一分组。这对事务消息十分重要，如果原始生产者在事务之后崩溃，那么broker可以联系同一生产者分组的不同生产者实例来提交或回滚事务。</p>
+<p>  默认值：DEFAULT_PRODUCER</p>
+<p>  注意： 由数字、字母、下划线、横杠（-）、竖线（|）或百分号组成；不能为空；长度不能超过255。</p>
+</li>
+<li><p>defaultMQProducerImpl</p>
+<p>  <code>protected final transient DefaultMQProducerImpl defaultMQProducerImpl</code></p>
+<p>  生产者的内部默认实现，在构造生产者时内部自动初始化，提供了大部分方法的内部实现。</p>
+</li>
+<li><p>createTopicKey</p>
+<p>  <code>private String createTopicKey = MixAll.AUTO_CREATE_TOPIC_KEY_TOPIC</code></p>
+<p>  在发送消息时，自动创建服务器不存在的topic，需要指定Key，该Key可用于配置发送消息所在topic的默认路由。</p>
+<p>  默认值：TBW102</p>
+<p>  建议：测试或者demo使用，生产环境下不建议打开自动创建配置。</p>
+</li>
+<li><p>defaultTopicQueueNums</p>
+<p>  <code>private volatile int defaultTopicQueueNums = 4</code></p>
+<p>  创建topic时默认的队列数量。</p>
+<p>  默认值：4</p>
+</li>
+<li><p>sendMsgTimeout</p>
+<p>  <code>private int sendMsgTimeout = 3000</code></p>
+<p>  发送消息时的超时时间。</p>
+<p>  默认值：3000，单位：毫秒 </p>
+<p>  建议：不建议修改该值，该值应该与broker配置中的sendTimeout一致，发送超时，可临时修改该值，建议解决超时问题，提高broker集群的Tps。</p>
+</li>
+<li><p>compressMsgBodyOverHowmuch</p>
+<p>  <code>private int compressMsgBodyOverHowmuch = 1024 * 4</code></p>
+<p>  压缩消息体阈值。大于4K的消息体将默认进行压缩。</p>
+<p>  默认值：1024 * 4，单位：字节</p>
+<p>  建议：可通过DefaultMQProducerImpl.setZipCompressLevel方法设置压缩率（默认为5，可选范围[0,9]）；可通过DefaultMQProducerImpl.tryToCompressMessage方法测试出compressLevel与compressMsgBodyOverHowmuch最佳值。</p>
+</li>
+<li><p>retryTimesWhenSendFailed</p>
+<p>  <code>private int retryTimesWhenSendFailed = 2</code></p>
+<p>  同步模式下，在返回发送失败之前，内部尝试重新发送消息的最大次数。</p>
+<p>  默认值：2，即：默认情况下一条消息最多会被投递3次。</p>
+<p>  注意：在极端情况下，这可能会导致消息的重复。</p>
+</li>
+<li><p>retryTimesWhenSendAsyncFailed</p>
+<p>  <code>private int retryTimesWhenSendAsyncFailed = 2</code></p>
+<p>  异步模式下，在发送失败之前，内部尝试重新发送消息的最大次数。</p>
+<p>  默认值：2，即：默认情况下一条消息最多会被投递3次。</p>
+<p>  注意：在极端情况下，这可能会导致消息的重复。</p>
+</li>
+<li><p>retryAnotherBrokerWhenNotStoreOK</p>
+<p>  <code>private boolean retryAnotherBrokerWhenNotStoreOK = false</code></p>
+<p>  同步模式下，消息保存失败时是否重试其他broker。</p>
+<p>  默认值：false</p>
+<p>  注意：此配置关闭时，非投递时产生异常情况下，会忽略retryTimesWhenSendFailed配置。</p>
+</li>
+<li><p>maxMessageSize</p>
+<p>  <code>private int maxMessageSize = 1024 * 1024 * 4</code></p>
+<p>  消息的最大大小。当消息题的字节数超过maxMessageSize就发送失败。</p>
+<p>  默认值：1024 <em> 1024 </em> 4，单位：字节</p>
+</li>
+<li><p><a href="https://github.com/apache/rocketmq/wiki/RIP-6-Message-Trace" target="_blank" rel="noopener">traceDispatcher</a></p>
+<p>  <code>private TraceDispatcher traceDispatcher = null</code></p>
+<p>  在开启消息追踪后，该类通过hook的方式把消息生产者，消息存储的broker和消费者消费消息的信息像链路一样记录下来。在构造生产者时根据构造入参enableMsgTrace来决定是否创建该对象。</p>
+</li>
+</ul>
+<h3 id="构造方法详细信息"><a href="#构造方法详细信息" class="headerlink" title="构造方法详细信息"></a>构造方法详细信息</h3><ol>
+<li><p>DefaultMQProducer</p>
+<p> <code>public DefaultMQProducer()</code></p>
+<p> 创建一个新的生产者。</p>
+</li>
+<li><p>DefaultMQProducer</p>
+<p> <code>DefaultMQProducer(final String producerGroup)</code></p>
+<p> 使用指定的分组名创建一个生产者。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名        | 类型   | 是否必须 | 缺省值           | 描述             |<br>  | ————- | —— | ——– | —————- | —————- |<br>  | producerGroup | String | 是       | DEFAULT_PRODUCER | 生产者的分组名称 |</p>
+</li>
+</ul>
+</li>
+<li><p>DefaultMQProducer</p>
+<p> <code>DefaultMQProducer(final String producerGroup, boolean enableMsgTrace)</code></p>
+<p> 使用指定的分组名创建一个生产者，并设置是否开启消息追踪。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名         | 类型    | 是否必须 | 缺省值           | 描述             |<br>  | ————– | ——- | ——– | —————- | —————- |<br>  | producerGroup  | String  | 是       | DEFAULT_PRODUCER | 生产者的分组名称 |<br>  | enableMsgTrace | boolean | 是       | false            | 是否开启消息追踪 |</p>
+</li>
+</ul>
+</li>
+<li><p>DefaultMQProducer</p>
+<p> <code>DefaultMQProducer(final String producerGroup, boolean enableMsgTrace, final String customizedTraceTopic)</code></p>
+<p> 使用指定的分组名创建一个生产者，并设置是否开启消息追踪及追踪topic的名称。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名               | 类型    | 是否必须 | 缺省值              | 描述                            |<br>  | ——————– | ——- | ——– | ——————- | ——————————- |<br>  | producerGroup        | String  | 是       | DEFAULT_PRODUCER    | 生产者的分组名称                |<br>  | rpcHook              | RPCHook | 否       | null                | 每个远程命令执行后会回调rpcHook |<br>  | enableMsgTrace       | boolean | 是       | false               | 是否开启消息追踪                |<br>  | customizedTraceTopic | String  | 否       | RMQ_SYS_TRACE_TOPIC | 消息跟踪topic的名称             |</p>
+</li>
+</ul>
+</li>
+<li><p>DefaultMQProducer</p>
+<p> <code>DefaultMQProducer(RPCHook rpcHook)</code></p>
+<p> 使用指定的hook创建一个生产者。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名  | 类型    | 是否必须 | 缺省值 | 描述                            |<br>  | ——- | ——- | ——– | —— | ——————————- |<br>  | rpcHook | RPCHook | 否       | null   | 每个远程命令执行后会回调rpcHook |</p>
+</li>
+</ul>
+</li>
+<li><p>DefaultMQProducer</p>
+<p> <code>DefaultMQProducer(final String producerGroup, RPCHook rpcHook)</code></p>
+<p> 使用指定的分组名及自定义hook创建一个生产者。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名        | 类型    | 是否必须 | 缺省值           | 描述                            |<br>  | ————- | ——- | ——– | —————- | ——————————- |<br>  | producerGroup | String  | 是       | DEFAULT_PRODUCER | 生产者的分组名称                |<br>  | rpcHook       | RPCHook | 否       | null             | 每个远程命令执行后会回调rpcHook |</p>
+</li>
+</ul>
+</li>
+<li><p>DefaultMQProducer</p>
+<p> <code>DefaultMQProducer(final String producerGroup, RPCHook rpcHook, boolean enableMsgTrace,final String customizedTraceTopic)</code></p>
+<p> 使用指定的分组名及自定义hook创建一个生产者，并设置是否开启消息追踪及追踪topic的名称。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>| 参数名               | 类型    | 是否必须 | 缺省值              | 描述                            |<br>| ——————– | ——- | ——– | ——————- | ——————————- |<br>| producerGroup        | String  | 是       | DEFAULT_PRODUCER    | 生产者的分组名称                |<br>| rpcHook              | RPCHook | 否       | null                | 每个远程命令执行后会回调rpcHook |<br>| enableMsgTrace       | boolean | 是       | false               | 是否开启消息追踪                |<br>| customizedTraceTopic | String  | 否       | RMQ_SYS_TRACE_TOPIC | 消息跟踪topic的名称             |</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="使用方法详细信息"><a href="#使用方法详细信息" class="headerlink" title="使用方法详细信息"></a>使用方法详细信息</h3><ol>
+<li><p>createTopic</p>
+<p><code>public void createTopic(String key, String newTopic, int queueNum)</code></p>
+<p>在broker上创建一个topic。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名   | 类型   | 是否必须 | 默认值 | 值范围           | 说明                                                         |<br>  | ——– | —— | ——– | —— | —————- | ———————————————————— |<br>  | key      | String | 是       |        |                  | 访问密钥。                                                   |<br>  | newTopic | String | 是       |        |                  | 新建topic的名称。由数字、字母、下划线（_）、横杠（-）、竖线（&#124;）或百分号（%）组成；<br>长度小于255；不能为TBW102或空。 |<br>  | queueNum | int    | 是       | 0      | (0, maxIntValue] | topic的队列数量。                                            |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - 生产者状态非Running；未找到broker等客户端异常。</p>
+</li>
+</ul>
+</li>
+<li><p>createTopic</p>
+<p><code>public void createTopic(String key, String newTopic, int queueNum, int topicSysFlag)</code></p>
+<p>在broker上创建一个topic。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型   | 是否必须 | 默认值 | 值范围           | 说明                 |<br>  | ———— | —— | ——– | —— | —————- | ——————– |<br>  | key          | String | 是       |        |                  | 访问密钥。           |<br>  | newTopic     | String | 是       |        |                  | 新建topic的名称。    |<br>  | queueNum     | int    | 是       | 0      | (0, maxIntValue] | topic的队列数量。    |<br>  | topicSysFlag | int    | 是       | 0      |                  | 保留字段，暂未使用。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - 生产者状态非Running；未找到broker等客户端异常。</p>
+</li>
+</ul>
+</li>
+<li><p>earliestMsgStoreTime</p>
+<p> <code>public long earliestMsgStoreTime(MessageQueue mq)</code></p>
+<p> 查询最早的消息存储时间。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型         | 是否必须 | 默认值 | 值范围 | 说明             |<br>  | —— | ———— | ——– | —— | —— | —————- |<br>  | mq     | MessageQueue | 是       |        |        | 要查询的消息队列 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  指定队列最早的消息存储时间。单位：毫秒。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - 生产者状态非Running；没有找到broker；broker返回失败；网络异常；线程中断等客户端异常。</p>
+</li>
+</ul>
+</li>
+<li><p>fetchPublishMessageQueues</p>
+<p> <code>public List&lt;MessageQueue&gt; fetchPublishMessageQueues(String topic)</code></p>
+<p> 获取topic的消息队列。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型   | 是否必须 | 默认值 | 值范围 | 说明      |<br>  | —— | —— | ——– | —— | —— | ——— |<br>  | topic  | String | 是       |        |        | topic名称 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  传入topic下的消息队列。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - 生产者状态非Running；没有找到broker；broker返回失败；网络异常；线程中断等客户端异常。</p>
+</li>
+</ul>
+</li>
+<li><p>maxOffset</p>
+<p> <code>public long maxOffset(MessageQueue mq)</code></p>
+<p> 查询消息队列的最大物理偏移量。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型         | 是否必须 | 默认值 | 值范围 | 说明             |<br>  | —— | ———— | ——– | —— | —— | —————- |<br>  | mq     | MessageQueue | 是       |        |        | 要查询的消息队列 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  给定消息队列的最大物理偏移量。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - 生产者状态非Running；没有找到broker；broker返回失败；网络异常；线程中断等客户端异常。</p>
+</li>
+</ul>
+</li>
+<li><p>minOffset</p>
+<p> <code>public long minOffset(MessageQueue mq)</code></p>
+<p> 查询给定消息队列的最小物理偏移量。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型         | 是否必须 | 默认值 | 值范围 | 说明             |<br>  | —— | ———— | ——– | —— | —— | —————- |<br>  | mq     | MessageQueue | 是       |        |        | 要查询的消息队列 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  给定消息队列的最小物理偏移量。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - 生产者状态非Running；没有找到broker；broker返回失败；网络异常；线程中断等客户端异常。</p>
+</li>
+</ul>
+</li>
+<li><p>queryMessage</p>
+<p> <code>public QueryResult queryMessage(String topic, String key, int maxNum, long begin, long end)</code></p>
+<p> 按关键字查询消息。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型   | 是否必须 | 默认值 | 值范围 | 说明                   |<br>  | —— | —— | ——– | —— | —— | ———————- |<br>  | topic  | String | 是       |        |        | topic名称              |<br>  | key    | String | 否       | null   |        | 查找的关键字           |<br>  | maxNum | int    | 是       |        |        | 返回消息的最大数量     |<br>  | begin  | long   | 是       |        |        | 开始时间戳，单位：毫秒 |<br>  | end    | long   | 是       |        |        | 结束时间戳，单位：毫秒 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  查询到的消息集合。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - 生产者状态非Running；没有找到broker；broker返回失败；网络异常等客户端异常客户端异常。<br><br>  InterruptedException - 线程中断。</p>
+</li>
+</ul>
+</li>
+<li><p>searchOffset</p>
+<p> <code>public long searchOffset(MessageQueue mq, long timestamp)</code></p>
+<p> 查找指定时间的消息队列的物理偏移量。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名    | 类型         | 是否必须 | 默认值 | 值范围 | 说明                                 |<br>  | ——— | ———— | ——– | —— | —— | ———————————— |<br>  | mq        | MessageQueue | 是       |        |        | 要查询的消息队列。                   |<br>  | timestamp | long         | 是       |        |        | 指定要查询时间的时间戳。单位：毫秒。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  指定时间的消息队列的物理偏移量。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - 生产者状态非Running；没有找到broker；broker返回失败；网络异常；线程中断等客户端异常。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p> <code>public SendResult send(Collection&lt;Message&gt; msgs)</code></p>
+<p> 同步批量发送消息。在返回发送失败之前，内部尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendFailed</em>属性）。未明确指定发送队列，默认采取轮询策略发送。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型                | 是否必须 | 默认值 | 值范围 | 说明                                              |<br>  | —— | ——————- | ——– | —— | —— | ————————————————- |<br>  | msgs   | Collection<message> | 是       |        |        | 待发送的消息集合。集合内的消息必须属同一个topic。 |</message></p>
+</li>
+<li><p>返回值描述：</p>
+<p>  批量消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public SendResult send(Collection&lt;Message&gt; msgs, long timeout)</code></p>
+<p>同步批量发送消息，如果在指定的超时时间内未完成消息投递，会抛出<em>RemotingTooMuchRequestException</em>。<br>在返回发送失败之前，内部尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendFailed</em>属性）。未明确指定发送队列，默认采取轮询策略发送。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名  | 类型                | 是否必须 | 默认值                   | 值范围 | 说明                                              |<br>  | ——- | ——————- | ——– | ———————— | —— | ————————————————- |<br>  | msgs    | Collection<message> | 是       |                          |        | 待发送的消息集合。集合内的消息必须属同一个topic。 |<br>  | timeout | long                | 是       | 参见<em>sendMsgTimeout</em>属性 |        | 发送超时时间，单位：毫秒。                        |</message></p>
+</li>
+<li><p>返回值描述：</p>
+<p>  批量消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public SendResult send(Collection&lt;Message&gt; msgs, MessageQueue messageQueue)</code></p>
+<p>向给定队列同步批量发送消息。</p>
+<p>注意：指定队列意味着所有消息均为同一个topic。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型                | 是否必须 | 默认值 | 值范围 | 说明                                                        |<br>  | ———— | ——————- | ——– | —— | —— | ———————————————————– |<br>  | msgs         | Collection<message> | 是       |        |        | 待发送的消息集合。集合内的消息必须属同一个topic。           |<br>  | messageQueue | MessageQueue        | 是       |        |        | 待投递的消息队列。指定队列意味着待投递消息均为同一个topic。 |</message></p>
+</li>
+<li><p>返回值描述：</p>
+<p>  批量消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public SendResult send(Collection&lt;Message&gt; msgs, MessageQueue messageQueue, long timeout)</code></p>
+<p>向给定队列同步批量发送消息，如果在指定的超时时间内未完成消息投递，会抛出<em>RemotingTooMuchRequestException</em>。</p>
+<p>注意：指定队列意味着所有消息均为同一个topic。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型                | 是否必须 | 默认值                   | 值范围 | 说明                                                        |<br>  | ———— | ——————- | ——– | ———————— | —— | ———————————————————– |<br>  | msgs         | Collection<message> | 是       |                          |        | 待发送的消息集合。集合内的消息必须属同一个topic。           |<br>  | timeout      | long                | 是       | 参见<em>sendMsgTimeout</em>属性 |        | 发送超时时间，单位：毫秒。                                  |<br>  | messageQueue | MessageQueue        | 是       |                          |        | 待投递的消息队列。指定队列意味着待投递消息均为同一个topic。 |</message></p>
+</li>
+<li><p>返回值描述：</p>
+<p>  批量消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public SendResult send(Message msg)</code></p>
+<p>以同步模式发送消息，仅当发送过程完全完成时，此方法才会返回。<br>在返回发送失败之前，内部尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendFailed</em>属性）。未明确指定发送队列，默认采取轮询策略发送。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型    | 是否必须 | 默认值 | 值范围 | 说明           |<br>  | —— | ——- | ——– | —— | —— | ————– |<br>  | msg    | Message | 是       |        |        | 待发送的消息。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public SendResult send(Message msg, long timeout)</code></p>
+<p>以同步模式发送消息，如果在指定的超时时间内未完成消息投递，会抛出<em>RemotingTooMuchRequestException</em>。仅当发送过程完全完成时，此方法才会返回。<br>在返回发送失败之前，内部尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendFailed</em>属性）。未明确指定发送队列，默认采取轮询策略发送。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名  | 类型    | 是否必须 | 默认值                   | 值范围 | 说明                       |<br>  | ——- | ——- | ——– | ———————— | —— | ————————– |<br>  | msg     | Message | 是       |                          |        | 待发送的消息。             |<br>  | timeout | long    | 是       | 参见<em>sendMsgTimeout</em>属性 |        | 发送超时时间，单位：毫秒。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public SendResult send(Message msg, MessageQueue mq)</code></p>
+<p>向指定的消息队列同步发送单条消息。仅当发送过程完全完成时，此方法才会返回。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型         | 是否必须 | 默认值 | 值范围 | 说明               |<br>  | —— | ———— | ——– | —— | —— | —————— |<br>  | msg    | Message      | 是       |        |        | 待发送的消息。     |<br>  | mq     | MessageQueue | 是       |        |        | 待投递的消息队列。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public SendResult send(Message msg, MessageQueue mq, long timeout)</code></p>
+<p>向指定的消息队列同步发送单条消息，如果在指定的超时时间内未完成消息投递，会抛出<em>RemotingTooMuchRequestException</em>。仅当发送过程完全完成时，此方法才会返回。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名  | 类型         | 是否必须 | 默认值                   | 值范围 | 说明                                                        |<br>  | ——- | ———— | ——– | ———————— | —— | ———————————————————– |<br>  | msg     | Message      | 是       |                          |        | 待发送的消息。                                              |<br>  | timeout | long         | 是       | 参见<em>sendMsgTimeout</em>属性 |        | 发送超时时间，单位：毫秒。                                  |<br>  | mq      | MessageQueue | 是       |                          |        | 待投递的消息队列。指定队列意味着待投递消息均为同一个topic。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public void send(Message msg, MessageQueue mq, SendCallback sendCallback)</code></p>
+<p>向指定的消息队列异步发送单条消息，异步发送调用后直接返回，并在在发送成功或者异常时回调<code>sendCallback</code>，所以异步发送时<code>sendCallback</code>参数不能为null，否则在回调时会抛出<code>NullPointerException</code>。<br>异步发送时，在成功发送前，其内部会尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendAsyncFailed</em>属性）。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型         | 是否必须 | 默认值 | 值范围 | 说明                                                        |<br>  | ———— | ———— | ——– | —— | —— | ———————————————————– |<br>  | msg          | Message      | 是       |        |        | 待发送的消息。                                              |<br>  | mq           | MessageQueue | 是       |        |        | 待投递的消息队列。指定队列意味着待投递消息均为同一个topic。 |<br>  | sendCallback | SendCallback | 是       |        |        | 回调接口的实现。                                            |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  InterruptedException - 发送线程中断。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public void send(Message msg, MessageQueue mq, SendCallback sendCallback, long timeout)</code></p>
+<p>向指定的消息队列异步发送单条消息，异步发送调用后直接返回，并在在发送成功或者异常时回调<code>sendCallback</code>，所以异步发送时<code>sendCallback</code>参数不能为null，否则在回调时会抛出<code>NullPointerException</code>。<br>若在指定时间内消息未发送成功，回调方法会收到<em>RemotingTooMuchRequestException</em>异常。<br>异步发送时，在成功发送前，其内部会尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendAsyncFailed</em>属性）。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型         | 是否必须 | 默认值                   | 值范围 | 说明                       |<br>  | ———— | ———— | ——– | ———————— | —— | ————————– |<br>  | msg          | Message      | 是       |                          |        | 待发送的消息。             |<br>  | mq           | MessageQueue | 是       |                          |        | 待投递的消息队列。         |<br>  | sendCallback | SendCallback | 是       |                          |        | 回调接口的实现。           |<br>  | timeout      | long         | 是       | 参见<em>sendMsgTimeout</em>属性 |        | 发送超时时间，单位：毫秒。 |</p>
+</li>
+<li><p>返回值描述：<br>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  InterruptedException - 发送线程中断。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public SendResult send(Message msg, MessageQueueSelector selector, Object arg)</code></p>
+<p>向通过<code>MessageQueueSelector</code>计算出的队列同步发送消息。</p>
+<p>可以通过自实现<code>MessageQueueSelector</code>接口，将某一类消息发送至固定的队列。比如：将同一个订单的状态变更消息投递至固定的队列。</p>
+<p>注意：此消息发送失败内部不会重试。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名   | 类型                 | 是否必须 | 默认值 | 值范围 | 说明                         |<br>  | ——– | ——————– | ——– | —— | —— | —————————- |<br>  | msg      | Message              | 是       |        |        | 待发送的消息。               |<br>  | selector | MessageQueueSelector | 是       |        |        | 队列选择器。                 |<br>  | arg      | Object               | 否       |        |        | 供队列选择器使用的参数对象。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public SendResult send(Message msg, MessageQueueSelector selector, Object arg, long timeout)</code></p>
+<p>向通过<code>MessageQueueSelector</code>计算出的队列同步发送消息，并指定发送超时时间。</p>
+<p>可以通过自实现<code>MessageQueueSelector</code>接口，将某一类消息发送至固定的队列。比如：将同一个订单的状态变更消息投递至固定的队列。</p>
+<p>注意：此消息发送失败内部不会重试。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名   | 类型                 | 是否必须 | 默认值                   | 值范围 | 说明                         |<br>  | ——– | ——————– | ——– | ———————— | —— | —————————- |<br>  | msg      | Message              | 是       |                          |        | 待发送的消息。               |<br>  | selector | MessageQueueSelector | 是       |                          |        | 队列选择器。                 |<br>  | arg      | Object               | 否       |                          |        | 供队列选择器使用的参数对象。 |<br>  | timeout  | long                 | 是       | 参见<em>sendMsgTimeout</em>属性 |        | 发送超时时间，单位：毫秒。   |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  消息的发送结果，包含msgId，发送状态等信息。</p>
+</li>
+<li><p>异常描述：<br>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 发送线程中断。<br><br>  RemotingTooMuchRequestException - 发送超时。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public void send(Message msg, MessageQueueSelector selector, Object arg, SendCallback sendCallback)</code></p>
+<p>向通过<code>MessageQueueSelector</code>计算出的队列异步发送单条消息，异步发送调用后直接返回，并在在发送成功或者异常时回调<code>sendCallback</code>，所以异步发送时<code>sendCallback</code>参数不能为null，否则在回调时会抛出<code>NullPointerException</code>。<br>异步发送时，在成功发送前，其内部会尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendAsyncFailed</em>属性）。</p>
+<p>可以通过自实现<code>MessageQueueSelector</code>接口，将某一类消息发送至固定的队列。比如：将同一个订单的状态变更消息投递至固定的队列。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型                 | 是否必须 | 默认值 | 值范围 | 说明                         |<br>  | ———— | ——————– | ——– | —— | —— | —————————- |<br>  | msg          | Message              | 是       |        |        | 待发送的消息。               |<br>  | selector     | MessageQueueSelector | 是       |        |        | 队列选择器。                 |<br>  | arg          | Object               | 否       |        |        | 供队列选择器使用的参数对象。 |<br>  | sendCallback | SendCallback         | 是       |        |        | 回调接口的实现。             |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  InterruptedException - 发送线程中断。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public void send(Message msg, MessageQueueSelector selector, Object arg, SendCallback sendCallback, long timeout)</code></p>
+<p>向通过<code>MessageQueueSelector</code>计算出的队列异步发送单条消息，异步发送调用后直接返回，并在在发送成功或者异常时回调<code>sendCallback</code>，所以异步发送时<code>sendCallback</code>参数不能为null，否则在回调时会抛出<code>NullPointerException</code>。<br>异步发送时，在成功发送前，其内部会尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendAsyncFailed</em>属性）。</p>
+<p>可以通过自实现<code>MessageQueueSelector</code>接口，将某一类消息发送至固定的队列。比如：将同一个订单的状态变更消息投递至固定的队列。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型                 | 是否必须 | 默认值                   | 值范围 | 说明                         |<br>  | ———— | ——————– | ——– | ———————— | —— | —————————- |<br>  | msg          | Message              | 是       |                          |        | 待发送的消息。               |<br>  | selector     | MessageQueueSelector | 是       |                          |        | 队列选择器。                 |<br>  | arg          | Object               | 否       |                          |        | 供队列选择器使用的参数对象。 |<br>  | sendCallback | SendCallback         | 是       |                          |        | 回调接口的实现。             |<br>  | timeout      | long                 | 是       | 参见<em>sendMsgTimeout</em>属性 |        | 发送超时时间，单位：毫秒。   |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  InterruptedException - 发送线程中断。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public void send(Message msg, SendCallback sendCallback)</code></p>
+<p>异步发送单条消息，异步发送调用后直接返回，并在在发送成功或者异常时回调<code>sendCallback</code>，所以异步发送时<code>sendCallback</code>参数不能为null，否则在回调时会抛出<code>NullPointerException</code>。<br>异步发送时，在成功发送前，其内部会尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendAsyncFailed</em>属性）。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型         | 是否必须 | 默认值 | 值范围 | 说明             |<br>  | ———— | ———— | ——– | —— | —— | —————- |<br>  | msg          | Message      | 是       |        |        | 待发送的消息。   |<br>  | sendCallback | SendCallback | 是       |        |        | 回调接口的实现。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  InterruptedException - 发送线程中断。</p>
+</li>
+</ul>
+</li>
+<li><p>send</p>
+<p><code>public void send(Message msg, SendCallback sendCallback, long timeout)</code></p>
+<p>异步发送单条消息，异步发送调用后直接返回，并在在发送成功或者异常时回调<code>sendCallback</code>，所以异步发送时<code>sendCallback</code>参数不能为null，否则在回调时会抛出<code>NullPointerException</code>。<br>异步发送时，在成功发送前，其内部会尝试重新发送消息的最大次数（参见<em>retryTimesWhenSendAsyncFailed</em>属性）。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型         | 是否必须 | 默认值                   | 值范围 | 说明                       |<br>  | ———— | ———— | ——– | ———————— | —— | ————————– |<br>  | msg          | Message      | 是       |                          |        | 待发送的消息。             |<br>  | sendCallback | SendCallback | 是       |                          |        | 回调接口的实现。           |<br>  | timeout      | long         | 是       | 参见<em>sendMsgTimeout</em>属性 |        | 发送超时时间，单位：毫秒。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  InterruptedException - 发送线程中断。</p>
+</li>
+</ul>
+</li>
+<li><p>sendMessageInTransaction</p>
+<p><code>public TransactionSendResult sendMessageInTransaction(Message msg, LocalTransactionExecuter tranExecuter, final Object arg)</code></p>
+<p>发送事务消息。该类不做默认实现，抛出<code>RuntimeException</code>异常。参见：<code>TransactionMQProducer</code>类。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名       | 类型                       | 是否必须 | 默认值 | 值范围 | 说明                                                         |<br>  | ———— | ————————– | ——– | —— | —— | ———————————————————— |<br>  | msg          | Message                    | 是       |        |        | 待投递的事务消息                                             |<br>  | tranExecuter | <code>LocalTransactionExecuter</code> | 是       |        |        | 本地事务执行器。该类<em>已过期</em>，将在5.0.0版本中移除。请勿使用该方法。 |<br>  | arg          | Object                     | 是       |        |        | 供本地事务执行程序使用的参数对象                             |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  事务结果，参见：<code>LocalTransactionState</code>类。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  RuntimeException - 永远抛出该异常。</p>
+</li>
+</ul>
+</li>
+<li><p>sendMessageInTransaction</p>
+<p><code>public TransactionSendResult sendMessageInTransaction(Message msg, final Object arg)</code></p>
+<p>发送事务消息。该类不做默认实现，抛出<code>RuntimeException</code>异常。参见：<code>TransactionMQProducer</code>类。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型    | 是否必须 | 默认值 | 值范围 | 说明                             |<br>  | —— | ——- | ——– | —— | —— | ——————————– |<br>  | msg    | Message | 是       |        |        | 待投递的事务消息                 |<br>  | arg    | Object  | 是       |        |        | 供本地事务执行程序使用的参数对象 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  事务结果，参见：<code>LocalTransactionState</code>类。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  RuntimeException - 永远抛出该异常。</p>
+</li>
+</ul>
+</li>
+<li><p>sendOneway</p>
+<p><code>public void sendOneway(Message msg)</code></p>
+<p>  以oneway形式发送消息，broker不会响应任何执行结果，和<a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol" target="_blank" rel="noopener">UDP</a>类似。它具有最大的吞吐量但消息可能会丢失。</p>
+<p>  可在消息量大，追求高吞吐量并允许消息丢失的情况下使用该方式。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型    | 是否必须 | 默认值 | 值范围 | 说明         |<br>  | —— | ——- | ——– | —— | —— | ———— |<br>  | msg    | Message | 是       |        |        | 待投递的消息 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  InterruptedException - 发送线程中断。</p>
+</li>
+</ul>
+</li>
+<li><p>sendOneway</p>
+<p><code>public void sendOneway(Message msg, MessageQueue mq)</code></p>
+<p>  向指定队列以oneway形式发送消息，broker不会响应任何执行结果，和<a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol" target="_blank" rel="noopener">UDP</a>类似。它具有最大的吞吐量但消息可能会丢失。</p>
+<p>  可在消息量大，追求高吞吐量并允许消息丢失的情况下使用该方式。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型         | 是否必须 | 默认值 | 值范围 | 说明             |<br>  | —— | ———— | ——– | —— | —— | —————- |<br>  | msg    | Message      | 是       |        |        | 待投递的消息     |<br>  | mq     | MessageQueue | 是       |        |        | 待投递的消息队列 |</p>
+</li>
+<li><p>返回值描述：<br>  void</p>
+</li>
+<li>异常描述：<br>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  InterruptedException - 发送线程中断。</li>
+</ul>
+</li>
+<li><p>sendOneway</p>
+<p><code>public void sendOneway(Message msg, MessageQueueSelector selector, Object arg)</code></p>
+<p>  向通过<code>MessageQueueSelector</code>计算出的队列以oneway形式发送消息，broker不会响应任何执行结果，和<a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol" target="_blank" rel="noopener">UDP</a>类似。它具有最大的吞吐量但消息可能会丢失。</p>
+<p>  可在消息量大，追求高吞吐量并允许消息丢失的情况下使用该方式。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名   | 类型                 | 是否必须 | 默认值 | 值范围 | 说明                         |<br>  | ——– | ——————– | ——– | —— | —— | —————————- |<br>  | msg      | Message              | 是       |        |        | 待发送的消息。               |<br>  | selector | MessageQueueSelector | 是       |        |        | 队列选择器。                 |<br>  | arg      | Object               | 否       |        |        | 供队列选择器使用的参数对象。 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - broker不存在或未找到；namesrv地址为空；未找到topic的路由信息等客户端异常。<br><br>  RemotingException - 网络异常。<br><br>  InterruptedException - 发送线程中断。</p>
+</li>
+</ul>
+</li>
+<li><p>shutdown</p>
+<p><code>public void shutdown()</code></p>
+<p>关闭当前生产者实例并释放相关资源。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  无。</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+</li>
+</ul>
+</li>
+<li><p>start</p>
+<p><code>public void start()</code></p>
+<p>启动生产者实例。在发送或查询消息之前必须调用此方法。它执行了许多内部初始化，比如：检查配置、与namesrv建立连接、启动一系列心跳等定时任务等。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  无。</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  void</p>
+</li>
+<li><p>异常描述：</p>
+<p>  MQClientException - 初始化过程中出现失败。</p>
+</li>
+</ul>
+</li>
+<li><p>viewMessage</p>
+<p><code>public MessageExt viewMessage(String offsetMsgId)</code></p>
+<p>根据给定的msgId查询消息。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名      | 类型   | 是否必须 | 默认值 | 值范围 | 说明        |<br>  | ———– | —— | ——– | —— | —— | ———– |<br>  | offsetMsgId | String | 是       |        |        | offsetMsgId |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  返回<code>MessageExt</code>，包含：topic名称，消息题，消息ID，消费次数，生产者host等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  RemotingException - 网络层发生错误。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 线程被中断。<br><br>  MQClientException - 生产者状态非Running；msgId非法等。</p>
+</li>
+</ul>
+</li>
+<li><p>viewMessage</p>
+<p><code>public MessageExt viewMessage(String topic, String msgId)</code></p>
+<p>根据给定的msgId查询消息，并指定topic。</p>
+<ul>
+<li><p>入参描述：</p>
+<p>  | 参数名 | 类型   | 是否必须 | 默认值 | 值范围 | 说明      |<br>  | —— | —— | ——– | —— | —— | ——— |<br>  | msgId  | String | 是       |        |        | msgId     |<br>  | topic  | String | 是       |        |        | topic名称 |</p>
+</li>
+<li><p>返回值描述：</p>
+<p>  返回<code>MessageExt</code>，包含：topic名称，消息题，消息ID，消费次数，生产者host等信息。</p>
+</li>
+<li><p>异常描述：</p>
+<p>  RemotingException - 网络层发生错误。<br><br>  MQBrokerException - broker发生错误。<br><br>  InterruptedException - 线程被中断。<br><br>  MQClientException - 生产者状态非Running；msgId非法等。</p>
+</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>消息队列</category>
+      </categories>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2021/02/25/Mysql%20%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/</url>
+    <content><![CDATA[<h1 id="Mysql-事务和锁"><a href="#Mysql-事务和锁" class="headerlink" title="Mysql 事务和锁"></a>Mysql 事务和锁</h1><h2 id="事务的四大特性"><a href="#事务的四大特性" class="headerlink" title="事务的四大特性"></a>事务的四大特性</h2><h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p><code>原子性是指事务包含的所有操作要么全部成功，要么全部失败回滚，因此事务的操作如果成功就必须要完全应用到数据库，如果操作失败则不能对数据库有任何影响。</code></p>
+<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p><code>隔离性是当多个用户并发访问数据库时，比如同时操作同一张表时，数据库为每一个用户开启的事务，不能被其他事务的操作所干扰，多个并发事务之间要相互隔离。关于事务的隔离性数据库提供了多种隔离级别。</code></p>
+<h3 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h3><p><code>持久性是指一个事务一旦被提交了，那么对数据库中的数据的改变就是永久性的，即便是在数据库系统遇到故障的情况下也不会丢失提交事务的操作。例如我们在使用JDBC操作数据库时，在提交事务方法后，提示用户事务操作完成，当我们程序执行完成直到看到提示后，就可以认定事务已经正确提交，即使这时候数据库出现了问题，也必须要将我们的事务完全执行完成。否则的话就会造成我们虽然看到提示事务处理完毕，但是数据库因为故障而没有执行事务的重大错误。这是不允许的。</code> </p>
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p><code>一致性是指事务必须使数据库从一个一致性状态变换到另一个一致性状态，也就是说一个事务执行之前和执行之后都必须处于一致性状态。举例来说，假设用户A和用户B两者的钱加起来一共是1000，那么不管A和B之间如何转账、转几次账，事务结束后两个用户的钱相加起来应该还得是1000，这就是事务的一致性。</code></p>
+<h2 id="事务并发的问题"><a href="#事务并发的问题" class="headerlink" title="事务并发的问题"></a>事务并发的问题</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>只有插入操作造成的读不一致操作才是幻读</p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2021/01/11/Arthas/</url>
+    <content><![CDATA[<h1 id="Arthas"><a href="#Arthas" class="headerlink" title="Arthas"></a>Arthas</h1><p><code>Arthas</code> 是Alibaba开源的Java诊断工具。</p>
+<p>当你遇到以下类似问题而束手无策时，<code>Arthas</code>可以帮助你解决：</p>
+<ol start="0">
+<li>这个类从哪个 jar 包加载的？为什么会报各种类相关的 Exception？</li>
+<li>我改的代码为什么没有执行到？难道是我没 commit？分支搞错了？</li>
+<li>遇到问题无法在线上 debug，难道只能通过加日志再重新发布吗？</li>
+<li>线上遇到某个用户的数据处理有问题，但线上同样无法 debug，线下无法重现！</li>
+<li>是否有一个全局视角来查看系统的运行状况？</li>
+<li>有什么办法可以监控到JVM的实时运行状态？</li>
+<li>怎么快速定位应用的热点，生成火焰图？</li>
+</ol>
+<p><code>Arthas</code>支持JDK 6+，支持Linux/Mac/Windows，采用命令行交互模式，同时提供丰富的 <code>Tab</code> 自动补全功能，进一步方便进行问题的定位和诊断。</p>
+<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="下载Demo-并启动"><a href="#下载Demo-并启动" class="headerlink" title="下载Demo 并启动"></a>下载Demo 并启动</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -O https://arthas.aliyun.com/arthas-demo.jar</span><br><span class="line">java -jar arthas-demo.jar</span><br></pre></td></tr></table></figure>
+<p><code>arthas-demo</code>是一个简单的程序，每隔一秒生成一个随机数，再执行质因数分解，并打印出分解结果。</p>
+<h3 id="下载arthas并启动"><a href="#下载arthas并启动" class="headerlink" title="下载arthas并启动"></a>下载arthas并启动</h3><p>在命令行下面执行（使用和目标进程一致的用户启动，否则可能attach失败）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -O https://arthas.aliyun.com/arthas-boot.jar</span><br><span class="line">java -jar arthas-boot.jar</span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行该程序的用户需要和目标进程具有相同的权限。比如以<code>admin</code>用户来执行：<code>sudo su admin &amp;&amp; java -jar arthas-boot.jar</code> 或 <code>sudo -u admin -EH java -jar arthas-boot.jar</code>。</li>
+<li>如果attach不上目标进程，可以查看<code>~/logs/arthas/</code> 目录下的日志。</li>
+<li>如果下载速度比较慢，可以使用aliyun的镜像：<code>java -jar arthas-boot.jar --repo-mirror</code></li>
+<li><code>java -jar arthas-boot.jar -h</code> 打印更多参数信息。</li>
+</ul>
+<p>选择应用java进程：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java -jar arthas-boot.jar</span><br><span class="line">[INFO] arthas-boot version: 3.4.5</span><br><span class="line">[INFO] Found existing java process, please choose one and input the serial number of the process, eg : 1. Then hit ENTER.</span><br><span class="line">* [1]: 45184</span><br><span class="line">  [2]: 81813 org.apache.zookeeper.server.quorum.QuorumPeerMain</span><br><span class="line">  [3]: 49636 arthas-demo.jar</span><br><span class="line">  [4]: 53014 org.apache.catalina.startup.Bootstrap</span><br><span class="line">  [5]: 76380</span><br><span class="line">  [6]: 29199 org.jetbrains.jps.cmdline.Launcher</span><br></pre></td></tr></table></figure>
+<p>Demo进程是第3个，则输入3，再输入<code>回车/enter</code>。Arthas会attach到目标进程上，并输出日志：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[INFO] arthas home: /Users/zhangjunmin/.arthas/lib/3.4.5/arthas</span><br><span class="line">[INFO] Try to attach process 49636</span><br><span class="line">[INFO] Attach process 49636 success.</span><br><span class="line">[INFO] arthas-client connect 127.0.0.1 3658</span><br><span class="line">  ,---.  ,------. ,--------.,--.  ,--.  ,---.   ,---.</span><br><span class="line"> /  O  \ |  .--. ''--.  .--'|  '--'  | /  O  \ '   .-'</span><br><span class="line">|  .-.  ||  '--'.'   |  |   |  .--.  ||  .-.  |`.  `-.</span><br><span class="line">|  | |  ||  |\  \    |  |   |  |  |  ||  | |  |.-'    |</span><br><span class="line">`--' `--'`--' '--'   `--'   `--'  `--'`--' `--'`-----'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">wiki      https://arthas.aliyun.com/doc</span><br><span class="line">tutorials https://arthas.aliyun.com/doc/arthas-tutorials.html</span><br><span class="line">version   3.4.5</span><br><span class="line">pid       49636</span><br><span class="line">time      2021-01-11 14:24:15</span><br></pre></td></tr></table></figure>
+<h3 id="查看dashboard"><a href="#查看dashboard" class="headerlink" title="查看dashboard"></a>查看dashboard</h3><p>输入<a href="https://arthas.aliyun.com/doc/dashboard.html" target="_blank" rel="noopener">dashboard</a>，按<code>回车/enter</code>，会展示当前进程的信息，按<code>ctrl+c</code>可以中断执行。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ID  NAME                   GROUP      PRIORIT STATE  %CPU    DELTA_ TIME    INTERR DAEMON</span><br><span class="line">-1  C1 CompilerThread3     -          -1      -      0.0     0.000  0:0.440 false  true</span><br><span class="line">-1  C2 CompilerThread2     -          -1      -      0.0     0.000  0:0.183 false  true</span><br><span class="line">-1  C2 CompilerThread1     -          -1      -      0.0     0.000  0:0.169 false  true</span><br><span class="line">-1  C2 CompilerThread0     -          -1      -      0.0     0.000  0:0.159 false  true</span><br><span class="line">1   main                   main       5       TIMED_ 0.0     0.000  0:0.139 false  false</span><br><span class="line">-1  VM Periodic Task Threa -          -1      -      0.0     0.000  0:0.126 false  true</span><br><span class="line">22  arthas-NettyHttpTelnet system     5       RUNNAB 0.0     0.000  0:0.068 false  true</span><br><span class="line">15  arthas-NettyHttpTelnet system     5       RUNNAB 0.0     0.000  0:0.028 false  true</span><br><span class="line">10  Attach Listener        system     9       RUNNAB 0.0     0.000  0:0.014 false  true</span><br><span class="line">-1  VM Thread              -          -1      -      0.0     0.000  0:0.014 false  true</span><br><span class="line">23  arthas-command-execute system     5       TIMED_ 0.0     0.000  0:0.004 false  true</span><br><span class="line">24  Timer-for-arthas-dashb system     5       RUNNAB 0.0     0.000  0:0.002 false  true</span><br><span class="line">18  arthas-shell-server    system     9       TIMED_ 0.0     0.000  0:0.001 false  true</span><br><span class="line">2   Reference Handler      system     10      WAITIN 0.0     0.000  0:0.000 false  true</span><br><span class="line">3   Finalizer              system     8       WAITIN 0.0     0.000  0:0.000 false  true</span><br><span class="line">4   Signal Dispatcher      system     9       RUNNAB 0.0     0.000  0:0.000 false  true</span><br><span class="line">12  arthas-timer           system     9       WAITIN 0.0     0.000  0:0.000 false  true</span><br><span class="line">16  arthas-NettyWebsocketT system     5       RUNNAB 0.0     0.000  0:0.000 false  true</span><br><span class="line">17  arthas-NettyWebsocketT system     5       RUNNAB 0.0     0.000  0:0.000 false  true</span><br><span class="line">19  arthas-session-manager system     9       TIMED_ 0.0     0.000  0:0.000 false  true</span><br><span class="line">20  arthas-UserStat        system     9       WAITIN 0.0     0.000  0:0.000 false  true</span><br><span class="line">-1  GC task thread#8 (Para -          -1      -      0.0     0.000  0:0.000 false  true</span><br><span class="line">-1  GC task thread#7 (Para -          -1      -      0.0     0.000  0:0.000 false  true</span><br><span class="line">-1  GC task thread#6 (Para -          -1      -      0.0     0.000  0:0.000 false  true</span><br><span class="line">-1  GC task thread#0 (Para -          -1      -      0.0     0.000  0:0.000 false  true</span><br><span class="line">Memory              used  total  max   usage  GC</span><br><span class="line">heap                114M  491M   7282M 1.58%  gc.ps_scavenge.count   0</span><br><span class="line">ps_eden_space       114M  128M   2688M 4.27%                         0</span><br><span class="line">ps_survivor_space   0K    21504K       0.00%  gc.ps_marksweep.count  0</span><br><span class="line">ps_old_gen          0K    349696 55925 0.00%  gc.ps_marksweep.time(m 0</span><br><span class="line">                          K      76K          s)</span><br><span class="line">nonheap             26M   28M    -1    92.30%</span><br><span class="line">code_cache          4M    5M     240M  1.85%</span><br><span class="line">metaspace           19M   20M    -1    97.21%</span><br><span class="line">compressed_class_sp 2M    2M     1024M 0.23%</span><br><span class="line">ace</span><br><span class="line">Runtime</span><br><span class="line">os.name                                       Mac OS X</span><br><span class="line">os.version                                    10.15.6</span><br><span class="line">java.version                                  1.8.0_241</span><br><span class="line">java.home                                     /Library/Java/JavaVirtualMachines/jdk1.8.0_2</span><br><span class="line">                                              41.jdk/Contents/Home/jre</span><br><span class="line">systemload.average                            2.34</span><br><span class="line">processors                                    12</span><br></pre></td></tr></table></figure>
+<h4 id="数据说明"><a href="#数据说明" class="headerlink" title="数据说明"></a>数据说明</h4><ul>
+<li>ID: Java级别的线程ID，注意这个ID不能跟jstack中的nativeID一一对应。</li>
+<li>NAME: 线程名</li>
+<li>GROUP: 线程组名</li>
+<li>PRIORITY: 线程优先级, 1~10之间的数字，越大表示优先级越高</li>
+<li>STATE: 线程的状态</li>
+<li>CPU%: 线程的cpu使用率。比如采样间隔1000ms，某个线程的增量cpu时间为100ms，则cpu使用率=100/1000=10%</li>
+<li>DELTA_TIME: 上次采样之后线程运行增量CPU时间，数据格式为<code>秒</code></li>
+<li>TIME: 线程运行总CPU时间，数据格式为<code>分:秒</code></li>
+<li>INTERRUPTED: 线程当前的中断位状态</li>
+<li>DAEMON: 是否是daemon（守护）线程</li>
+</ul>
+<h4 id="JVM内部线程"><a href="#JVM内部线程" class="headerlink" title="JVM内部线程"></a>JVM内部线程</h4><p>Java 8之后支持获取JVM内部线程CPU时间，这些线程只有名称和CPU时间，没有ID及状态等信息（显示ID为-1）。 通过内部线程可以观测到JVM活动，如GC、JIT编译等占用CPU情况，方便了解JVM整体运行状况。</p>
+<ul>
+<li>当JVM 堆(heap)/元数据(metaspace)空间不足或OOM时，可以看到GC线程的CPU占用率明显高于其他的线程。</li>
+<li>当执行<code>trace/watch/tt/redefine</code>等命令后，可以看到JIT线程活动变得更频繁。因为JVM热更新class字节码时清除了此class相关的JIT编译结果，需要重新编译。</li>
+</ul>
+<p>JVM内部线程包括下面几种：</p>
+<ul>
+<li>JIT编译线程: 如 <code>C1 CompilerThread0</code>, <code>C2 CompilerThread0</code></li>
+<li>GC线程: 如<code>GC Thread0</code>, <code>G1 Young RemSet Sampling</code></li>
+<li>其它内部线程: 如<code>VM Periodic Task Thread</code>, <code>VM Thread</code>, <code>Service Thread</code></li>
+</ul>
+<h4 id="通过thread命令来获取到进程的Main-Class"><a href="#通过thread命令来获取到进程的Main-Class" class="headerlink" title="通过thread命令来获取到进程的Main Class"></a>通过thread命令来获取到进程的Main Class</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> thread 1 | grep 'main('</span><br><span class="line">    at demo.MathGame.main(MathGame.java:17)</span><br></pre></td></tr></table></figure>
+<h4 id="通过jad来反编译-Class"><a href="#通过jad来反编译-Class" class="headerlink" title="通过jad来反编译 Class"></a>通过jad来反编译 Class</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> jad demo.MathGame</span><br><span class="line"> </span><br><span class="line">ClassLoader:</span><br><span class="line">+-sun.misc.Launcher$AppClassLoader@3d4eac69</span><br><span class="line">  +-sun.misc.Launcher$ExtClassLoader@66350f69</span><br><span class="line"> </span><br><span class="line">Location:</span><br><span class="line">/tmp/arthas-demo.jar</span><br><span class="line"> </span><br><span class="line">/*</span><br><span class="line"> * Decompiled with CFR 0_132.</span><br><span class="line"> */</span><br><span class="line">package demo;</span><br><span class="line"> </span><br><span class="line">import java.io.PrintStream;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Random;</span><br><span class="line">import java.util.concurrent.TimeUnit;</span><br><span class="line"> </span><br><span class="line">public class MathGame &#123;</span><br><span class="line">    private static Random random = new Random();</span><br><span class="line">    private int illegalArgumentCount = 0;</span><br><span class="line"> </span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        MathGame game = new MathGame();</span><br><span class="line">        do &#123;</span><br><span class="line">            game.run();</span><br><span class="line">            TimeUnit.SECONDS.sleep(1L);</span><br><span class="line">        &#125; while (true);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void run() throws InterruptedException &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            int number = random.nextInt();</span><br><span class="line">            List&lt;Integer&gt; primeFactors = this.primeFactors(number);</span><br><span class="line">            MathGame.print(number, primeFactors);</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception e) &#123;</span><br><span class="line">            System.out.println(String.format("illegalArgumentCount:%3d, ", this.illegalArgumentCount) + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public static void print(int number, List&lt;Integer&gt; primeFactors) &#123;</span><br><span class="line">        StringBuffer sb = new StringBuffer("" + number + "=");</span><br><span class="line">        Iterator&lt;Integer&gt; iterator = primeFactors.iterator();</span><br><span class="line">        while (iterator.hasNext()) &#123;</span><br><span class="line">            int factor = iterator.next();</span><br><span class="line">            sb.append(factor).append('*');</span><br><span class="line">        &#125;</span><br><span class="line">        if (sb.charAt(sb.length() - 1) == '*') &#123;</span><br><span class="line">            sb.deleteCharAt(sb.length() - 1);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(sb);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public List&lt;Integer&gt; primeFactors(int number) &#123;</span><br><span class="line">        if (number &lt; 2) &#123;</span><br><span class="line">            ++this.illegalArgumentCount;</span><br><span class="line">            throw new IllegalArgumentException("number is: " + number + ", need &gt;= 2");</span><br><span class="line">        &#125;</span><br><span class="line">        ArrayList&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();</span><br><span class="line">        int i = 2;</span><br><span class="line">        while (i &lt;= number) &#123;</span><br><span class="line">            if (number % i == 0) &#123;</span><br><span class="line">                result.add(i);</span><br><span class="line">                number /= i;</span><br><span class="line">                i = 2;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            ++i;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">Affect(row-cnt:1) cost in 970 ms.</span><br></pre></td></tr></table></figure>
+<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p>通过<a href="https://arthas.aliyun.com/doc/watch.html" target="_blank" rel="noopener">watch</a>命令来查看函数的返回值：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span> watch demo.MathGame primeFactors returnObj</span><br><span class="line">Press Ctrl+C to abort.</span><br><span class="line">Affect(class-cnt:1 , method-cnt:1) cost in 107 ms.</span><br><span class="line">ts=2018-11-28 19:22:30; [cost=1.715367ms] result=null</span><br><span class="line">ts=2018-11-28 19:22:31; [cost=0.185203ms] result=null</span><br><span class="line">ts=2018-11-28 19:22:32; [cost=19.012416ms] result=@ArrayList[</span><br><span class="line">    @Integer[5],</span><br><span class="line">    @Integer[47],</span><br><span class="line">    @Integer[2675531],</span><br><span class="line">]</span><br><span class="line">ts=2018-11-28 19:22:33; [cost=0.311395ms] result=@ArrayList[</span><br><span class="line">    @Integer[2],</span><br><span class="line">    @Integer[5],</span><br><span class="line">    @Integer[317],</span><br><span class="line">    @Integer[503],</span><br><span class="line">    @Integer[887],</span><br><span class="line">]</span><br><span class="line">ts=2018-11-28 19:22:34; [cost=10.136007ms] result=@ArrayList[</span><br><span class="line">    @Integer[2],</span><br><span class="line">    @Integer[2],</span><br><span class="line">    @Integer[3],</span><br><span class="line">    @Integer[3],</span><br><span class="line">    @Integer[31],</span><br><span class="line">    @Integer[717593],</span><br><span class="line">]</span><br><span class="line">ts=2018-11-28 19:22:35; [cost=29.969732ms] result=@ArrayList[</span><br><span class="line">    @Integer[5],</span><br><span class="line">    @Integer[29],</span><br><span class="line">    @Integer[7651739],</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2 id="进阶使用"><a href="#进阶使用" class="headerlink" title="进阶使用"></a>进阶使用</h2><h3 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h3><ul>
+<li><a href>help</a>——查看命令帮助信息</li>
+<li><a href="https://arthas.aliyun.com/doc/cat.html" target="_blank" rel="noopener">cat</a>——打印文件内容，和linux里的cat命令类似</li>
+<li><a href="https://arthas.aliyun.com/doc/echo.html" target="_blank" rel="noopener">echo</a>–打印参数，和linux里的echo命令类似</li>
+<li><a href="https://arthas.aliyun.com/doc/grep.html" target="_blank" rel="noopener">grep</a>——匹配查找，和linux里的grep命令类似</li>
+<li><a href="https://arthas.aliyun.com/doc/tee.html" target="_blank" rel="noopener">tee</a>——复制标准输入到标准输出和指定的文件，和linux里的tee命令类似</li>
+<li><a href="https://arthas.aliyun.com/doc/pwd.html" target="_blank" rel="noopener">pwd</a>——返回当前的工作目录，和linux命令类似</li>
+<li>cls——清空当前屏幕区域</li>
+<li>session——查看当前会话的信息</li>
+<li><a href="https://arthas.aliyun.com/doc/reset.html" target="_blank" rel="noopener">reset</a>——重置增强类，将被 Arthas 增强过的类全部还原，Arthas 服务端关闭时会重置所有增强过的类</li>
+<li>version——输出当前目标 Java 进程所加载的 Arthas 版本号</li>
+<li>history——打印命令历史</li>
+<li>quit——退出当前 Arthas 客户端，其他 Arthas 客户端不受影响</li>
+<li>stop——关闭 Arthas 服务端，所有 Arthas 客户端全部退出</li>
+<li><a href="https://arthas.aliyun.com/doc/keymap.html" target="_blank" rel="noopener">keymap</a>——Arthas快捷键列表及自定义快捷键</li>
+</ul>
+<h3 id="jvm相关"><a href="#jvm相关" class="headerlink" title="jvm相关"></a>jvm相关</h3><ul>
+<li><p><a href="#dashboard">dashboard</a>——当前系统的实时数据面板</p>
+<p>| 参数名称 | 参数说明                                |<br>| ——– | ————————————— |<br>| [i:]     | 刷新实时数据的时间间隔 (ms)，默认5000ms |<br>| [n:]     | 刷新实时数据的次数                      |</p>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/thread.html" target="_blank" rel="noopener">thread</a>——查看当前 JVM 的线程堆栈信息</p>
+<p>| 参数名称      | 参数说明                                             |<br>| ————- | :————————————————— |<br>| <em>id</em>          | 线程id                                               |<br>| [n:]          | 指定最忙的前N个线程并打印堆栈                        |<br>| [b]           | 找出当前阻塞其他线程的线程                           |<br>| [i <code>&lt;value&gt;</code>] | 指定cpu使用率统计的采样间隔，单位为毫秒，默认值为200 |<br>| [–all]       | 显示所有匹配的线程                                   |</p>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/jvm.html" target="_blank" rel="noopener">jvm</a>——查看当前 JVM 的信息</p>
+<h5 id="THREAD相关"><a href="#THREAD相关" class="headerlink" title="THREAD相关"></a>THREAD相关</h5><ul>
+<li>COUNT: JVM当前活跃的线程数</li>
+<li>DAEMON-COUNT: JVM当前活跃的守护线程数</li>
+<li>PEAK-COUNT: 从JVM启动开始曾经活着的最大线程数</li>
+<li>STARTED-COUNT: 从JVM启动开始总共启动过的线程次数</li>
+<li>DEADLOCK-COUNT: JVM当前死锁的线程数</li>
+</ul>
+<h5 id="文件描述符相关"><a href="#文件描述符相关" class="headerlink" title="文件描述符相关"></a>文件描述符相关</h5><ul>
+<li>MAX-FILE-DESCRIPTOR-COUNT：JVM进程最大可以打开的文件描述符数</li>
+<li>OPEN-FILE-DESCRIPTOR-COUNT：JVM当前打开的文件描述符数</li>
+</ul>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/sysprop.html" target="_blank" rel="noopener">sysprop</a>——查看和修改JVM的系统属性</p>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/sysenv.html" target="_blank" rel="noopener">sysenv</a>——查看JVM的环境变量</p>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/vmoption.html" target="_blank" rel="noopener">vmoption</a>——查看和修改JVM里诊断相关的option</p>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/perfcounter.html" target="_blank" rel="noopener">perfcounter</a>——查看当前 JVM 的Perf Counter信息</p>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/logger.html" target="_blank" rel="noopener">logger</a>——查看和修改logger</p>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/getstatic.html" target="_blank" rel="noopener">getstatic</a>——查看类的静态属性</p>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/ognl.html" target="_blank" rel="noopener">ognl</a>——执行ognl表达式</p>
+<ul>
+<li>ognl表达式使用说明：<a href="https://arthas.aliyun.com/doc/ognl.html、https://github.com/alibaba/arthas/issues/71" target="_blank" rel="noopener">https://arthas.aliyun.com/doc/ognl.html、https://github.com/alibaba/arthas/issues/71</a></li>
+</ul>
+<p>ognl -c 4a3e794d <a href="mailto:&#39;@com.greatmap.land.modules.oa.service.oneWindowAccept.OneWindowAcceptTwoService" target="_blank" rel="noopener">&#39;@com.greatmap.land.modules.oa.service.oneWindowAccept.OneWindowAcceptTwoService</a>@LOGGER’</p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://arthas.aliyun.com/doc/mbean.html" target="_blank" rel="noopener">mbean</a>——查看 Mbean 的信息</p>
+</li>
+<li><p><a href="https://arthas.aliyun.com/doc/heapdump.html" target="_blank" rel="noopener">heapdump</a>——dump java heap, 类似jmap命令的heap dump功能</p>
+</li>
+</ul>
+<h3 id="class-classloader相关"><a href="#class-classloader相关" class="headerlink" title="class/classloader相关"></a>class/classloader相关</h3><ul>
+<li><a href="https://arthas.aliyun.com/doc/sc.html" target="_blank" rel="noopener">sc</a>——查看JVM已加载的类信息<ul>
+<li>sc -d com.greatmap.land.modules.oa.web.oneWindowAccept.OneWindowAcceptController | grep classLoaderHash</li>
+</ul>
+</li>
+<li><a href="https://arthas.aliyun.com/doc/sm.html" target="_blank" rel="noopener">sm</a>——查看已加载类的方法信息</li>
+<li><a href="https://arthas.aliyun.com/doc/jad.html" target="_blank" rel="noopener">jad</a>——反编译指定已加载类的源码</li>
+<li><a href="https://arthas.aliyun.com/doc/mc.html" target="_blank" rel="noopener">mc</a>——内存编译器，内存编译<code>.java</code>文件为<code>.class</code>文件</li>
+<li><a href="https://arthas.aliyun.com/doc/redefine.html" target="_blank" rel="noopener">redefine</a>——加载外部的<code>.class</code>文件，redefine到JVM里</li>
+<li><a href="https://arthas.aliyun.com/doc/dump.html" target="_blank" rel="noopener">dump</a>——dump 已加载类的 byte code 到特定目录</li>
+<li><a href="https://arthas.aliyun.com/doc/classloader.html" target="_blank" rel="noopener">classloader</a>——查看classloader的继承树，urls，类加载信息，使用classloader去getResource</li>
+</ul>
+<h3 id="monitor-watch-trace相关"><a href="#monitor-watch-trace相关" class="headerlink" title="monitor/watch/trace相关"></a>monitor/watch/trace相关</h3><blockquote>
+<p>请注意，这些命令，都通过字节码增强技术来实现的，会在指定类的方法中插入一些切面来实现数据统计和观测，因此在线上、预发使用时，请尽量明确需要观测的类、方法以及条件，诊断结束要执行 <code>stop</code> 或将增强过的类执行 <code>reset</code> 命令。</p>
+</blockquote>
+<ul>
+<li><a href="https://arthas.aliyun.com/doc/monitor.html" target="_blank" rel="noopener">monitor</a>——方法执行监控</li>
+<li><a href="https://arthas.aliyun.com/doc/watch.html" target="_blank" rel="noopener">watch</a>——方法执行数据观测</li>
+<li><a href="https://arthas.aliyun.com/doc/trace.html" target="_blank" rel="noopener">trace</a>——方法内部调用路径，并输出方法路径上的每个节点上耗时</li>
+<li><a href="https://arthas.aliyun.com/doc/stack.html" target="_blank" rel="noopener">stack</a>——输出当前方法被调用的调用路径</li>
+<li><a href="https://arthas.aliyun.com/doc/tt.html" target="_blank" rel="noopener">tt</a>——方法执行数据的时空隧道，记录下指定方法每次调用的入参和返回信息，并能对这些不同的时间下调用进行观测</li>
+</ul>
+<h2 id="进阶命令详解"><a href="#进阶命令详解" class="headerlink" title="进阶命令详解"></a>进阶命令详解</h2><h3 id="jvm相关-1"><a href="#jvm相关-1" class="headerlink" title="jvm相关"></a>jvm相关</h3><h4 id="dashboard"><a href="#dashboard" class="headerlink" title="dashboard"></a><a href="#jvm相关">dashboard</a></h4><h2 id="退出arthas"><a href="#退出arthas" class="headerlink" title="退出arthas"></a>退出arthas</h2><p>如果只是退出当前的连接，可以用<code>quit</code>或者<code>exit</code>命令。Attach到目标进程上的arthas还会继续运行，端口会保持开放，下次连接时可以直接连接上。</p>
+<p>如果想完全退出arthas，可以执行<code>stop</code>命令。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2021/01/11/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<h3 id="掌握对搜索引擎用的技巧"><a href="#掌握对搜索引擎用的技巧" class="headerlink" title="掌握对搜索引擎用的技巧"></a>掌握对搜索引擎用的技巧</h3><ul>
+<li>使用引号 “” 来标明一定要搜素的内容</li>
+<li><p>使用减号 - 来去掉不需要显示的内容</p>
+</li>
+<li><p>site：搜索指定网站内容</p>
+</li>
+<li>filetype: 指定文件类型</li>
+<li></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>SpringBoot整合Dubbo</title>
     <url>/2020/11/24/SpringBoot%E6%95%B4%E5%90%88Dubbo/</url>
-    <content><![CDATA[<h2 id="注解配置"><a href="#注解配置" class="headerlink" title="注解配置"></a>注解配置</h2><h3 id="服务提供方"><a href="#服务提供方" class="headerlink" title="服务提供方"></a>服务提供方</h3><h4 id="注解方式暴露服务"><a href="#注解方式暴露服务" class="headerlink" title="注解方式暴露服务"></a>注解方式暴露服务</h4><ul>
+    <content><![CDATA[<h1 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a>Dubbo</h1><h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><h3 id="服务提供方"><a href="#服务提供方" class="headerlink" title="服务提供方"></a>服务提供方</h3><h4 id="注解方式暴露服务"><a href="#注解方式暴露服务" class="headerlink" title="注解方式暴露服务"></a>注解方式暴露服务</h4><ul>
 <li>@DubboService</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@DubboService</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SayHelloServiceImpl</span> <span class="keyword">implements</span> <span class="title">SyaHelloService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">syaHello</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"annotation: hello, "</span> + msg;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -106,7 +1200,7 @@
 <h4 id="服务消费方配置"><a href="#服务消费方配置" class="headerlink" title="服务消费方配置"></a>服务消费方配置</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dubbo.application.name=annotation-consumer</span><br><span class="line">dubbo.registry.address=zookeeper://127.0.0.1:2181</span><br><span class="line">dubbo.consumer.timeout=3000</span><br></pre></td></tr></table></figure>
 <h4 id="指定Spring扫描路径-1"><a href="#指定Spring扫描路径-1" class="headerlink" title="指定Spring扫描路径"></a>指定Spring扫描路径</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhangjunmin</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@DubboComponentScan</span>(basePackageClasses = SpringBootDubboConsumerApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">SpringBootDubboConsumerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringBootDubboConsumerApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
    <a id="more"></a>
-<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><h3 id="启动时检查"><a href="#启动时检查" class="headerlink" title="启动时检查"></a>启动时检查</h3><p>在启动时检查依赖的服务是否可用</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="启动时检查"><a href="#启动时检查" class="headerlink" title="启动时检查"></a>启动时检查</h3><p>在启动时检查依赖的服务是否可用</p>
 <p>Dubbo 缺省会在启动时检查依赖的服务是否可用，不可用时会抛出异常，阻止 Spring 初始化完成，以便上线时，能及早发现问题，默认 <code>check=&quot;true&quot;</code>。</p>
 <p>可以通过 <code>check=&quot;false&quot;</code> 关闭检查，比如，测试时，有些服务不关心，或者出现了循环依赖，必须有一方先启动。</p>
 <p>另外，如果你的 Spring 容器是懒加载的，或者通过 API 编程延迟引用服务，请关闭 check，否则服务临时不可用时，会抛出异常，拿到 null 引用，如果 <code>check=&quot;false&quot;</code>，总是会返回引用，当服务恢复时，能自动连上。</p>
@@ -136,7 +1230,7 @@
 </ul>
 <h5 id="配置方法"><a href="#配置方法" class="headerlink" title="配置方法"></a>配置方法</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@DubboReference</span>(check = <span class="keyword">false</span>,retries = <span class="number">3</span>,cluster = <span class="string">"failover"</span>)</span><br><span class="line"><span class="keyword">private</span> SyaHelloService syaHelloService;</span><br></pre></td></tr></table></figure>
 <hr>
-<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><p>在集群负载均衡时，Dubbo 提供了多种均衡策略，缺省为 <code>random</code> 随机调用。</p>
+<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><p>在集群负载均衡时，Dubbo 提供了多种均衡策略，缺省为 <code>random</code> 随机调用。</p>
 <h4 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h4><h4 id="Random-LoadBalance"><a href="#Random-LoadBalance" class="headerlink" title="Random LoadBalance"></a>Random LoadBalance</h4><ul>
 <li><strong>随机</strong>，按权重设置随机概率。</li>
 <li>在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。</li>
@@ -205,7 +1299,7 @@
 <h4 id="Mysql的B-Tree"><a href="#Mysql的B-Tree" class="headerlink" title="Mysql的B+Tree"></a>Mysql的B+Tree</h4><p>  <img src="http://qiniupic.xiaomintongxue.cn/img/20191203041753272.png" alt></p>
    <a id="more"></a>
 <h4 id="B-Tree和B-Tree的区别"><a href="#B-Tree和B-Tree的区别" class="headerlink" title="B-Tree和B+Tree的区别"></a>B-Tree和B+Tree的区别</h4><p>  1 ，B+ 节点关键字搜索采用闭合区间<br>  2 ，B+ 非叶节点不保存数据相关信息，只保存关键字和子节点的引用<br>  3 ，B+ 关键字对应的数据保存在叶子节点中<br>  4 ，B+ 叶子节点是顺序排列的，并且相邻节点具有顺序引用的关系</p>
-<h5 id="为什么使用B-Tree"><a href="#为什么使用B-Tree" class="headerlink" title="为什么使用B+Tree"></a>为什么使用B+Tree</h5><p>  B+ 树是B- 树的变种（PLUS 版）多路绝对平衡查找树，他拥有B- 树的优势<br>  B+ 树扫库、表能力更强<br>  B+ 树的磁盘读写能力更 强<br>  B+树 树 的排序能力更强<br>  B+ 树的查询效率更加 稳定（仁者见仁、智者见智）</p>
+<h5 id="为什么使用B-Tree"><a href="#为什么使用B-Tree" class="headerlink" title="为什么使用B+Tree"></a>为什么使用B+Tree</h5><p>  B+ 树是B- 树的变种（PLUS 版）多路绝对平衡查找树，他拥有B- 树的优势<br>  B+ 树扫库、表能力更强<br>  B+ 树的磁盘读写能力更强    （IO深度更低）<br>  B+树 树 的排序能力更强    （）<br>  B+ 树的查询效率更加 稳定（仁者见仁、智者见智）</p>
 <h5 id="为什么不使用二叉树"><a href="#为什么不使用二叉树" class="headerlink" title="为什么不使用二叉树"></a>为什么不使用二叉树</h5><ul>
 <li>它太深了<br>数据处的（高）深度决定着他的IO 操作次数，IO 操作耗时大</li>
 <li><p>它太小了<br>每一个磁盘块 （节点/ 页） 保存的数据量太小 了没有很好的利用操作磁盘IO 的数据 交换 特性，也没有利用好磁盘IO 的预 读能力（空间局部性原理 ），从而带来频繁的IO。</p>
@@ -226,7 +1320,7 @@
 <li>索引列的数据长度能少则少。</li>
 <li>索引一定不是越多越好，越全越好，一定是建合适的。</li>
 <li>匹配列前缀可用到索引 like 9999%（列的离散型高的情况下），like %9999%、like %9999用不到索引；</li>
-<li>Where 条件中 not in 和 &lt;&gt;操作无法使用索引；</li>
+<li>Where 条件中 not in 和 &lt;&gt;操作不一定无法使用索引，根据成本计算优化器决定。</li>
 <li>匹配范围值，order by 也可用到索引；</li>
 <li>多用指定列查询，只返回自己想到的数据列，少用select * ；</li>
 <li>联合索引中如果不是按照索引·最左列开始查找，无法使用索引；</li>
@@ -234,8 +1328,14 @@
 <li>联合索引中如果查询中有某个列的范围查询，则其右边的所有列都无法使用索引；</li>
 <li>在创建索引时尽量使用不能为null的列</li>
 </ul>
+<h4 id="AVL树（平衡二叉树）、B树（多路平衡查找树）、B-树分别解决了什么问题"><a href="#AVL树（平衡二叉树）、B树（多路平衡查找树）、B-树分别解决了什么问题" class="headerlink" title="AVL树（平衡二叉树）、B树（多路平衡查找树）、B+树分别解决了什么问题"></a>AVL树（平衡二叉树）、B树（多路平衡查找树）、B+树分别解决了什么问题</h4><ul>
+<li>AVL树解决了二叉树可能会变成斜树，不平衡的问题</li>
+<li>B树解决了AVL树只有两路，会造成深度过高浪费存储空间的问题，造成过多的IO次数</li>
+<li><p>B+树只在叶子节点存储数据，并且叶子节点形成了有序链表的结构</p>
 <h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><ul>
 <li>作为索引字段在定义长度时尽量越短越好<br>字段长度越少，底层数据的路数越多，效率越高</li>
+</ul>
+</li>
 </ul>
 ]]></content>
       <categories>

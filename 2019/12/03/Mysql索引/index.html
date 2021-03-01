@@ -120,7 +120,7 @@
 <meta property="og:image" content="http://qiniupic.xiaomintongxue.cn/img/20191203042022422.png">
 <meta property="og:image" content="http://qiniupic.xiaomintongxue.cn/img/20191203042033961.png">
 <meta property="og:image" content="http://qiniupic.xiaomintongxue.cn/img/20191203042043411.png">
-<meta property="og:updated_time" content="2020-12-09T10:11:58.026Z">
+<meta property="og:updated_time" content="2021-03-01T09:48:38.383Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql索引">
 <meta name="twitter:description" content="引擎二叉树   平衡二叉查找树多路平衡查找树B-Tree      Mysql的B+Tree">
@@ -447,7 +447,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-09 18:11:58" itemprop="dateModified" datetime="2020-12-09T18:11:58+08:00">2020-12-09</time>
+                <time title="Modified: 2021-03-01 17:48:38" itemprop="dateModified" datetime="2021-03-01T17:48:38+08:00">2021-03-01</time>
               
             
           </span>
@@ -513,7 +513,7 @@
 <h4 id="Mysql的B-Tree"><a href="#Mysql的B-Tree" class="headerlink" title="Mysql的B+Tree"></a>Mysql的B+Tree</h4><p>  <img src="http://qiniupic.xiaomintongxue.cn/img/20191203041753272.png" alt></p>
    <a id="more"></a>
 <h4 id="B-Tree和B-Tree的区别"><a href="#B-Tree和B-Tree的区别" class="headerlink" title="B-Tree和B+Tree的区别"></a>B-Tree和B+Tree的区别</h4><p>  1 ，B+ 节点关键字搜索采用闭合区间<br>  2 ，B+ 非叶节点不保存数据相关信息，只保存关键字和子节点的引用<br>  3 ，B+ 关键字对应的数据保存在叶子节点中<br>  4 ，B+ 叶子节点是顺序排列的，并且相邻节点具有顺序引用的关系</p>
-<h5 id="为什么使用B-Tree"><a href="#为什么使用B-Tree" class="headerlink" title="为什么使用B+Tree"></a>为什么使用B+Tree</h5><p>  B+ 树是B- 树的变种（PLUS 版）多路绝对平衡查找树，他拥有B- 树的优势<br>  B+ 树扫库、表能力更强<br>  B+ 树的磁盘读写能力更 强<br>  B+树 树 的排序能力更强<br>  B+ 树的查询效率更加 稳定（仁者见仁、智者见智）</p>
+<h5 id="为什么使用B-Tree"><a href="#为什么使用B-Tree" class="headerlink" title="为什么使用B+Tree"></a>为什么使用B+Tree</h5><p>  B+ 树是B- 树的变种（PLUS 版）多路绝对平衡查找树，他拥有B- 树的优势<br>  B+ 树扫库、表能力更强<br>  B+ 树的磁盘读写能力更强    （IO深度更低）<br>  B+树 树 的排序能力更强    （）<br>  B+ 树的查询效率更加 稳定（仁者见仁、智者见智）</p>
 <h5 id="为什么不使用二叉树"><a href="#为什么不使用二叉树" class="headerlink" title="为什么不使用二叉树"></a>为什么不使用二叉树</h5><ul>
 <li>它太深了<br>数据处的（高）深度决定着他的IO 操作次数，IO 操作耗时大</li>
 <li><p>它太小了<br>每一个磁盘块 （节点/ 页） 保存的数据量太小 了没有很好的利用操作磁盘IO 的数据 交换 特性，也没有利用好磁盘IO 的预 读能力（空间局部性原理 ），从而带来频繁的IO。</p>
@@ -534,7 +534,7 @@
 <li>索引列的数据长度能少则少。</li>
 <li>索引一定不是越多越好，越全越好，一定是建合适的。</li>
 <li>匹配列前缀可用到索引 like 9999%（列的离散型高的情况下），like %9999%、like %9999用不到索引；</li>
-<li>Where 条件中 not in 和 &lt;&gt;操作无法使用索引；</li>
+<li>Where 条件中 not in 和 &lt;&gt;操作不一定无法使用索引，根据成本计算优化器决定。</li>
 <li>匹配范围值，order by 也可用到索引；</li>
 <li>多用指定列查询，只返回自己想到的数据列，少用select * ；</li>
 <li>联合索引中如果不是按照索引·最左列开始查找，无法使用索引；</li>
@@ -542,8 +542,14 @@
 <li>联合索引中如果查询中有某个列的范围查询，则其右边的所有列都无法使用索引；</li>
 <li>在创建索引时尽量使用不能为null的列</li>
 </ul>
+<h4 id="AVL树（平衡二叉树）、B树（多路平衡查找树）、B-树分别解决了什么问题"><a href="#AVL树（平衡二叉树）、B树（多路平衡查找树）、B-树分别解决了什么问题" class="headerlink" title="AVL树（平衡二叉树）、B树（多路平衡查找树）、B+树分别解决了什么问题"></a>AVL树（平衡二叉树）、B树（多路平衡查找树）、B+树分别解决了什么问题</h4><ul>
+<li>AVL树解决了二叉树可能会变成斜树，不平衡的问题</li>
+<li>B树解决了AVL树只有两路，会造成深度过高浪费存储空间的问题，造成过多的IO次数</li>
+<li><p>B+树只在叶子节点存储数据，并且叶子节点形成了有序链表的结构</p>
 <h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><ul>
 <li>作为索引字段在定义长度时尽量越短越好<br>字段长度越少，底层数据的路数越多，效率越高</li>
+</ul>
+</li>
 </ul>
 
       
@@ -665,7 +671,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -702,7 +708,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -739,7 +747,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -801,7 +811,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引擎"><span class="nav-number">1.</span> <span class="nav-text">引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二叉树"><span class="nav-number">1.0.1.</span> <span class="nav-text">二叉树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平衡二叉查找树"><span class="nav-number">1.0.2.</span> <span class="nav-text">平衡二叉查找树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#null"><span class="nav-number">1.0.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多路平衡查找树B-Tree"><span class="nav-number">1.0.4.</span> <span class="nav-text">多路平衡查找树B-Tree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mysql的B-Tree"><span class="nav-number">1.0.5.</span> <span class="nav-text">Mysql的B+Tree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-Tree和B-Tree的区别"><span class="nav-number">1.0.6.</span> <span class="nav-text">B-Tree和B+Tree的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么使用B-Tree"><span class="nav-number">1.0.6.1.</span> <span class="nav-text">为什么使用B+Tree</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么不使用二叉树"><span class="nav-number">1.0.6.2.</span> <span class="nav-text">为什么不使用二叉树</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Innodb与Myisam的区别"><span class="nav-number">1.1.</span> <span class="nav-text">Innodb与Myisam的区别</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">2.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql-B-Tree索引体现形式"><span class="nav-number">2.1.</span> <span class="nav-text">Mysql B+Tree索引体现形式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Innodb"><span class="nav-number">2.1.1.</span> <span class="nav-text">Innodb</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Myisam"><span class="nav-number">2.1.2.</span> <span class="nav-text">Myisam</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引知识补充"><span class="nav-number">2.2.</span> <span class="nav-text">索引知识补充</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#列的离散性"><span class="nav-number">2.2.1.</span> <span class="nav-text">列的离散性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最左匹配原则"><span class="nav-number">2.2.2.</span> <span class="nav-text">最左匹配原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#联合索引"><span class="nav-number">2.2.3.</span> <span class="nav-text">联合索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#冗余索引"><span class="nav-number">2.2.4.</span> <span class="nav-text">冗余索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#覆盖索引"><span class="nav-number">2.2.5.</span> <span class="nav-text">覆盖索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">3.</span> <span class="nav-text">优化</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引擎"><span class="nav-number">1.</span> <span class="nav-text">引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二叉树"><span class="nav-number">1.0.1.</span> <span class="nav-text">二叉树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平衡二叉查找树"><span class="nav-number">1.0.2.</span> <span class="nav-text">平衡二叉查找树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#null"><span class="nav-number">1.0.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多路平衡查找树B-Tree"><span class="nav-number">1.0.4.</span> <span class="nav-text">多路平衡查找树B-Tree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mysql的B-Tree"><span class="nav-number">1.0.5.</span> <span class="nav-text">Mysql的B+Tree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-Tree和B-Tree的区别"><span class="nav-number">1.0.6.</span> <span class="nav-text">B-Tree和B+Tree的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么使用B-Tree"><span class="nav-number">1.0.6.1.</span> <span class="nav-text">为什么使用B+Tree</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么不使用二叉树"><span class="nav-number">1.0.6.2.</span> <span class="nav-text">为什么不使用二叉树</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Innodb与Myisam的区别"><span class="nav-number">1.1.</span> <span class="nav-text">Innodb与Myisam的区别</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">2.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql-B-Tree索引体现形式"><span class="nav-number">2.1.</span> <span class="nav-text">Mysql B+Tree索引体现形式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Innodb"><span class="nav-number">2.1.1.</span> <span class="nav-text">Innodb</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Myisam"><span class="nav-number">2.1.2.</span> <span class="nav-text">Myisam</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引知识补充"><span class="nav-number">2.2.</span> <span class="nav-text">索引知识补充</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#列的离散性"><span class="nav-number">2.2.1.</span> <span class="nav-text">列的离散性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最左匹配原则"><span class="nav-number">2.2.2.</span> <span class="nav-text">最左匹配原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#联合索引"><span class="nav-number">2.2.3.</span> <span class="nav-text">联合索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#冗余索引"><span class="nav-number">2.2.4.</span> <span class="nav-text">冗余索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#覆盖索引"><span class="nav-number">2.2.5.</span> <span class="nav-text">覆盖索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.3.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AVL树（平衡二叉树）、B树（多路平衡查找树）、B-树分别解决了什么问题"><span class="nav-number">2.3.1.</span> <span class="nav-text">AVL树（平衡二叉树）、B树（多路平衡查找树）、B+树分别解决了什么问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">3.</span> <span class="nav-text">优化</span></a></li></div>
             
 
           </div>
@@ -821,7 +831,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
