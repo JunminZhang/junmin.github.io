@@ -368,7 +368,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/30/面试题/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/01/Apache RocketMQ 使用文档/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张珺珉">
@@ -388,7 +388,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/11/30/面试题/" class="post-title-link" itemprop="url">面试题</a>
+                <a href="/2021/03/01/Apache RocketMQ 使用文档/" class="post-title-link" itemprop="url">Apache RocketMQ 使用文档</a>
               
             
           </h1>
@@ -418,196 +418,7 @@
                 
               
 
-              <time title="Created: 2019-11-30 12:05:34" itemprop="dateCreated datePublished" datetime="2019-11-30T12:05:34+08:00">2019-11-30</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2020-12-10 11:23:24" itemprop="dateModified" datetime="2020-12-10T11:23:24+08:00">2020-12-10</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/面试/" itemprop="url" rel="index"><span itemprop="name">面试</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-         
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Object类有哪些方法，请列举你经常用到的"><a href="#Object类有哪些方法，请列举你经常用到的" class="headerlink" title="Object类有哪些方法，请列举你经常用到的"></a>Object类有哪些方法，请列举你经常用到的</h3><ul>
-<li>toString:打印地址值，一般用于重新写方法打印具体值</li>
-<li>equals：对比地址值，一般用于重写比较两个对象值是否相等</li>
-<li>hashCode：计算对象的hash值，重写equals方法时必须重写hashCode方法以满足两个对象在equals为true时hash值也相同的条件，便于使用在hashmap等集合中</li>
-<li>wait：释放锁对象，使当前线程等待，等待唤醒</li>
-<li>notify/notifyAll 唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。</li>
-<li>clone：快速构造一个与已有对象相同的副本，属于浅克隆，要实现深克隆需要引用对象也重写该方法或通过序列化的方式<h3 id="并发包Concurrent下有哪些你经常使用的类"><a href="#并发包Concurrent下有哪些你经常使用的类" class="headerlink" title="并发包Concurrent下有哪些你经常使用的类"></a>并发包Concurrent下有哪些你经常使用的类</h3><h4 id="ReentrantLock-可重入锁"><a href="#ReentrantLock-可重入锁" class="headerlink" title="ReentrantLock 可重入锁"></a>ReentrantLock 可重入锁</h4>  内部维护了一个AQS同步队列，AQS 队列内部维护的是一个FIFO 的双向链表，每个链表的节点是由线程封装Node，当线程争抢锁失败后会封装成 Node 加入到 ASQ 队列中去；当获取锁的线程释放锁以后，会从队列中唤醒一个阻塞的节点(线程)。</li>
-<li>获取锁<br>  调用Lock.lock 首先会通过CAS操作尝试替换state，替换成功说明抢占到锁，将当前线程设置为AQS的独占线程<br>  抢占失败调用 acquire(1)走锁竞争逻辑<br>  通过 tryAcquire 尝试获取独占锁，如果成功返回 true，失败返回 false，同时判断是否为拥有独占锁的线程，是则增加重入次数<br>  如果 tryAcquire 失败将当前线程封装成一个Node节点，判断当前AQS队列链表中的 tail 节点是否为空，如果不为空，则通过 cas 操作把当前线程的node 添加到 AQS 队列，如果为空或者 cas 失败，调用 enq 自旋地将节点添加到 AQS 队列，如果tail为null，初始化一个空Node并将head和tail都指向它。<br>  将Node添加到同步队列后会接着把 Node 作为参数传递给acquireQueued 方法，去竞争锁，首先获取当前节点的prv节点，入过prv==head节点，那么它有资格去争抢锁，调用tryAcquire抢占锁，抢占锁成功以后，把获得锁的节点设置为 head，并且移除原来的初始化head节点，如果获得锁失败，则根据 waitStatus 决定是否需要挂起线程，若为SIGNAL则阻塞，接下来会调用parkAndCheckInterrupt()阻塞当前线程并返回线程的中断标志，直到当前先被唤醒才从parkAndCheckInterrupt()中返回。最后，通过 cancelAcquire 取消获得锁的操作。</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/11/30/面试题/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/01/Apache RocketMQ 使用文档/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张珺珉">
-      <meta itemprop="description" content="学习记录">
-      <meta itemprop="image" content="/images/yanhua.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Junmin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2021/03/01/Apache RocketMQ 使用文档/" class="post-title-link" itemprop="url">Apache RocketMQ 使用文档</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-        
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2021-03-01 17:47:48 / Modified: 17:48:35" itemprop="dateCreated datePublished" datetime="2021-03-01T17:47:48+08:00">2021-03-01</time>
+              <time title="Created: 2021-03-01 17:47:48 / Modified: 17:52:27" itemprop="dateCreated datePublished" datetime="2021-03-01T17:47:48+08:00">2021-03-01</time>
             
 
             
@@ -2216,6 +2027,195 @@ OK
 <p><img src="https://qiniupic.xiaomintongxue.cn//img/20191203042537799.png" alt="20191203042537799"></p>
 
           
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/30/面试题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/30/面试题/" class="post-title-link" itemprop="url">面试题</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+        
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-30 12:05:34" itemprop="dateCreated datePublished" datetime="2019-11-30T12:05:34+08:00">2019-11-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-03-01 17:51:43" itemprop="dateModified" datetime="2021-03-01T17:51:43+08:00">2021-03-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/面试/" itemprop="url" rel="index"><span itemprop="name">面试</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="Object类有哪些方法，请列举你经常用到的"><a href="#Object类有哪些方法，请列举你经常用到的" class="headerlink" title="Object类有哪些方法，请列举你经常用到的"></a>Object类有哪些方法，请列举你经常用到的</h3><ul>
+<li>toString:打印地址值，一般用于重新写方法打印具体值</li>
+<li>equals：对比地址值，一般用于重写比较两个对象值是否相等</li>
+<li>hashCode：计算对象的hash值，重写equals方法时必须重写hashCode方法以满足两个对象在equals为true时hash值也相同的条件，便于使用在hashmap等集合中</li>
+<li>wait：释放锁对象，使当前线程等待，等待唤醒</li>
+<li>notify/notifyAll 唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。</li>
+<li>clone：快速构造一个与已有对象相同的副本，属于浅克隆，要实现深克隆需要引用对象也重写该方法或通过序列化的方式<h3 id="并发包Concurrent下有哪些你经常使用的类"><a href="#并发包Concurrent下有哪些你经常使用的类" class="headerlink" title="并发包Concurrent下有哪些你经常使用的类"></a>并发包Concurrent下有哪些你经常使用的类</h3><h4 id="ReentrantLock-可重入锁"><a href="#ReentrantLock-可重入锁" class="headerlink" title="ReentrantLock 可重入锁"></a>ReentrantLock 可重入锁</h4>  内部维护了一个AQS同步队列，AQS 队列内部维护的是一个FIFO 的双向链表，每个链表的节点是由线程封装Node，当线程争抢锁失败后会封装成 Node 加入到 ASQ 队列中去；当获取锁的线程释放锁以后，会从队列中唤醒一个阻塞的节点(线程)。</li>
+<li>获取锁<br>  调用Lock.lock 首先会通过CAS操作尝试替换state，替换成功说明抢占到锁，将当前线程设置为AQS的独占线程<br>  抢占失败调用 acquire(1)走锁竞争逻辑<br>  通过 tryAcquire 尝试获取独占锁，如果成功返回 true，失败返回 false，同时判断是否为拥有独占锁的线程，是则增加重入次数<br>  如果 tryAcquire 失败将当前线程封装成一个Node节点，判断当前AQS队列链表中的 tail 节点是否为空，如果不为空，则通过 cas 操作把当前线程的node 添加到 AQS 队列，如果为空或者 cas 失败，调用 enq 自旋地将节点添加到 AQS 队列，如果tail为null，初始化一个空Node并将head和tail都指向它。<br>  将Node添加到同步队列后会接着把 Node 作为参数传递给acquireQueued 方法，去竞争锁，首先获取当前节点的prv节点，入过prv==head节点，那么它有资格去争抢锁，调用tryAcquire抢占锁，抢占锁成功以后，把获得锁的节点设置为 head，并且移除原来的初始化head节点，如果获得锁失败，则根据 waitStatus 决定是否需要挂起线程，若为SIGNAL则阻塞，接下来会调用parkAndCheckInterrupt()阻塞当前线程并返回线程的中断标志，直到当前先被唤醒才从parkAndCheckInterrupt()中返回。最后，通过 cancelAcquire 取消获得锁的操作。</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/11/30/面试题/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
