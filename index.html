@@ -550,167 +550,6 @@ implements MQProducer</code></p>
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/25/Mysql 事务和锁/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张珺珉">
-      <meta itemprop="description" content="学习记录">
-      <meta itemprop="image" content="/images/yanhua.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Junmin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2021/02/25/Mysql 事务和锁/" class="post-title-link" itemprop="url">Untitled</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-        
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2021-02-25 15:21:55" itemprop="dateCreated datePublished" datetime="2021-02-25T15:21:55+08:00">2021-02-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2021-02-26 16:15:50" itemprop="dateModified" datetime="2021-02-26T16:15:50+08:00">2021-02-26</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-         
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Mysql-事务和锁"><a href="#Mysql-事务和锁" class="headerlink" title="Mysql 事务和锁"></a>Mysql 事务和锁</h1><h2 id="事务的四大特性"><a href="#事务的四大特性" class="headerlink" title="事务的四大特性"></a>事务的四大特性</h2><h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p><code>原子性是指事务包含的所有操作要么全部成功，要么全部失败回滚，因此事务的操作如果成功就必须要完全应用到数据库，如果操作失败则不能对数据库有任何影响。</code></p>
-<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p><code>隔离性是当多个用户并发访问数据库时，比如同时操作同一张表时，数据库为每一个用户开启的事务，不能被其他事务的操作所干扰，多个并发事务之间要相互隔离。关于事务的隔离性数据库提供了多种隔离级别。</code></p>
-<h3 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h3><p><code>持久性是指一个事务一旦被提交了，那么对数据库中的数据的改变就是永久性的，即便是在数据库系统遇到故障的情况下也不会丢失提交事务的操作。例如我们在使用JDBC操作数据库时，在提交事务方法后，提示用户事务操作完成，当我们程序执行完成直到看到提示后，就可以认定事务已经正确提交，即使这时候数据库出现了问题，也必须要将我们的事务完全执行完成。否则的话就会造成我们虽然看到提示事务处理完毕，但是数据库因为故障而没有执行事务的重大错误。这是不允许的。</code> </p>
-<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p><code>一致性是指事务必须使数据库从一个一致性状态变换到另一个一致性状态，也就是说一个事务执行之前和执行之后都必须处于一致性状态。举例来说，假设用户A和用户B两者的钱加起来一共是1000，那么不管A和B之间如何转账、转几次账，事务结束后两个用户的钱相加起来应该还得是1000，这就是事务的一致性。</code></p>
-<h2 id="事务并发的问题"><a href="#事务并发的问题" class="headerlink" title="事务并发的问题"></a>事务并发的问题</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>只有插入操作造成的读不一致操作才是幻读</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/11/Arthas/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -951,155 +790,6 @@ implements MQProducer</code></p>
 </ul>
 <h2 id="进阶命令详解"><a href="#进阶命令详解" class="headerlink" title="进阶命令详解"></a>进阶命令详解</h2><h3 id="jvm相关-1"><a href="#jvm相关-1" class="headerlink" title="jvm相关"></a>jvm相关</h3><h4 id="dashboard"><a href="#dashboard" class="headerlink" title="dashboard"></a><a href="#jvm相关">dashboard</a></h4><h2 id="退出arthas"><a href="#退出arthas" class="headerlink" title="退出arthas"></a>退出arthas</h2><p>如果只是退出当前的连接，可以用<code>quit</code>或者<code>exit</code>命令。Attach到目标进程上的arthas还会继续运行，端口会保持开放，下次连接时可以直接连接上。</p>
 <p>如果想完全退出arthas，可以执行<code>stop</code>命令。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/11/常用技巧/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张珺珉">
-      <meta itemprop="description" content="学习记录">
-      <meta itemprop="image" content="/images/yanhua.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Junmin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2021/01/11/常用技巧/" class="post-title-link" itemprop="url">Untitled</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-        
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2021-01-11 13:31:44" itemprop="dateCreated datePublished" datetime="2021-01-11T13:31:44+08:00">2021-01-11</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-         
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="掌握对搜索引擎用的技巧"><a href="#掌握对搜索引擎用的技巧" class="headerlink" title="掌握对搜索引擎用的技巧"></a>掌握对搜索引擎用的技巧</h3><ul>
-<li>使用引号 “” 来标明一定要搜素的内容</li>
-<li><p>使用减号 - 来去掉不需要显示的内容</p>
-</li>
-<li><p>site：搜索指定网站内容</p>
-</li>
-<li>filetype: 指定文件类型</li>
-<li></li>
-</ul>
 
           
         
@@ -1707,192 +1397,6 @@ implements MQProducer</code></p>
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/kafka/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张珺珉">
-      <meta itemprop="description" content="学习记录">
-      <meta itemprop="image" content="/images/yanhua.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Junmin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/12/03/kafka/" class="post-title-link" itemprop="url">kafka</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-        
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-12-03 15:59:50" itemprop="dateCreated datePublished" datetime="2019-12-03T15:59:50+08:00">2019-12-03</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2020-12-10 11:18:14" itemprop="dateModified" datetime="2020-12-10T11:18:14+08:00">2020-12-10</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MQ-消息队列/" itemprop="url" rel="index"><span itemprop="name">MQ 消息队列</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-         
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>高性能、高吞吐</p>
-<p>不是基于jms的实现</p>
-<p>内置分区、实现集群-区别于activeMQ</p>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="http://qiniupic.xiaomintongxue.cn/img/image-20201013100607380.png" alt="image-20201013100607380"></p>
-<p>Topic:主题</p>
-<p>partion:数据分区</p>
-<p>group:消费端所属</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>acks</p>
-<p>0:消息发送给broker后，不需要确认（性能较高，但是会出现数据丢失）</p>
-<p>1:只需要得到kafka集群中leader节点的确认即可返回（leader/follower）</p>
-<p>all（-1）：需要集群中的所有节点确认（最安全但性能低，也有可能会出现数据丢失）</p>
-<p>batch.size</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/Redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2256,11 +1760,594 @@ OK
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/23/分布式事务的解决方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/23/分布式事务的解决方案/" class="post-title-link" itemprop="url">分布式事务的解决方案</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+        
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-23 14:46:50" itemprop="dateCreated datePublished" datetime="2019-11-23T14:46:50+08:00">2019-11-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-12-10 11:13:39" itemprop="dateModified" datetime="2020-12-10T11:13:39+08:00">2020-12-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="事务的特性"><a href="#事务的特性" class="headerlink" title="事务的特性"></a>事务的特性</h2><ul>
+<li>原子性（atomicity）。一个事务是一个不可分割的工作单位，事务中包括的诸操作要么都做，要么都不做。</li>
+<li>一致性（consistency）。事务必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。</li>
+<li>隔离性（isolation）。一个事务的执行不能被其他事务干扰。即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。</li>
+<li>持久性（durability）。持久性也称永久性（permanence），指一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。<h3 id="数据一致性"><a href="#数据一致性" class="headerlink" title="数据一致性"></a>数据一致性</h3></li>
+</ul>
+<h4 id="X-open-DTP-分布式事务模型"><a href="#X-open-DTP-分布式事务模型" class="headerlink" title="X/open DTP 分布式事务模型"></a>X/open DTP 分布式事务模型</h4><p>X/Open 这个组织定义的一套分布式事务的标准，也就是定义了规范和 API 接口，由各个厂商进行具体的实现。<br>这个标准提出了使用二阶段提交(2PC – Two-Phase-Commit)来保证分布式事务的完整性。后来 J2EE 也遵循了 X/OpenDTP 规范，设计并实现了 java 里的分布式事务编程接口规范-JTA</p>
+<h4 id="X-OpenDTP"><a href="#X-OpenDTP" class="headerlink" title="X/OpenDTP"></a>X/OpenDTP</h4><p><img src="../img/HexoEditor/分布式事务的解决方案/20191123031904756.png" alt><br>在 X/OpenDTP 事务模型中，定义了三个角色<br>AP: application, 应用程序，也就是业务层。哪些操作属于一个事务，就是 AP 定义的</p>
+<p>RM： Resource Manager，资源管理器。一般是数据库，也可以是其他资源管理器，比如消息队列，文件系统</p>
+<p>TM： Transaction Manager ，事务管理器、事务协调者，负责接收来自用户程序（AP）发起的 XA 事务指令，并调度和协调参与事务的所有 RM（数据库），确保事务正确完成</p>
+<p>在分布式系统中，每一个机器节点虽然都能够明确知道自己在进行事务操作过程中的结果是成功还是失败，但却无法直接获取到其他分布式节点的操作结果。因此当一个事务操作需要跨越多个分布式节点的时候，为了保持事务处理的 ACID 特性，就需要引入一个“协调者”（TM）来统一度所有分布式节点的执行逻辑，这些被调度的分布式节点被称为 AP。TM 负责调度 AP 的行为，并最终决定这些 AP 是否要把事务真正进行提交到（RM）</p>
+<ul>
+<li>1.参与分布式事务的应用程序(AP)先到 TM 上注册全局事务</li>
+<li>2.然后各个 AP 直接在相应的资源管理器(RM)上进行事务操作</li>
+<li>3.操作完成以后，各个 AP 反馈事务的处理结果给到 TM</li>
+<li>4.TM 收到所有 AP 的反馈以后，通过数据库提供的 XA 接口进行数据提交或者回</li>
+</ul>
+<h4 id="2pc提交（two-phaseCommit-）"><a href="#2pc提交（two-phaseCommit-）" class="headerlink" title="2pc提交（two -phaseCommit ）"></a>2pc提交（two -phaseCommit ）</h4><p>在 X/OpenDTP 模型中，一个分布式事务所涉及的 SQL 逻辑都执行完成，并到了（RM）要最后提交事务的关键时刻，为了避免分布式系统所固有的不可靠性导致提交事务意外失败，TM 果断决定实施两步走的方案，这个就称为二阶提交二阶段提交，是计算机网络尤其是在数据库领域内，为了使基于分布式系统架构下<br>的所有节点在进行事务处理过程中能够保持原子性和一致性而设计的一种算法。通常，二阶段提交协议也被认为是一种一致性协议，用来保证分布式系统数据的一致性。目前，绝大部分的关系型数据库都是采用二阶段提交协议来完成分布式事务处理的，利用该协议能够非常方便地完成所有分布式事务 AP 的协调，统一决定事务的提交或回滚，从而能够有效保证分布式数据一致性，因此 2pc 也被广泛运用在许多分布式系统中。</p>
+<h5 id="第一阶段"><a href="#第一阶段" class="headerlink" title="第一阶段"></a>第一阶段</h5><p> <img src="../img/HexoEditor/分布式事务的解决方案/20191123032811372.png" alt></p>
+<ul>
+<li><ol>
+<li>事务询问<br>TM 向所有的 AP 发送事务内容，询问是否可以执行事务提交操作，并开始等待各AP 的响应</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>执行事务<br>各个 AP 节点执行事务操作，并将 Undo 和 Redo 信息记录到事务日志中，尽量把提交过程中所有消耗时间的操作和准备都提前完成确保后面 100%成功提交事务</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>各个 AP 向 TM 反馈事务询问的响应<br>如果各个 AP 成功执行了事务操作，那么就反馈给 AP yes 的响应，表示事务可以执行；如果 AP 没有成功执行事务，就反馈给 TM no 的响应，表示事务不可以执行</li>
+</ol>
+</li>
+</ul>
+<p>上面这个阶段有点类似 TM 组织各个 AP 对一次事务操作的投票表态过程，因此2pc 协议的第一个阶段称为“投票阶段”，即各 AP 投票表名是否需要继续执行接下去的事务提交操作。</p>
+<h5 id="第二阶段"><a href="#第二阶段" class="headerlink" title="第二阶段"></a>第二阶段</h5><p><img src="../img/HexoEditor/分布式事务的解决方案/20191123033644482.png" alt></p>
+<ul>
+<li>事务提交<br>在这个阶段，TM 会根据各 AP 的反馈情况来决定最终是否可以进行事务提交操作，正常情况下包含两种可能假如 TM 从所有参与者获得的反馈都是 yes 响应，那么就会执行事务提交</li>
+<li><ol>
+<li>发送提交请求<br>TM 向所有 AP 节点发出 commit 请求</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>事务提交<br>AP 接收到 Commit 请求后，会正式执行事务提交操作，并在完成提交之后释放在整个事务执行期间占用的事务资源</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>反馈事务提交结果<br>AP 在完成事务提交之后，向 TM 发送 Ack 消息</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>完成事务<br>TM 接收到所有 AP 反馈的 ack 消息后，完成事务</li>
+</ol>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5></li>
+</ul>
+<pre><code>性能问题。从流程上我们可以看得出，其最大缺点就在于它的执行过程中间，节点都处于阻塞状态。各个操作数据库的节点此时都占用着数据库资源，只有当所有节点准备完毕，事务协调者才会通知进行全局提交，参与者进行本地事务提交后才会释放资源。这样的过程会比较漫长，对性能影响比较大。
+
+协调者单点故障问题。事务协调者是整个XA模型的核心，一旦事务协调者节点挂掉，会导致参与者收不到提交或回滚的通知，从而导致参与者节点始终处于事务无法完成的中间状态。
+
+丢失消息导致的数据不一致问题。在第二个阶段，如果发生局部网络问题，一部分事务参与者收到了提交消息，另一部分事务参与者没收到提交消息，那么就会导致节点间数据的不一致问题。
+</code></pre><h4 id="三阶段提交（3PC）"><a href="#三阶段提交（3PC）" class="headerlink" title="三阶段提交（3PC）"></a>三阶段提交（3PC）</h4><p>三阶段提交又称3PC，其在两阶段提交的基础上增加了CanCommit阶段，并引入了超时机制。一旦事务参与者迟迟没有收到协调者的Commit请求，就会自动进行本地commit，这样相对有效地解决了协调者单点故障的问题。</p>
+<h3 id="分布式事务一致性"><a href="#分布式事务一致性" class="headerlink" title="分布式事务一致性"></a>分布式事务一致性</h3><h4 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h4><p>消息队列辅助、人工干预</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/23/中文开源项目官方文档汇总/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/23/中文开源项目官方文档汇总/" class="post-title-link" itemprop="url">中文开源项及优秀博客文章</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+        
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-07-23 13:47:38" itemprop="dateCreated datePublished" datetime="2019-07-23T13:47:38+08:00">2019-07-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-24 09:05:02" itemprop="dateModified" datetime="2019-07-24T09:05:02+08:00">2019-07-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/开源文档/" itemprop="url" rel="index"><span itemprop="name">开源文档</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文只用作便于学习使用，如有侵权等请与我联系。</p>
+<h4 id="Apache-Dubbo"><a href="#Apache-Dubbo" class="headerlink" title="Apache Dubbo"></a>Apache Dubbo</h4><p>分布式服务治理框架<br>中文官方文档： <a href="http://dubbo.apache.org/zh-cn/" target="_blank" rel="noopener">http://dubbo.apache.org/zh-cn/</a><br>github：<a href="https://github.com/apache/dubbo" target="_blank" rel="noopener">https://github.com/apache/dubbo</a></p>
+<h4 id="Alibaba-Nacous"><a href="#Alibaba-Nacous" class="headerlink" title="Alibaba Nacous"></a>Alibaba Nacous</h4><p>一个更易于构建云原生应用的动态服务发现、配置管理和服务管理平台<br>中文官方文档： <a href="https://nacos.io/zh-cn/index.html" target="_blank" rel="noopener">https://nacos.io/zh-cn/index.html</a><br>github：<a href="https://github.com/alibaba/nacos" target="_blank" rel="noopener">https://github.com/alibaba/nacos</a></p>
+<h4 id="dubbo外部化配置"><a href="#dubbo外部化配置" class="headerlink" title="dubbo外部化配置"></a>dubbo外部化配置</h4><p>小马哥的博客：<a href="https://mercyblitz.github.io/2018/01/18/Dubbo-%E5%A4%96%E9%83%A8%E5%8C%96%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">https://mercyblitz.github.io/2018/01/18/Dubbo-%E5%A4%96%E9%83%A8%E5%8C%96%E9%85%8D%E7%BD%AE/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/并发编程之ReentrantLock可重入锁/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张珺珉">
+      <meta itemprop="description" content="学习记录">
+      <meta itemprop="image" content="/images/yanhua.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junmin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/22/并发编程之ReentrantLock可重入锁/" class="post-title-link" itemprop="url">并发编程之ReentrantLock可重入锁</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+        
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-05-22 15:21:35" itemprop="dateCreated datePublished" datetime="2019-05-22T15:21:35+08:00">2019-05-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-12 13:56:57" itemprop="dateModified" datetime="2019-07-12T13:56:57+08:00">2019-07-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+         
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>ReentrantLock是并发包<code>Java.util.concurrent</code>里的一个基于Lock接口实现的可重入锁。</p>
+<h1 id="J-U-C-简介"><a href="#J-U-C-简介" class="headerlink" title="J.U.C 简介"></a>J.U.C 简介</h1><p><code>Java.util.concurrent</code> 是在并发编程中比较常用的工具类，里面包含很多用来在并发场景中使用的组件。比如线程池、阻塞队列、计时器、同步器、并发集合等等。并发包的作者是大名鼎鼎的 Doug Lea。</p>
+<h1 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h1><p>在 Lock 接口出现之前，Java 中的应用程序对于多线程的并发安全处理只能基于synchronized 关键字来解决。但是 synchronized 在有些场景中会存在一些短板，也就是它并不适合于所有的并发场景。但是在 Java5 以后，Lock 的出现可以解决synchronized 在某些场景中的短板，它比 synchronized 更加灵活。</p>
+<h2 id="Lock接口提供的synchronized关键字不具备的主要特性"><a href="#Lock接口提供的synchronized关键字不具备的主要特性" class="headerlink" title="Lock接口提供的synchronized关键字不具备的主要特性"></a>Lock接口提供的synchronized关键字不具备的主要特性</h2><p><code>尝试非阻塞的获得锁</code>：当线程尝试获取锁，如果这一时刻锁没有被其他线程获取到，则成功获取并持有锁。<br><code>能被中断地获取锁</code>：与synchronized不同，获取到锁的线程能够响应中断，当获取到锁的线程被中断时，中断异常将会被抛出，同时锁会被释放。<br><code>超时获取锁</code>：在指定的截止时间之前获取锁，如果截止时间到了仍旧无法获取锁，则返回。</p>
+<h2 id="Lock的实现"><a href="#Lock的实现" class="headerlink" title="Lock的实现"></a>Lock的实现</h2><p>Lock 本质上是一个接口，它定义了释放锁和获得锁的抽象方法，定义成接口就意味着它定义了锁的一个标准规范，也同时意味着锁的不同实现。实现 Lock 接口的类有很多，以下为几个常见的锁实现ReentrantLock：表示重入锁，它是唯一一个实现了 Lock 接口的类。重入锁指的是线程在获得锁之后，再次获取该锁不需要阻塞，而是直接关联一次计数器增加重入次数</p>
+<h3 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h3><p><code>重入读写锁</code>，它实现了 ReadWriteLock 接口，在这个类中维护了两个锁，一个是 ReadLock，一个是 WriteLock，他们都分别实现了 Lock接口。读写锁是一种适合读多写少的场景下解决线程安全问题的工具，基本原则是： 读和读不互斥、读和写互斥、写和写互斥。也就是说涉及到影响数据变化的操作都会存在互斥。</p>
+<h3 id="StampedLock"><a href="#StampedLock" class="headerlink" title="StampedLock"></a>StampedLock</h3><p><code>stampedLock</code> 是 JDK8 引入的新的锁机制，可以简单认为是读写锁的一个改进版本，读写锁虽然通过分离读和写的功能使得读和读之间可以完全并发，但是读和写是有冲突的，如果大量的读线程存在，可能会引起写线程的饥饿。</p>
+<h3 id="stampedLock"><a href="#stampedLock" class="headerlink" title="stampedLock"></a>stampedLock</h3><p><code>stampedLock</code>是一种乐观的读策略，使得乐观锁完全不会阻塞写线程<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/22/并发编程之ReentrantLock可重入锁/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2305,7 +2392,7 @@ OK
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2344,7 +2431,7 @@ OK
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -2383,7 +2470,7 @@ OK
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

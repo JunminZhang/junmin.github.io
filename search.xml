@@ -928,16 +928,6 @@ implements MQProducer</code></p>
   </entry>
   <entry>
     <title></title>
-    <url>/2021/02/25/Mysql%20%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/</url>
-    <content><![CDATA[<h1 id="Mysql-事务和锁"><a href="#Mysql-事务和锁" class="headerlink" title="Mysql 事务和锁"></a>Mysql 事务和锁</h1><h2 id="事务的四大特性"><a href="#事务的四大特性" class="headerlink" title="事务的四大特性"></a>事务的四大特性</h2><h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p><code>原子性是指事务包含的所有操作要么全部成功，要么全部失败回滚，因此事务的操作如果成功就必须要完全应用到数据库，如果操作失败则不能对数据库有任何影响。</code></p>
-<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p><code>隔离性是当多个用户并发访问数据库时，比如同时操作同一张表时，数据库为每一个用户开启的事务，不能被其他事务的操作所干扰，多个并发事务之间要相互隔离。关于事务的隔离性数据库提供了多种隔离级别。</code></p>
-<h3 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h3><p><code>持久性是指一个事务一旦被提交了，那么对数据库中的数据的改变就是永久性的，即便是在数据库系统遇到故障的情况下也不会丢失提交事务的操作。例如我们在使用JDBC操作数据库时，在提交事务方法后，提示用户事务操作完成，当我们程序执行完成直到看到提示后，就可以认定事务已经正确提交，即使这时候数据库出现了问题，也必须要将我们的事务完全执行完成。否则的话就会造成我们虽然看到提示事务处理完毕，但是数据库因为故障而没有执行事务的重大错误。这是不允许的。</code> </p>
-<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p><code>一致性是指事务必须使数据库从一个一致性状态变换到另一个一致性状态，也就是说一个事务执行之前和执行之后都必须处于一致性状态。举例来说，假设用户A和用户B两者的钱加起来一共是1000，那么不管A和B之间如何转账、转几次账，事务结束后两个用户的钱相加起来应该还得是1000，这就是事务的一致性。</code></p>
-<h2 id="事务并发的问题"><a href="#事务并发的问题" class="headerlink" title="事务并发的问题"></a>事务并发的问题</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>只有插入操作造成的读不一致操作才是幻读</p>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
     <url>/2021/01/11/Arthas/</url>
     <content><![CDATA[<h1 id="Arthas"><a href="#Arthas" class="headerlink" title="Arthas"></a>Arthas</h1><p><code>Arthas</code> 是Alibaba开源的Java诊断工具。</p>
 <p>当你遇到以下类似问题而束手无策时，<code>Arthas</code>可以帮助你解决：</p>
@@ -1079,20 +1069,6 @@ implements MQProducer</code></p>
 </ul>
 <h2 id="进阶命令详解"><a href="#进阶命令详解" class="headerlink" title="进阶命令详解"></a>进阶命令详解</h2><h3 id="jvm相关-1"><a href="#jvm相关-1" class="headerlink" title="jvm相关"></a>jvm相关</h3><h4 id="dashboard"><a href="#dashboard" class="headerlink" title="dashboard"></a><a href="#jvm相关">dashboard</a></h4><h2 id="退出arthas"><a href="#退出arthas" class="headerlink" title="退出arthas"></a>退出arthas</h2><p>如果只是退出当前的连接，可以用<code>quit</code>或者<code>exit</code>命令。Attach到目标进程上的arthas还会继续运行，端口会保持开放，下次连接时可以直接连接上。</p>
 <p>如果想完全退出arthas，可以执行<code>stop</code>命令。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2021/01/11/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
-    <content><![CDATA[<h3 id="掌握对搜索引擎用的技巧"><a href="#掌握对搜索引擎用的技巧" class="headerlink" title="掌握对搜索引擎用的技巧"></a>掌握对搜索引擎用的技巧</h3><ul>
-<li>使用引号 “” 来标明一定要搜素的内容</li>
-<li><p>使用减号 - 来去掉不需要显示的内容</p>
-</li>
-<li><p>site：搜索指定网站内容</p>
-</li>
-<li>filetype: 指定文件类型</li>
-<li></li>
-</ul>
 ]]></content>
   </entry>
   <entry>
@@ -1257,29 +1233,6 @@ implements MQProducer</code></p>
       </categories>
       <tags>
         <tag>数据库 mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>kafka</title>
-    <url>/2019/12/03/kafka/</url>
-    <content><![CDATA[<p>高性能、高吞吐</p>
-<p>不是基于jms的实现</p>
-<p>内置分区、实现集群-区别于activeMQ</p>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="http://qiniupic.xiaomintongxue.cn/img/image-20201013100607380.png" alt="image-20201013100607380"></p>
-<p>Topic:主题</p>
-<p>partion:数据分区</p>
-<p>group:消费端所属</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>acks</p>
-<p>0:消息发送给broker后，不需要确认（性能较高，但是会出现数据丢失）</p>
-<p>1:只需要得到kafka集群中leader节点的确认即可返回（leader/follower）</p>
-<p>all（-1）：需要集群中的所有节点确认（最安全但性能低，也有可能会出现数据丢失）</p>
-<p>batch.size</p>
-]]></content>
-      <categories>
-        <category>MQ 消息队列</category>
-      </categories>
-      <tags>
-        <tag>MQ,消息队列</tag>
       </tags>
   </entry>
   <entry>
@@ -1796,39 +1749,5 @@ acquireQueued():如果当前节点的prv为head，竞争锁、获得锁成功移
       <tags>
         <tag>多线程</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>设计模式中的工厂模式</title>
-    <url>/2019/01/30/DesignPattern/factory/</url>
-    <content><![CDATA[<h1 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h1><p><code>工厂模式</code> 是我们最常用的实例化对象模式了，是用工厂方法代替new操作的一种模式。著名的Jive论坛 ,就大量使用了工厂模式，工厂模式在Java程序系统可以说是随处可见。因为工厂模式就相当于创建实例对象的new，我们经常要根据类Class生成实例对象，如<code>A a=new A()</code> 工厂模式也是用来创建实例对象的，所以以后new时就要多个心眼，是否可以考虑使用工厂模式，虽然这样做，可能多做一些工作，但会给你系统带来更大的可扩展性和尽量少的修改量。</p>
-<h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h2><p>应用场景：又叫做<code>静态工厂方法（StaticFactory Method）模式</code>，但不属于 23 种设计模式之一。</p>
-<p>简单工厂模式的实质是由一个工厂类根据传入的参数，动态决定应该创建哪一个产品类。<br>Spring 中的 BeanFactory 就是简单工厂模式的体现，根据传入一个唯一的标识来获得 Bean 对象，但<br>是否是在传入参数后创建还是传入参数前创建这个要根据具体情况来定。<br><a id="more"></a></p>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>首先定了一个产品的标准</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Phone</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>定义3种产品,实现 <code>Phone</code>接口<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">implements</span> <span class="title">Phone</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"苹果"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Huawei</span> <span class="keyword">implements</span> <span class="title">Phone</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"华为"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XiaoMi</span> <span class="keyword">implements</span> <span class="title">Phone</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"小米"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>定义一个简单工厂<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Phone <span class="title">getPhone</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"苹果"</span>.equals(name)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Apple();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"华为"</span>.equals(name)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Huawei();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"华为"</span>.equals(name)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> XiaoMi();</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"不能生产您所需的产品"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>测试<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleFactoryTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//这个new的过程实际上一个比较复杂的过程</span></span><br><span class="line">        <span class="comment">//     Apple apple = new Apple();</span></span><br><span class="line">        <span class="comment">//    System.out.println(apple.getName());</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//小作坊式的生产模式</span></span><br><span class="line">        <span class="comment">//用户本身不再关心生产的过程，而只需要关心这个结果</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//华为、苹果、小米的配件是不一样的</span></span><br><span class="line">        SimpleFactory factory = <span class="keyword">new</span> SimpleFactory();</span><br><span class="line">        <span class="comment">//把用户的需求告诉工厂</span></span><br><span class="line">        <span class="comment">//创建产品的过程隐藏了，对于用户而且完全不清楚是怎么产生的</span></span><br><span class="line">        Phone phone = factory.getPhone(<span class="string">"苹果"</span>);</span><br><span class="line">        phone.getName();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="工厂列表模式"><a href="#工厂列表模式" class="headerlink" title="工厂列表模式"></a>工厂列表模式</h2><p>工厂列表模式</p>
-<h2 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h2>]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2019/01/29/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-]]></content>
   </entry>
 </search>
