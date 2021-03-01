@@ -3,7 +3,8 @@
   <entry>
     <title>Apache RocketMQ 使用文档</title>
     <url>/2021/03/01/Apache%20RocketMQ%20%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h2 id="DefaultMQProducer"><a href="#DefaultMQProducer" class="headerlink" title="DefaultMQProducer"></a>DefaultMQProducer</h2><hr>
+    <content><![CDATA[<p><a href="https://github.com/apache/rocketmq/blob/master/docs/cn/client/java/API_Reference_DefaultMQProducer.md" target="_blank" rel="noopener">原文地址</a></p>
+<h2 id="DefaultMQProducer"><a href="#DefaultMQProducer" class="headerlink" title="DefaultMQProducer"></a>DefaultMQProducer</h2><hr>
 <h3 id="类简介"><a href="#类简介" class="headerlink" title="类简介"></a>类简介</h3><p><code>public class DefaultMQProducer 
 extends ClientConfig 
 implements MQProducer</code></p>
